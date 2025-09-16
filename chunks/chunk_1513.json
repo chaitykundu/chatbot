@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_2",
+    "section_id": 9,
+    "section_number": "ט.",
+    "type": "solution",
+    "text": "נפריד את השבר: $y = \\frac{3}{4} - \\frac{x}{4}$.\nנסדר: $y = -\\frac{1}{4}x + \\frac{3}{4}$.\nלכן, $m = -\\frac{1}{4}$, $b = \\frac{3}{4}$.",
+    "overlap_context": "סדרו את המשוואה ומצאו את m ו-b."
+}

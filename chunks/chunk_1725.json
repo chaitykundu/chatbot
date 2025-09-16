@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_1",
+    "section_id": 4,
+    "section_number": "ד",
+    "type": "full_solution",
+    "text": "המשוואה נתונה בצורה $y = mx + b$.על ידי השוואה, ניתן לראות כי:המקדם של x הוא 1, ולכן $m = 1$.האיבר החופשי הוא 5, ולכן $b = 5$.",
+    "overlap_context": "$$y = 2 + x$$"
+}

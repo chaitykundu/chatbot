@@ -1,0 +1,13 @@
+{
+    "exercise_id": "ח_3_16",
+    "section_id": null,
+    "section_number": null,
+    "type": "svg",
+    "svg_ref": "ח_3_16_main_svg",
+    "text": "Point at (0, 1); Point at (2, 0); Line from (-10, 0) to (9.5, 0); Line from (0, 10) to (0, -9.5); Line from (-8, 5) to (8, -3)",
+    "class": "ח",
+    "lesson_number": "3",
+    "exercise_number": 16,
+    "topic": "משוואת ישר ושיפוע",
+    "exercise_type": "מורכב"
+}

@@ -8,7 +8,7 @@ import os
 import re
 
 # ---------------- CONFIG ----------------
-INPUT_FILE = Path("Files/merged_lessons.json")  # JSON file with exercises
+INPUT_FILE = Path("Files/merged_output.json")  # JSON file with exercises
 OUTPUT_FILE = Path("exercise_embeddings.json")
 MODEL_NAME = "intfloat/multilingual-e5-large"
 BATCH_SIZE = 32  # For embedding generation
@@ -230,11 +230,20 @@ def main():
     # Chunk all exercises
     all_chunks = []
     for ex in exercises:
-        chunks = chunk_nested_exercise(ex)
-        if chunks:
-            all_chunks.extend(chunks)
-        else:
-            print(f"No chunks generated for exercise: {ex.get('exercise_metadata', 'Unknown')}")
+        # If ex is a list, flatten it
+        if isinstance(ex, list):
+            for sub_ex in ex:
+                chunks = chunk_nested_exercise(sub_ex)
+                if chunks:
+                    all_chunks.extend(chunks)
+                else:
+                    print(f"No chunks generated for exercise: {sub_ex.get('exercise_metadata', 'Unknown')}")
+        elif isinstance(ex, dict):
+            chunks = chunk_nested_exercise(ex)
+            if chunks:
+                all_chunks.extend(chunks)
+            else:
+                print(f"No chunks generated for exercise: {ex.get('exercise_metadata', 'Unknown')}")
 
     print(f"Total chunks before embedding: {len(all_chunks)}")
     if not all_chunks:

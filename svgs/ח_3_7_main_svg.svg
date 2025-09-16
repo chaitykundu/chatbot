@@ -1,0 +1,36 @@
+<svg width="600" height="600" viewBox="-10 -10 20 20" xmlns="http://www.w3.org/2000/svg">
+
+  
+  <defs>
+    <marker id="arrow" markerWidth="0.3" markerHeight="0.3" refX="0.15" refY="0.15" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 0.3 0.15 L 0 0.3 Z" fill="black"></path>
+    </marker>
+  </defs>
+
+  
+  <g>
+    <line x1="-10" y1="0" x2="9.5" y2="0" stroke="black" stroke-width="0.07" marker-end="url(#arrow)"></line>
+    <line x1="0" y1="10" x2="0" y2="-9.5" stroke="black" stroke-width="0.07" marker-end="url(#arrow)"></line>
+    <text x="9.2" y="0.8" font-size="0.8" fill="black" font-style="italic">x</text>
+    <text x="0.3" y="-9.3" font-size="0.8" fill="black" font-style="italic">y</text>
+    <text x="-0.5" y="0.8" font-size="0.8" fill="black" font-style="italic">O</text>
+  </g>
+
+  
+  <g transform="scale(1,-1)">
+
+    
+    <line x1="-10" y1="-4" x2="10" y2="-4" stroke="#B50000" stroke-width="0.1"></line>
+    <text x="-9.5" y="-3.5" font-size="0.8" fill="#B50000" font-style="italic" transform="scale(1,-1)">א</text>
+
+    
+    <line x1="3" y1="-10" x2="3" y2="10" stroke="#0000B5" stroke-width="0.1"></line>
+    <text x="3.5" y="9.5" font-size="0.8" fill="#0000B5" font-style="italic" transform="scale(1,-1)">ב</text>
+
+    
+    <line x1="-5" y1="10" x2="5" y2="-10" stroke="#00B500" stroke-width="0.1"></line>
+    <text x="4.5" y="9.5" font-size="0.8" fill="#00B500" font-style="italic" transform="scale(1,-1)">ג</text>
+
+  </g>
+
+</svg>

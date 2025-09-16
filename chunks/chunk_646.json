@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_1_16",
+    "section_id": 2,
+    "section_number": "ב'",
+    "type": "full_solution",
+    "text": "3+3x=17+5x\n3x-5x=17-3\n-2x=14\nx=-7\nבדיקה: 3+3×(-7)=17+5×(-7) → 3-21=17-35 → -18=-18 ✓",
+    "overlap_context": "7=2x-1"
+}

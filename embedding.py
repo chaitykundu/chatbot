@@ -4,7 +4,7 @@ from typing import List
 from sentence_transformers import SentenceTransformer
 
 # ---------------- CONFIG ----------------
-INPUT_FILE = Path("Files/merged_lessons.json")  # JSON file with exercises
+INPUT_FILE = Path("Files/merged_output.json")  # JSON file with exercises
 OUTPUT_FILE = Path("exercise_embeddings.json")
 MODEL_NAME = "intfloat/multilingual-e5-large"
 BATCH_SIZE = 32
@@ -122,14 +122,14 @@ def main():
     # Validate input file existence
     if not INPUT_FILE.exists():
         raise FileNotFoundError(f"Input file not found at: {INPUT_FILE}")
-    
+
     # Load JSON (handle dict or list)
     with open(INPUT_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    exercises = []
+    # Correctly identify exercises list
     if isinstance(data, dict):
-        exercises.append(data)
+        exercises = [data]
     elif isinstance(data, list):
         exercises = data
     else:
@@ -137,12 +137,15 @@ def main():
 
     # Chunk all exercises
     all_chunks = []
-    for ex in exercises:
-        chunks = chunk_nested_exercise(ex)
-        if chunks:
-            all_chunks.extend(chunks)
+    for item in exercises: # Changed loop variable to 'item' for clarity
+        if isinstance(item, dict):
+            chunks = chunk_nested_exercise(item) # Pass a single dictionary
+            if chunks:
+                all_chunks.extend(chunks)
+            else:
+                print(f"No chunks generated for exercise: {item.get('exercise_metadata', 'Unknown')}")
         else:
-            print(f"No chunks generated for exercise: {ex.get('exercise_metadata', 'Unknown')}")
+            print(f"Skipping invalid item in list: {type(item)}") # Handle non-dictionary items
 
     print(f"Total chunks before embedding: {len(all_chunks)}")
 

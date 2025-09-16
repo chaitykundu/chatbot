@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_36",
+    "section_id": 3,
+    "section_number": "ג.",
+    "type": "solution",
+    "text": "נחשב את השיפוע: $m = \\frac{y_2 - y_1}{x_2 - x_1} = \\frac{6 - 2}{6 - 3} = \\frac{4}{3}$.\nנשתמש בנקודה $(3,2)$ ובשיפוע $m=\\frac{4}{3}$:\n$y - 2 = \\frac{4}{3}(x - 3)$\n$y - 2 = \\frac{4}{3}x - 4$\n$y = \\frac{4}{3}x - 2$.",
+    "overlap_context": "שיפועו 2-, הישר העובר בנקודה (4,-1)."
+}

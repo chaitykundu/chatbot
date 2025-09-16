@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_1_16",
+    "section_id": 4,
+    "section_number": "ד'",
+    "type": "full_solution",
+    "text": "1+2x=-2x-3\n2x+2x=-3-1\n4x=-4\nx=-1\nבדיקה: 1+2×(-1)=-2×(-1)-3 → 1-2=2-3 → -1=-1 ✓",
+    "overlap_context": "6x+1=23-5x"
+}

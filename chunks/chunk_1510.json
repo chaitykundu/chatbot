@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_2",
+    "section_id": 8,
+    "section_number": "ח.",
+    "type": "full_solution",
+    "text": "המשוואה הנתונה היא $y = x - 1$. היא כבר נמצאת בצורה הכללית $y = mx + b$.\nמכאן, השיפוע $m = 1$ וחותך ה-y $b = -1$.",
+    "overlap_context": "סדרו את המשוואה ומצאו את m ו-b."
+}

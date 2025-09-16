@@ -1,0 +1,50 @@
+<svg width="619" height="613" xmlns="http://www.w3.org/2000/svg">
+&nbsp; <defs>
+&nbsp; &nbsp; <clipPath id="clip0">
+&nbsp; &nbsp; &nbsp; <rect x="318" y="550" width="619" height="613"></rect>
+&nbsp; &nbsp; </clipPath>
+&nbsp; </defs>
+&nbsp; <g clip-path="url(#clip0)" transform="translate(-318 -550)">
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d="M320.5 617.5 916.24 617.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M325.5 672.5 921.24 672.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M318.5 727.5 914.24 727.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M320.5 783.5 916.24 783.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M320.5 838.5 916.24 838.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M327.5 893.5 923.24 893.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M327.5 948.5 923.24 948.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M338.5 1003.5 934.24 1003.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M320.5 1058.5 916.24 1058.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M325.5 1109.5 921.24 1109.5" stroke="#DAE3F3" stroke-width="4.58333"></path>
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d="M346.5 553.5 346.5 1149.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M401.5 559.5 401.5 1155.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M456.5 554.5 456.5 1150.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M511.5 562.5 511.5 1158.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M566.5 553.5 566.5 1149.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M621.5 562.5 621.5 1158.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M676.5 557.5 676.5 1153.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M731.5 564.5 731.5 1160.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M786.5 557.5 786.5 1153.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M841.5 554.5 841.5 1150.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M896.5 550.5 896.5 1146.31" stroke="#DAE3F3" stroke-width="4.58333"></path>
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d="M1.14583 0L1.14619 496.431H-1.14548V0H1.14583Z M0 496.428L9.16701 487.261L0 505.595L-9.16632 487.261Z" transform="matrix(1 0 0 -1 566 1109.59)" fill="#000"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; <path d="M1.14583 0L1.14619 496.371H-1.14548V0H1.14583Z M0 496.368L9.16701 487.201L0 505.535L-9.16632 487.201Z" transform="matrix(0 1 1 0 353 948)" fill="#000"></path>
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <circle cx="731.5" cy="669.5" r="6.5" fill="#C00000"></circle>
+&nbsp; &nbsp; &nbsp; &nbsp; <circle cx="402.5" cy="945.5" r="6.5" fill="#C00000"></circle>
+&nbsp; &nbsp; &nbsp; &nbsp; <circle cx="676.5" cy="1055.5" r="6.5" fill="#C00000"></circle>
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <text font-family="Times New Roman" font-style="italic" font-size="46" x="850" y="985">x</text>
+&nbsp; &nbsp; &nbsp; &nbsp; <text font-family="Times New Roman" font-style="italic" font-size="46" x="600" y="618">y</text>
+
+&nbsp; <text font-family="Times New Roman" font-size="46" x="830" y="718">A(3,5)</text>
+&nbsp; &nbsp;<text font-family="Times New Roman" font-size="46" x="520" y="990">B(-3,0)</text>
+&nbsp; &nbsp;<text font-family="Times New Roman" font-size="46" x="820" y="1070">C(2,-2)</text>
+&nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; <text font-family="Times New Roman" font-style="italic" font-size="46" x="790" y="670" fill="#C00000">x</text>
+&nbsp; &nbsp; &nbsp; &nbsp; <text font-family="Times New Roman" font-style="italic" font-size="46" x="820" y="670" fill="#C00000">y</text>
+
+&nbsp; &nbsp; &nbsp; </g>
+&nbsp; &nbsp; </svg>

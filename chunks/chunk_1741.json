@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_1",
+    "section_id": 8,
+    "section_number": "ח",
+    "type": "full_solution",
+    "text": "המשוואה נתונה בצורה $y = mx + b$.על ידי השוואה, ניתן לראות כי:המקדם של x הוא $-\\frac{1}{2}$, ולכן $m = -\\frac{1}{2}$.האיבר החופשי הוא -7, ולכן $b = -7$.",
+    "overlap_context": "$$y = -x + 1$$"
+}

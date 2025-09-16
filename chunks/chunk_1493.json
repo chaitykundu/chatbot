@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_2",
+    "section_id": 4,
+    "section_number": "ד.",
+    "type": "solution",
+    "text": "נחסיר 1 משני האגפים: $2y = 6x - 1$.\nנחלק ב-2: $y = \\frac{6x - 1}{2} \\Rightarrow y = 3x - \\frac{1}{2}$.\nלכן, $m = 3$, $b = -\\frac{1}{2}$.",
+    "overlap_context": "סדרו את המשוואה ומצאו את m ו-b."
+}

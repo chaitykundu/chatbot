@@ -1,0 +1,13 @@
+{
+    "exercise_id": "ז_9_13",
+    "section_id": null,
+    "section_number": null,
+    "type": "svg",
+    "svg_ref": "ז_9_13_main_svg",
+    "text": "Point at (4, -6); Point at (4, -1); Point at (-4, -6); Line from (-10, 0) to (9.5, 0); Line from (0, 10) to (0, -9.5); Line from (4, -6) to (-4, -6); Line from (4, -6) to (4, -1); Line from (4, -1) to (-4, -6)",
+    "class": "ז",
+    "lesson_number": "9",
+    "exercise_number": 13,
+    "topic": "מערכת צירים",
+    "exercise_type": "בסיס"
+}

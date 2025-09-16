@@ -1,0 +1,13 @@
+{
+    "exercise_id": "ח_1_5",
+    "section_id": null,
+    "section_number": null,
+    "type": "svg",
+    "svg_ref": "ח_1_5_main_svg",
+    "text": "Point at (4, -6); Point at (4, -1); Point at (-4, -6); Line from (-10, 0) to (9.5, 0); Line from (0, 10) to (0, -9.5); Line from (4, -6) to (-4, -6); Line from (4, -6) to (4, -1); Line from (4, -1) to (-4, -6)",
+    "class": "ח",
+    "lesson_number": "1",
+    "exercise_number": 5,
+    "topic": "מערכת צירים ומשוואות (חזרה)",
+    "exercise_type": "מורכב"
+}

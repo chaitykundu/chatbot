@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_2_30",
+    "section_id": 5,
+    "section_number": "ה",
+    "type": "full_solution",
+    "text": "ישר (ה) הוא ישר אופקי. עבור כל שתי נקודות על ישר אופקי, ערך ה-$y$ נשאר קבוע, כלומר השינוי ב-$y$ הוא 0. לכן, השיפוע הוא $$\\frac{\\Delta y}{\\Delta x} = \\frac{0}{\\Delta x} = 0$$ .",
+    "overlap_context": "מהו השיפוע של ישר (ד)?"
+}

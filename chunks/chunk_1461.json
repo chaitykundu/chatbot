@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_3",
+    "section_id": 3,
+    "section_number": "ג.",
+    "type": "full_solution",
+    "text": "למציאת השיפוע, נשתמש בנוסחה $m = \\frac{y_2 - y_1}{x_2 - x_1}$.\nנציב את שיעורי הנקודות $(2.5,1)$ ו-$(4,0)$:\n$m = \\frac{0 - 1}{4 - 2.5}$\n$m = \\frac{-1}{1.5}$\n$m = -\\frac{1}{\\frac{3}{2}}$\n$m = -\\frac{2}{3}$.\n\nהשיפוע הוא $m = -\\frac{2}{3}$.",
+    "overlap_context": "מצאו את השיפוע."
+}

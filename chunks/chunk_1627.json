@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_34",
+    "section_id": 3,
+    "section_number": "ג.",
+    "type": "full_solution",
+    "text": "לשרטוט הישר $y = \\frac{1}{3}x - 3$, נמצא שתי נקודות:\n1. נקודת חיתוך עם ציר ה-y: נציב $x=0 \\Rightarrow y = \\frac{1}{3}(0) - 3 = -3$. הנקודה היא $(0,-3)$.\n2. נקודת חיתוך עם ציר ה-x: נציב $y=0 \\Rightarrow 0 = \\frac{1}{3}x - 3 \\Rightarrow \\frac{1}{3}x = 3 \\Rightarrow x = 9$. הנקודה היא $(9,0)$.\nנשרטט את הקו הישר העובר דרך נקודות אלו.",
+    "overlap_context": "שרטטו את הישר $y = -\\frac{1}{2}x$."
+}

@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_2",
+    "section_id": 6,
+    "section_number": "ו.",
+    "type": "full_solution",
+    "text": "המשוואה הנתונה היא $y - 3x = 2$.\nנוסיף $3x$ לשני האגפים:\n$y = 3x + 2$.\nמכאן, השיפוע $m = 3$ וחותך ה-y $b = 2$.",
+    "overlap_context": "סדרו את המשוואה ומצאו את m ו-b."
+}

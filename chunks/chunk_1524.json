@@ -1,0 +1,12 @@
+{
+    "exercise_id": "ח_3_1",
+    "section_id": null,
+    "section_number": null,
+    "type": "main_table",
+    "text": "{\"headers\": [\"מספר הישר\", \"משוואה\"], \"rows_data\": [[\"א.\", \"$y = -3x + 5$\"], [\"ב.\", \"$y = 2x - 1$\"], [\"ג.\", \"$y = 2 + x$\"], [\"ד.\", \"$y = -x + 1$\"], [\"ה.\", \"$y = -\\\\frac{1}{2}x - 7$\"], [\"ו.\", \"$y = -3 + x$\"]]}",
+    "class": "ח",
+    "lesson_number": "3",
+    "exercise_number": 1,
+    "topic": "משוואת ישר ושיפוע",
+    "exercise_type": "בסיס"
+}

@@ -5,25 +5,17 @@ from pathlib import Path
 def chunk_nested_exercise(exercise: dict) -> List[dict]:
     """
     Chunk a single exercise (nested format) into semantic units.
-    
-    Args:
-        exercise (dict): A dictionary containing exercise_metadata and exercise_content.
-    
-    Returns:
-        List[dict]: List of chunk dictionaries with text and metadata.
     """
     chunks = []
 
     meta = exercise.get("exercise_metadata", {})
     content = exercise.get("exercise_content", {})
-    # Ensure main_data is a dict, default to empty dict if None or not a dict
     main_data = content.get("main_data", {}) if isinstance(content.get("main_data"), dict) else {}
-
     sections = content.get("sections", [])
 
     exercise_id = f"{meta.get('class', '')}_{meta.get('lesson_number', '')}_{meta.get('exercise_number', '')}"
 
-    # 1. Main text
+    # Main text
     if isinstance(main_data, dict) and main_data.get("text"):
         chunks.append({
             "exercise_id": exercise_id,
@@ -33,7 +25,7 @@ def chunk_nested_exercise(exercise: dict) -> List[dict]:
             "text": main_data["text"]
         })
 
-    # 2. Sections
+    # Sections
     for sec in sections:
         section_id = sec.get("section_id")
         section_number = sec.get("section_number")
@@ -84,25 +76,44 @@ def chunk_nested_exercise(exercise: dict) -> List[dict]:
 
     return chunks
 
-# Example usage
-INPUT_FILE = Path("Files/merged_lessons.json")
+
+def flatten_exercises(exercises: list) -> List[dict]:
+    """
+    Recursively flatten nested lists in exercises.
+    Ensures that every item is a dictionary before processing.
+    """
+    flat_list = []
+    for ex in exercises:
+        if isinstance(ex, list):
+            flat_list.extend(flatten_exercises(ex))
+        elif isinstance(ex, dict):
+            flat_list.append(ex)
+        else:
+            print(f"Skipping invalid exercise type: {type(ex)}")
+    return flat_list
+
+
+# ---------------- MAIN ----------------
+INPUT_FILE = Path("Files/merged_output.json")
 try:
     with open(INPUT_FILE, "r", encoding="utf-8") as f:
-        data = json.load(f)  # Load JSON directly
+        data = json.load(f)
         if not isinstance(data, list):
-            data = [data]  # Wrap in list if it's a single exercise (dict)
-        exercises = data  # Use the loaded data as the list of exercises
+            data = [data]
 except FileNotFoundError:
     print(f"Error: File {INPUT_FILE} not found.")
-    exercises = []
+    data = []
 except json.JSONDecodeError:
     print(f"Error: Invalid JSON in {INPUT_FILE}.")
-    exercises = []
+    data = []
+
+# Flatten nested lists
+exercises = flatten_exercises(data)
 
 all_chunks = []
 for ex in exercises:
     all_chunks.extend(chunk_nested_exercise(ex))
 
 print(f"Total chunks: {len(all_chunks)}")
-for c in all_chunks:
-    print(c['type'],c['text'][:50])  # Enhanced preview
+for c in all_chunks[:10]:  # Preview first 10 chunks
+    print(c['type'], c['text'][:50])

@@ -1,0 +1,12 @@
+{
+    "exercise_id": "ח_3_10",
+    "section_id": null,
+    "section_number": null,
+    "type": "main_table",
+    "text": "{\"headers\": [\"מספר פונקציה\", \"פונקציה\"], \"rows_data\": [[\"א.\", \"$y = 2x + 1$\"], [\"ב.\", \"$y = x - 2$\"], [\"ג.\", \"$y = -2x + 5$\"], [\"ד.\", \"$y = -4x + 3$\"], [\"ה.\", \"$y = -0.5x - 2$\"], [\"ו.\", \"$y = x + 3$\"]]}",
+    "class": "ח",
+    "lesson_number": "3",
+    "exercise_number": 10,
+    "topic": "משוואת ישר ושיפוע",
+    "exercise_type": "התאמת פונקציה לגרף"
+}

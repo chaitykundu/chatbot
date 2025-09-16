@@ -1,0 +1,7 @@
+{
+    "exercise_id": "ח_3_39",
+    "section_id": 1,
+    "section_number": "א.",
+    "type": "full_solution",
+    "text": "למציאת נקודה A (חיתוך עם ציר x), נציב y=0 במשוואה: $0 = -x + 5 \\Rightarrow x = 5$.\nלכן, A(5,0).\n\nלמציאת נקודה B (חיתוך עם ציר y), נציב x=0 במשוואה: $y = -0 + 5 \\Rightarrow y = 5$.\nלכן, B(0,5)."
+}

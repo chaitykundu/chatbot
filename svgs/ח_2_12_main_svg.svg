@@ -1,0 +1,30 @@
+<svg viewBox="-2 -8 11 10" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <marker id="arrowheadX" markerWidth="0.5" markerHeight="0.5" refX="-0" refY="0.25" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0, 0.5 0.25, 0 0.5" fill="black"></polygon>
+          </marker>
+          <marker id="arrowheadY" markerWidth="0.5" markerHeight="0.5" refX="0" refY="0.25" orient="auto" markerUnits="userSpaceOnUse">
+            <polygon points="0 0.5, 0 0, 0.5 0.25" fill="black"></polygon>
+          </marker>
+          <pattern id="grid" width="1" height="1" patternUnits="userSpaceOnUse">
+            <path d="M 1 0 L 0 0 0 1" fill="none" stroke="#ccc" stroke-width="0.05"></path>
+          </pattern>
+        </defs>
+
+        <rect x="-10" y="-10" width="20" height="20" fill="url(#grid)"></rect>
+
+   <line x1="-10" y1="-1" x2="6" y2="-1" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadX)"></line>
+    <line x1="0" y1="10" x2="0" y2="-7" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadY)"></line>
+  
+  <line x1="-1" y1="-7" x2="2" y2="2" stroke="black" stroke-width="0.1"></line>
+  <line x1="-1" y1="-6" x2="3" y2="2" stroke="black" stroke-width="0.1"></line>
+  <line x1="-1" y1="-5" x2="4" y2="0" stroke="black" stroke-width="0.1"></line>
+     
+ <text x="4" y="0" text-anchor="end" fill="black" font-size="0.8" font-family="Times New Roman">(1)</text>
+ <text x="1.2" y="2" text-anchor="end" fill="black" font-size="0.8" font-family="Times New Roman">(3)</text>
+  <text x="2.4" y="1" text-anchor="end" fill="black" font-size="0.8" font-family="Times New Roman">(2)</text>
+
+
+ <circle cx="0" cy="-4" r="0.2" fill="#C00000"></circle>
+
+      </svg>

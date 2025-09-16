@@ -1,0 +1,13 @@
+{
+    "exercise_id": "ח_3_11",
+    "section_id": null,
+    "section_number": null,
+    "type": "svg",
+    "svg_ref": "ח_3_11_main_svg",
+    "text": "Line from (-10, 0) to (9.5, 0); Line from (0, 10) to (0, -9.5); Line from (-10, -4) to (10, -4); Line from (-2, -10) to (-2, 10); Line from (-10, -10) to (10, 10); Line from (-10, 10) to (10, -10); Line from (3, -10) to (3, 10); Line from (-10, 3) to (10, 3); Line from (-8, 10) to (8, -6); Line from (-4, -10) to (-4, 10); Line from (-5, 9) to (5, -1)",
+    "class": "ח",
+    "lesson_number": "3",
+    "exercise_number": 11,
+    "topic": "משוואת ישר ושיפוע",
+    "exercise_type": "בסיס"
+}

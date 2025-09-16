@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_1_16",
+    "section_id": 8,
+    "section_number": "ח'",
+    "type": "full_solution",
+    "text": "2x+5=5(x+1)\n2x+5=5x+5\n2x-5x=5-5\n-3x=0\nx=0\nבדיקה: 2×0+5=5×(0+1) → 5=5×1 → 5=5 ✓",
+    "overlap_context": "2x=-2x"
+}

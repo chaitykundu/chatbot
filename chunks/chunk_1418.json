@@ -1,0 +1,12 @@
+{
+    "exercise_id": "ח_3_9",
+    "section_id": null,
+    "section_number": null,
+    "type": "main_table",
+    "text": "{\"headers\": [\"מספר פונקציה\", \"פונקציה\"], \"rows_data\": [[\"א.\", \"$y = -1.5x + 3$\"], [\"ב.\", \"$y = -x + 3$\"], [\"ג.\", \"$y = 3x + 3$\"], [\"ד.\", \"$y = 4x + 3$\"], [\"ה.\", \"$y = 3$\"]]}",
+    "class": "ח",
+    "lesson_number": "3",
+    "exercise_number": 9,
+    "topic": "משוואת ישר ושיפוע",
+    "exercise_type": "בסיס"
+}

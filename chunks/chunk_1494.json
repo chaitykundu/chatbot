@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_2",
+    "section_id": 4,
+    "section_number": "ד.",
+    "type": "full_solution",
+    "text": "המשוואה הנתונה היא $2y + 1 = 6x$.\nנחסיר 1 משני האגפים:\n$2y = 6x - 1$.\nנחלק את שני האגפים ב-2:\n$y = \\frac{6x - 1}{2}$\n$y = \\frac{6x}{2} - \\frac{1}{2}$\n$y = 3x - \\frac{1}{2}$.\nמכאן, השיפוע $m = 3$ וחותך ה-y $b = -\\frac{1}{2}$.",
+    "overlap_context": "סדרו את המשוואה ומצאו את m ו-b."
+}

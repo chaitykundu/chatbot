@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_1",
+    "section_id": 2,
+    "section_number": "ב.",
+    "type": "solution",
+    "text": "עבור המשוואה $y = 2x - 1$:\nהשיפוע (m) הוא המקדם של x, כלומר $m = 2$.\nחותך ה-y (b) הוא האיבר החופשי, כלומר $b = -1$.",
+    "overlap_context": "מהם m ו-b עבור ישר זה?"
+}

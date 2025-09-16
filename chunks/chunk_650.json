@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_1_16",
+    "section_id": 3,
+    "section_number": "ג'",
+    "type": "full_solution",
+    "text": "6x+1=23-5x\n6x+5x=23-1\n11x=22\nx=2\nבדיקה: 6×2+1=23-5×2 → 12+1=23-10 → 13=13 ✓",
+    "overlap_context": "3+3x=17+5x"
+}

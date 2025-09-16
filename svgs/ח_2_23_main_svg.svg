@@ -1,0 +1,36 @@
+<svg id="normalizedCoordinateSystem" viewBox="-2 -8 11 10" preserveAspectRatio="xMidYMid meet">
+&nbsp; &nbsp; &nbsp; &nbsp; <defs>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id="arrowheadX_norm" markerWidth="0.5" markerHeight="0.5" refX="-0" refY="0.25" orient="auto" markerUnits="userSpaceOnUse">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points="0 0, 0.5 0.25, 0 0.5" fill="black"></polygon>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id="arrowheadY_norm" markerWidth="0.5" markerHeight="0.5" refX="0" refY="0.25" orient="auto" markerUnits="userSpaceOnUse">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points="0 0.5, 0 0, 0.5 0.25" fill="black"></polygon>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id="smallGrid_norm" width="1" height="1" patternUnits="userSpaceOnUse">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d="M 1 0 L 0 0 0 1" fill="none" stroke="#ccc" stroke-width="0.05"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id="grid_norm" width="1" height="1" patternUnits="userSpaceOnUse">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width="1" height="1" fill="url(#smallGrid_norm)"></rect>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d="M 1 0 L 0 0 0 1" fill="none" stroke="#D5E9FF" stroke-width="0.1"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>
+&nbsp; &nbsp; &nbsp; &nbsp; </defs>
+
+&nbsp; &nbsp; &nbsp; &nbsp; <rect x="-10" y="-10" width="20" height="20" fill="url(#grid_norm)"></rect>
+
+&nbsp; &nbsp; &nbsp; &nbsp; <line x1="-10" y1="0" x2="8" y2="0" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadX_norm)"></line>
+&nbsp; &nbsp; &nbsp; &nbsp; <line x1="0" y1="10" x2="0" y2="-7" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadY_norm)"></line>
+
+&nbsp; &nbsp; &nbsp; &nbsp; <text x="8.5" y="0.8" text-anchor="end" fill="black" font-size="0.8" font-family="Times New Roman">x</text>
+&nbsp; &nbsp; &nbsp; &nbsp; <text x="0.3" y="-7" text-anchor="start" fill="black" font-size="0.8" font-family="Times New Roman">y</text>
+
+
+&nbsp; &nbsp; &nbsp; &nbsp; <circle cx="3" cy="-6" r="0.2" fill="#C00000"></circle>
+
+&nbsp; &nbsp; &nbsp; &nbsp; <circle cx="2" cy="-4" r="0.2" fill="#C00000"></circle>
+
+&nbsp; &nbsp; &nbsp; &nbsp; <circle cx="1" cy="-2" r="0.2" fill="#C00000"></circle>
+
+&nbsp; &nbsp; </svg>

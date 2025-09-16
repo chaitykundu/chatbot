@@ -1,0 +1,8 @@
+{
+    "exercise_id": "ח_3_4",
+    "section_id": 4,
+    "section_number": "ד.",
+    "type": "full_solution",
+    "text": "ישר המקביל לציר ה-x הוא ישר אופקי.\nבישר אופקי, ערך ה-y אינו משתנה כאשר x משתנה.\nלכן, השינוי ב-y ($\\Delta y$) הוא 0.\nהשיפוע $m = \\frac{\\Delta y}{\\Delta x} = \\frac{0}{\\Delta x} = 0$.\n\nהשיפוע הוא $m = 0$.",
+    "overlap_context": "מצאו את השיפוע."
+}

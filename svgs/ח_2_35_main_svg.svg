@@ -1,0 +1,20 @@
+<svg viewBox="-5 -5 10 10" style="border: 1px solid #ccc; width: 250px; height: 250px;">
+<defs><pattern id="grid" width="1" height="1" patternUnits="userSpaceOnUse">
+<path d="M 1 0 L 0 0 0 1" fill="none" stroke="#ccc" stroke-width="0.05"></path></pattern><marker id="arrowheadX" markerWidth="0.5" markerHeight="0.5" refX="0" refY="0.25" orient="auto" markerUnits="userSpaceOnUse">
+
+<polygon points="0 0.1, 0.25 0.25, 0 0.4" fill="black"></polygon>
+</marker><marker id="arrowheadY" markerWidth="0.5" markerHeight="0.5" refX="0" refY="0.25" orient="auto" markerUnits="userSpaceOnUse">
+<polygon points="0 0.4, 0 0.1, 0.25 0.25" fill="black"></polygon>
+</marker></defs><rect x="-5" y="-5" width="10" height="10" fill="url(#grid)"></rect>
+
+<line x1="-4" y1="0" x2="4" y2="0" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadX)"></line>
+<line x1="0" y1="4" x2="0" y2="-4" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadY)"></line>
+<line x1="-2" y1="2" x2="4" y2="-4" stroke="#9B2C2B" stroke-width="0.1"></line>
+
+<circle cx="1" cy="-1" r="0.1" fill="#9B2C2B"></circle>
+<text x="2.3" y="-0.7" fill="#9B2C2B" font-size="0.6">(1,1)</text>
+
+<circle cx="3" cy="-3" r="0.1" fill="#9B2C2B"></circle>
+<text x="4.3" y="-2.7" fill="#9B2C2B" font-size="0.6">(n,3)</text>
+
+</svg>
