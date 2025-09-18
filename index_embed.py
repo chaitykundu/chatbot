@@ -267,6 +267,7 @@ def main():
         metadata = chunk["metadata"].copy()
         # Truncate text in metadata to reduce size (optional)
         metadata["text"] = chunk["text"][:500]  # Limit to 500 characters
+        metadata["parent_id"] = chunk["exercise_id"]  # <--- Add this
         vectors.append({
             "id": vector_id,
             "values": chunk["embedding"],
