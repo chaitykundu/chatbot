@@ -225,7 +225,9 @@ I18N = {
         "diagnostic_last_class": "What did you cover in your last class?",
         "diagnostic_focus": "What would you like to work on today?",
         "doubt_answer_complete": "I hope that helps clarify things about {topic} for you!",
-        "lesson_closing": "Great, that was an awesome lesson! I’ll send you similar exercises for practice and see you in the next session. If you have questions, feel free to message me. And if you get stuck – just remember, you’re a genius. Bye!"
+        "lesson_closing": "Great, that was an awesome lesson! I’ll send you similar exercises for practice and see you in the next session. If you have questions, feel free to message me. And if you get stuck – just remember, you’re a genius. Bye!",
+        "invalid_topic": "Invalid topic. Please choose one of these:"
+
     },
     "he": {
         "choose_language": "בחר שפה:\n1) אנגלית (ברירת מחדל)",
@@ -255,7 +257,9 @@ I18N = {
         "diagnostic_last_class": "מה סקרתם בשיעור האחרון שלך?",
         "diagnostic_focus": "על מה תרצה לעבוד היום?",
         "doubt_answer_complete": "אני מקווה שזה עוזר להבהיר דברים על {topic} עבורך!",
-        "lesson_closing": "נהדר, זה היה שיעור מדהים! אשלח לך תרגילים דומים לתרגול וניפגש בשיעור הבא. אם יש לך שאלות, אל תהסס לפנות אליי. ואם תיתקע – זכור, אתה גאון. להתראות!"
+        "lesson_closing": "נהדר, זה היה שיעור מדהים! אשלח לך תרגילים דומים לתרגול וניפגש בשיעור הבא. אם יש לך שאלות, אל תהסס לפנות אליי. ואם תיתקע – זכור, אתה גאון. להתראות!",
+        "invalid_topic": "נושא לא חוקי. אנא בחר אחד מהבאים:"
+
     }
 }
 
@@ -268,7 +272,7 @@ class State(Enum):
     PERSONAL_FOLLOWUP = auto()
     DIAGNOSTIC = auto()
     ACADEMIC_TRANSITION = auto()
-    ASK_CLASS = auto()  # Updated from PICK_CLASS
+    PICK_CLASS = auto()  # New state for picking class/grade
     PICK_TOPIC = auto()  # New state for picking topic
     QUESTION_ANSWER = auto()
     GUIDING_QUESTION = auto()
@@ -369,19 +373,15 @@ def get_classes():
     ))
     return classes
 
-def get_topics(self, chosen_class):
+def get_topics(chosen_class):
     # Normalize chosen_class to number
     grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
     chosen_class = grade_map.get(chosen_class, chosen_class)
-    topics = sorted(set(
+    return sorted(set(
         ex["exercise_metadata"]["topic"]
-        for ex in self.exercises_data
+        for ex in load_exercises()
         if grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"]) == chosen_class
     ))
-    # Cache translations for English mode
-    if self.user_language == "en":
-        return [(t, translate_text_to_english(t)) for t in topics]
-    return [(t, t) for t in topics]
 
 def get_exercises(chosen_class, chosen_topic):
     # Normalize chosen_class to number
@@ -973,6 +973,44 @@ class DialogueFSM:
             "input": user_input
         })
         return clean_math_text(response.content.strip())
+    
+    def _generate_guiding_question(self, user_answer: str, question: str, context: str) -> str:
+        """Generate a guiding question to help student think through the problem."""
+        try:
+            guiding_prompt = ChatPromptTemplate.from_messages([
+                ("system", f"""You are a Math AI tutor. Generate a guiding question to help the student think through the problem step by step.
+                
+                Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
+                
+                Guidelines:
+                - Ask a question that guides them toward the solution
+                - Don't give away the answer directly
+                - Focus on the mathematical concept or method
+                - Be encouraging and supportive
+                - Keep it concise (1-2 sentences)
+                
+                Example guiding questions:
+                - "What operation should we use first?"
+                - "Can you identify what type of equation this is?"
+                - "What do you think the first step should be?"
+                """),
+                MessagesPlaceholder(variable_name="chat_history"),
+                ("user", "Problem: {question}\nStudent's Answer: {answer}\nContext: {context}\n\nGenerate a helpful guiding question:")
+            ])
+            
+            guiding_chain = guiding_prompt | llm
+            response = guiding_chain.invoke({
+                "chat_history": self.chat_history[-3:],
+                "question": question,
+                "answer": user_answer,
+                "context": context
+            })
+            
+            return clean_math_text(response.content.strip())  # Clean guiding question
+        except Exception as e:
+            logger.error(f"Error generating guiding question: {e}")
+            guiding_text = self._get_localized_text("guiding_question")
+            return f"{guiding_text}What do you think the first step should be?"
 
     def transition(self, user_input: str) -> str:
         """Enhanced FSM transition with progressive guidance and improved attempt tracking."""
@@ -1090,59 +1128,85 @@ class DialogueFSM:
                 return ai_response
             
         elif self.state == State.ACADEMIC_TRANSITION:
-            self.state = State.ASK_CLASS
-            classes = get_classes()  # Returns numbers (e.g., ["7", "8"])
-            if self.user_language == "he":
-                classes_display = [self._translate_grade_to_hebrew(c) for c in classes]
-            else:
-                classes_display = classes
-            response_text = self.academic_transition_chain.invoke({
-                "chat_history": self.chat_history[-3:],
-                "input": user_input
-            }).content.strip() + f"\n\n{self._get_localized_text('ask_grade')} ({', '.join(classes_display)})"
+            self.state = State.PICK_CLASS
+            classes = get_classes()
+            response_text = self._generate_academic_transition(user_input) + f"\n\nAvailable classes: {classes}\nPick a class: "
             self.chat_history.append(AIMessage(content=response_text))
             return response_text
 
-        elif self.state == State.ASK_CLASS:
-            grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
+        elif self.state == State.PICK_CLASS:
             chosen_class = user_input.strip()
-            # Normalize input to number
-            chosen_class = grade_map.get(chosen_class, chosen_class)
-            classes = get_classes()
-            if chosen_class not in classes:
-                classes_display = [self._translate_grade_to_hebrew(c) for c in classes] if self.user_language == "he" else classes
-                return self._get_localized_text("invalid_class", classes=", ".join(classes_display))
-            self.grade = chosen_class
-            self.hebrew_grade = self._translate_grade_to_hebrew(self.grade)
+            classes_hebrew = get_classes()
+
+            # Translate classes if needed
+            if self.user_language == "en":
+                classes_display = [translate_text_to_english(c) for c in classes_hebrew]
+            else:
+                classes_display = classes_hebrew
+
+            # Validate user input
+            if chosen_class not in classes_display:
+                return f"{self._get_localized_text('invalid_class')} {classes_display}"
+
+            # Map back to Hebrew if user picked English
+            if self.user_language == "en":
+                idx = classes_display.index(chosen_class)
+                self.grade = classes_display[idx]
+                self.hebrew_grade = classes_hebrew[idx]
+            else:
+                self.grade = chosen_class if not is_likely_hebrew(chosen_class) else self._translate_grade_to_hebrew(chosen_class)
+                self.hebrew_grade = self._translate_grade_to_hebrew(self.grade) if not is_likely_hebrew(chosen_class) else chosen_class
+
             self.state = State.PICK_TOPIC
-            topics = get_topics(self.grade)  # Returns list of Hebrew topics
-            # Translate topics for display
-            topics_display = [translate_text_to_english(t) if self.user_language == "en" else t for t in topics]
-            response_text = f"{self._get_localized_text('ask_topic', grade=self.grade, topics=', '.join(topics_display))}"
+
+            # Get available topics for this class
+            topics_hebrew = get_topics(self.hebrew_grade)
+            if self.user_language == "en":
+                topics_display = [translate_text_to_english(t) for t in topics_hebrew[:]]
+            else:
+                topics_display = topics_hebrew[:]
+
+            response_text = f"{'Available topics' if self.user_language=='en' else 'נושאים זמינים'}: {topics_display}\n{'Pick a topic:' if self.user_language=='en' else 'בחר נושא:'}"
+
             self.chat_history.append(AIMessage(content=response_text))
             return response_text
+
 
         elif self.state == State.PICK_TOPIC:
             chosen_topic = user_input.strip()
-            topics = get_topics(self.grade)  # Returns list of Hebrew topics
-            # Create mapping from display topic (English or Hebrew) to Hebrew topic
-            topic_map = {translate_text_to_english(t).lower() if self.user_language == "en" else t.lower(): t for t in topics}
-            topics_display = [translate_text_to_english(t) if self.user_language == "en" else t for t in topics]
-            # Map chosen topic to Hebrew
-            chosen_topic_hebrew = topic_map.get(chosen_topic.lower(), chosen_topic)
-            if chosen_topic_hebrew not in topics:
-                return self._get_localized_text("invalid_topic", topics=", ".join(topics_display))
-            self.topic = chosen_topic_hebrew
+            topics_hebrew = get_topics(self.hebrew_grade)
+
+            # Translate if needed
+            if self.user_language == "en":
+                topics_display = [translate_text_to_english(t) for t in topics_hebrew]
+            else:
+                topics_display = topics_hebrew
+
+            # Validate
+            if chosen_topic not in topics_display:
+                return f"{self._get_localized_text('invalid_topic')} {topics_display[:]}"
+
+            # Map back to Hebrew if English
+            if self.user_language == "en":
+                idx = topics_display.index(chosen_topic)
+                self.topic = topics_hebrew[idx]
+            else:
+                self.topic = chosen_topic
+
             self.topic_exercises_count = 0
             self.doubt_questions_count = 0
-            self._pick_new_exercise_rag(query=f"Find an exercise for grade {self.hebrew_grade} on topic {self.topic}", grade=self.hebrew_grade, topic=self.topic)
+            self._pick_new_exercise(self.hebrew_grade, self.topic)
+
             if not self.current_exercise:
-                return self._get_localized_text("no_exercises", grade=self.grade, topic=chosen_topic)
+                return self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
+
             self.state = State.QUESTION_ANSWER
             ready_text = self._get_localized_text("ready_for_question")
             response_text = f"{ready_text}\n{self._get_current_question()}"
             self.chat_history.append(AIMessage(content=response_text))
             return response_text
+
+
         elif self.state in [State.QUESTION_ANSWER, State.GUIDING_QUESTION, State.PROVIDING_HINT]:
             # Handle irrelevant questions
             irrelevant_keywords = [
