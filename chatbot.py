@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 # -----------------------------
 # CONFIG
 # -----------------------------
-INPUT_FILE = Path("Files/merged_output.json")
+PARSED_INPUT_FILE = Path("Files/merged_output.json")
 SVG_OUTPUT_DIR = Path("svg_outputs")
 SVG_OUTPUT_DIR.mkdir(exist_ok=True)
 
@@ -371,7 +371,7 @@ def load_json(p: Path):
 def load_exercises(input_file: Path = None):
     """Load exercises with flattening logic for nested structures."""
     if input_file is None:
-        input_file = INPUT_FILE  # Use default if not specified
+        input_file = PARSED_INPUT_FILE  # Use default if not specified
     
     with open(input_file, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -1367,8 +1367,14 @@ class DialogueFSM:
             else:
                 full_question = main_instruction if main_instruction else "No question available."
             
-            # Translate to match conversation language and clean
+            # Clean the question text
             clean_question = clean_math_text(full_question)
+            
+            # Add SVG reference if one was already generated for this question
+            if self.current_svg_file_path and self.svg_generated_for_question:
+                clean_question += f"\n\n[Image File: {self.current_svg_file_path}]"
+            
+            # Translate to match conversation language
             return translate_text_to_conversation_language(clean_question, self.user_language)
         
         # Fallback for original RAG exercise format
@@ -1471,7 +1477,18 @@ class DialogueFSM:
         self.current_question_index += 1
         self.current_hint_index = 0
         self._reset_attempt_tracking()  # This will reset SVG tracking too
-        return f"\n\nNext question:\n{self._get_current_question()}"
+        
+        # Get the next question
+        current_question_text = self._get_current_question()
+        
+        # Generate SVG for the new question if needed
+        if not self.svg_generated_for_question and self._should_generate_svg(current_question_text):
+            svg_reference = self._generate_and_save_svg(for_solution_explanation=False)
+            if svg_reference and isinstance(svg_reference, str):
+                current_question_text += f"\n{svg_reference}"
+            self.svg_generated_for_question = True
+        
+        return f"\n\nNext question:\n{current_question_text}"
 
     def _move_to_next_exercise_or_question(self) -> str:
         """Enhanced version that strictly provides 2 exercises before doubt checking."""
@@ -1504,7 +1521,17 @@ class DialogueFSM:
                 topic_name = self.topic or "this topic"
                 return f"\n\n{self._get_localized_text('ask_for_doubts', topic=topic_name)}"
 
-            return f"\n\nNext exercise:\n{self._get_current_question()}"
+            # Get the new exercise question
+            current_question_text = self._get_current_question()
+            
+            # Generate SVG for the new exercise question if needed
+            if not self.svg_generated_for_question and self._should_generate_svg(current_question_text):
+                svg_reference = self._generate_and_save_svg(for_solution_explanation=False)
+                if svg_reference and isinstance(svg_reference, str):
+                    current_question_text += f"\n{svg_reference}"
+                self.svg_generated_for_question = True
+            
+            return f"\n\nNext exercise:\n{current_question_text}"
 
     def _generate_doubt_clearing_response(self, user_question: str) -> str:
         """Generate response to clear student's doubts using RAG."""
@@ -1765,7 +1792,16 @@ class DialogueFSM:
 
             self.state = State.QUESTION_ANSWER
             ready_text = self._get_localized_text("ready_for_question")
-            response_text = f"{ready_text}\n{self._get_current_question()}"
+            
+            # Generate SVG for the first question if needed
+            current_question_text = self._get_current_question()
+            if not self.svg_generated_for_question and self._should_generate_svg(current_question_text):
+                svg_reference = self._generate_and_save_svg(for_solution_explanation=False)
+                if svg_reference and isinstance(svg_reference, str):
+                    current_question_text += f"\n{svg_reference}"
+                self.svg_generated_for_question = True
+            
+            response_text = f"{ready_text}\n{current_question_text}"
             self.chat_history.append(AIMessage(content=response_text))
             return response_text
 
@@ -1931,9 +1967,9 @@ class DialogueFSM:
 # -----------------------------
 
 # Additional configuration for bot.py functionality
-BOT_INPUT_FILE = Path("parsed_outputs/merged_output.json")  # Fixed path
+BOT_INPUT_FILE = Path("Files/merged_output.json")  # Fixed path
 BOT_MODEL_NAME = "intfloat/multilingual-e5-large"
-BOT_PINECONE_INDEX_NAME = "mathtutor-rag-e5-large"  # Use same index as main chatbot
+BOT_PINECONE_INDEX_NAME = "exercise-embeddings"  # Use same index as main chatbot
 
 # Initialize bot.py components
 try:
@@ -2122,12 +2158,15 @@ def run_bot_mode():
 # MAIN
 # -----------------------------
 def main():
-    if not INPUT_FILE.exists():
+    print("\n🎓 Welcome to the Enhanced Math Tutoring System!")
+    
+    # Load data and start the tutor directly
+    if not PARSED_INPUT_FILE.exists():
         logger.error("❌ Missing JSON file.")
         return
 
     try:
-        exercises = load_exercises()
+        exercises = load_exercises(PARSED_INPUT_FILE)
         pinecone_index = get_pinecone_index()
     except Exception as e:
         logger.error(f"❌ Error loading data or connecting to Pinecone: {e}")
@@ -2148,14 +2187,23 @@ def main():
             print("\n👋 Bye!")
             fsm.inactivity_timer.stop()
             break
+            
         if user_input.lower() in {"exit", "quit", "done"}:
             print("👋 Bye!")
             fsm.inactivity_timer.stop()
             break
 
-        response = fsm.transition(user_input)
-
-        print(f"A_GUY: {response}")
+        try:
+            response = fsm.transition(user_input)
+            print(f"A_GUY: {response}")
+        except KeyboardInterrupt:
+            print("\n👋 Chat interrupted. Bye!")
+            fsm.inactivity_timer.stop()
+            break
+        except Exception as e:
+            logger.error(f"Error during conversation: {e}")
+            print("A_GUY: Sorry, I encountered an error. Let's continue!")
+            continue
 
 if __name__ == "__main__":
     main()
