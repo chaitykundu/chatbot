@@ -173,8 +173,8 @@ academic_transition_chain = academic_transition_prompt | llm
 I18N = {
     "en": {
         "choose_language": "Choose language:\n1) English (default)",
-        "ask_grade": "Nice! Before we start, what grade are you in? (e.g., 7, 8)",
-        "ask_topic": "Great! Grade {grade}. Which topic would you like to practice? (e.g., {topics})",
+        #"ask_grade": "Nice! Before we start, what grade are you in? (e.g., 7, 8)",
+        #"ask_topic": "Great! Grade {grade}. Which topic would you like to practice? (e.g., {topics})",
         "ready_for_question": "Awesome! Let's start with this exercise:",
         "hint_prefix": "💡 Hint: ",
         "solution_prefix": "✅ Solution: ",
@@ -200,13 +200,14 @@ I18N = {
         "diagnostic_focus": "What would you like to work on today?",
         "doubt_answer_complete": "I hope that helps clarify things about {topic} for you!",
         "lesson_closing": "Great, that was an awesome lesson! I’ll send you similar exercises for practice and see you in the next session. If you have questions, feel free to message me. And if you get stuck – just remember, you’re a genius. Bye!",
-        "invalid_topic": "Invalid topic. Please choose one of these:"
+        "invalid_topic": "Invalid topic. Please choose one of these:",
+        "invalid_class": "Invalid class. Please choose one of these:"  # Add this line
 
     },
     "he": {
         "choose_language": "בחר שפה:\n1) אנגלית (ברירת מחדל)",
-        "ask_grade": "נחמד! לפני שנתחיל, באיזו כיתה אתה? (למשל, ז, ח)",
-        "ask_topic": "מצוין! כיתה {grade}. באיזה נושא תרצה להתרגל? (לדוגמה: {topics})",
+        #"ask_grade": "נחמד! לפני שנתחיל, באיזו כיתה אתה? (למשל, ז, ח)",
+        #"ask_topic": "מצוין! כיתה {grade}. באיזה נושא תרצה להתרגל? (לדוגמה: {topics})",
         "ready_for_question": "מעולה! בואו נתחיל עם התרגיל הזה:",
         "hint_prefix": "💡 רמז: ",
         "solution_prefix": "✅ פתרון: ",
@@ -232,7 +233,8 @@ I18N = {
         "diagnostic_focus": "על מה תרצה לעבוד היום?",
         "doubt_answer_complete": "אני מקווה שזה עוזר להבהיר דברים על {topic} עבורך!",
         "lesson_closing": "נהדר, זה היה שיעור מדהים! אשלח לך תרגילים דומים לתרגול וניפגש בשיעור הבא. אם יש לך שאלות, אל תהסס לפנות אליי. ואם תיתקע – זכור, אתה גאון. להתראות!",
-        "invalid_topic": "נושא לא חוקי. אנא בחר אחד מהבאים:"
+        "invalid_topic": "נושא לא חוקי. אנא בחר אחד מהבאים:",
+        "invalid_class": "כיתה לא חוקית. אנא בחר אחת מהבאות:"  # Add this line
 
     }
 }
@@ -298,7 +300,7 @@ def translate_text_to_english(text: str) -> str:
         return text
     try:
         translation_prompt = ChatPromptTemplate.from_messages([
-            ("system", "You are a precise translator. Translate the following text to English. If it's already in English, return it as is. Provide ONLY the translation."),
+            ("system", "You are a precise translator. Translate the following text to English. Preserve markdown formatting (e.g., **bold**, *italic*).If it's already in English, return it as is. Provide ONLY the translation."),
             ("user", "{input}"),
         ])
         translation_chain = translation_prompt | llm
@@ -986,7 +988,7 @@ class DialogueFSM:
             context=context_str,
             is_forced=True  # ensure >= level 1
         )
-        return self._get_localized_text("hint_prefix") + guidance
+        return guidance
     
     def _handle_solution_request(self, user_input: str) -> str:
         """Handle explicit solution requests by providing guiding questions first."""
@@ -1204,8 +1206,7 @@ class DialogueFSM:
             self.state = State.PROVIDING_HINT
             hint = self._generate_progressive_hint(0)
             if hint:
-                hint_prefix = lang_dict["hint_prefix"]
-                return f"{hint_prefix}{hint}"
+                return f"{hint}"
             else:
                 self.attempt_tracker.guidance_level = 4
                 return self._get_current_solution()
@@ -1293,10 +1294,13 @@ class DialogueFSM:
         text_lower = (user_input or "").strip().lower()
 
         # Detect user language from input
-        if user_input:
+        if user_input and user_input.strip():
             detected_lang = detect_language(user_input)
-            if detected_lang != self.user_language and detected_lang in ["he", "en"]:
+            if detected_lang in ["he", "en"]:
                 self.user_language = detected_lang
+            else:
+                # For neutral inputs (e.g., "new topic", numbers, or symbols), default to English
+                self.user_language = "en"
             
         # Add user input to chat history
         if user_input:
@@ -1447,14 +1451,19 @@ class DialogueFSM:
             chosen_topic = user_input.strip()
             topics_hebrew = get_topics(self.hebrew_grade)
 
+            # Reset language based on current input
+            if user_input and detect_language(user_input) == "en":
+                self.user_language = "en"
+
             # Translate if needed
             if self.user_language == "en":
                 topics_display = [translate_text_to_english(t) for t in topics_hebrew]
             else:
                 topics_display = topics_hebrew
 
-            # Validate
-            if chosen_topic not in topics_display:
+            # Validate topic case-insensitively
+            topics_display_lower = [t.lower() for t in topics_display]
+            if chosen_topic.lower() not in topics_display_lower:
                 return f"{self._get_localized_text('invalid_topic')} {topics_display[:]}"
 
             # Map back to Hebrew if English
