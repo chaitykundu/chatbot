@@ -22,7 +22,7 @@ import uuid
 load_dotenv(dotenv_path=Path(".env"))
 
 # Set up logging
-
+#xflogging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # -----------------------------
@@ -300,23 +300,21 @@ def translate_text_to_english(text: str) -> str:
         return text
     try:
         translation_prompt = ChatPromptTemplate.from_messages([
-            ("system", "You are a precise translator. Translate the following text to English. Preserve markdown formatting (e.g., **bold**, *italic*).If it's already in English, return it as is. Provide ONLY the translation."),
-            ("user", "{input}"),
+            ("system", """You are a precise translator. Translate the following text to English.
+            If it's already in English, return it unchanged with title case (e.g., 'linear functions' -> 'Linear Functions').
+            Preserve markdown formatting (e.g., **bold**, *italic*).
+            For math expressions, keep them intact (e.g., y = mx + b).
+            Provide ONLY the translated text, no extra explanations."""),
+            ("user", "{input}")
         ])
         translation_chain = translation_prompt | llm
         response = translation_chain.invoke({"input": text.strip()})
-        translated = response.content.strip()
-        translated = clean_math_text(translated)
-        if is_likely_hebrew(text) and not is_likely_hebrew(translated):
-             return translated
-        elif not is_likely_hebrew(text):
-             return text
-        else:
-             logger.warning(f"Potential translation issue. Input: {text}, Output: {translated}")
-             return translated
+        translated = clean_math_text(response.content.strip())
+        logger.debug(f"Translation input: '{text}' -> Output: '{translated}'")
+        return translated.title()  # Normalize to title case (e.g., "Linear Functions")
     except Exception as e:
         logger.error(f"Error translating text: {str(e)}")
-        return f"[Translation Error: {text}]"
+        return text.title()  # Return original text in title case as fallback
 
 def is_likely_hebrew(text: str) -> bool:
     """Simple heuristic to check if text contains Hebrew characters."""
@@ -354,7 +352,7 @@ def get_topics(chosen_class):
     grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
     chosen_class = grade_map.get(chosen_class, chosen_class)
     return sorted(set(
-        ex["exercise_metadata"]["topic"]
+        ex["exercise_metadata"]["topic"].title()
         for ex in load_exercises()
         if grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"]) == chosen_class
     ))
@@ -775,11 +773,14 @@ class DialogueFSM:
             if section_table and isinstance(section_table, dict) and section_table.get("headers") and section_table.get("rows_data"):
                 formatted_question += f"\n\nSection Table:\n{json.dumps(section_table, ensure_ascii=False, indent=2)}"
             
-            # Return in user's preferred language
-            if self.user_language == "en" and is_likely_hebrew(q_text):
-                return translate_text_to_english(formatted_question)
+            # Check if any part of the question contains Hebrew
+            if self.user_language == "en" and (is_likely_hebrew(main_text) or is_likely_hebrew(q_text) or is_likely_hebrew(formatted_question)):
+                logger.debug(f"Translating question to English: {formatted_question}")
+                translated = translate_text_to_english(formatted_question)
+                logger.debug(f"Translated question: {translated}")
+                return translated
             return formatted_question
-        
+                    
         except Exception as e:
             logger.error(f"Error formatting question: {str(e)}")
             return self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
@@ -1668,6 +1669,7 @@ def main():
 
     # Initial transition to start the conversation
     initial_response = fsm.transition("")
+
     print(f"A_GUY: {initial_response}")
 
     while True:
