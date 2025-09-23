@@ -13,11 +13,18 @@
 
         <rect x="-10" y="-10" width="20" height="20" fill="url(#grid)"></rect>
 
-   <line x1="-10" y1="0" x2="8" y2="0" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadX)"></line>
+   <line x1="-10" y1="-1" x2="6" y2="-1" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadX)"></line>
     <line x1="0" y1="10" x2="0" y2="-7" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadY)"></line>
-    <line x1="-1" y1="1" x2="5" y2="-5" stroke="black" stroke-width="0.1"></line>
+  
+  <line x1="-1" y1="-7" x2="2" y2="2" stroke="black" stroke-width="0.1"></line>
+  <line x1="-1" y1="-6" x2="3" y2="2" stroke="black" stroke-width="0.1"></line>
+  <line x1="-1" y1="-5" x2="4" y2="0" stroke="black" stroke-width="0.1"></line>
      
-     <path d="M1 -1 L1 -2 L2 -2" stroke="red" stroke-width="0.1" fill="none" stroke-dasharray="0.2,0.2"></path>
-     <path d="M2 -2 L2 -3 L3 -3" stroke="red" stroke-width="0.1" fill="none" stroke-dasharray="0.2,0.2"></path>
+ <text x="4" y="0" text-anchor="end" fill="black" font-size="0.8" font-family="Times New Roman">(1)</text>
+ <text x="1.2" y="2" text-anchor="end" fill="black" font-size="0.8" font-family="Times New Roman">(3)</text>
+  <text x="2.4" y="1" text-anchor="end" fill="black" font-size="0.8" font-family="Times New Roman">(2)</text>
+
+
+ <circle cx="0" cy="-4" r="0.2" fill="#C00000"></circle>
 
       </svg>

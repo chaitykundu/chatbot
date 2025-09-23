@@ -22,23 +22,23 @@ import uuid
 load_dotenv(dotenv_path=Path(".env"))
 
 # Set up logging
-
+#xflogging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # -----------------------------
 # CONFIG
 # -----------------------------
-PARSED_INPUT_FILE = Path("Files/merged_output.json")
+INPUT_FILE = Path("Files/exercises_schema_v2_2025-09-22.json")  # Updated to match bot.py
 SVG_OUTPUT_DIR = Path("svg_outputs")
 SVG_OUTPUT_DIR.mkdir(exist_ok=True)
 
 # Pinecone Config
-INDEX_NAME = "exercise-embeddings"
-EMBED_DIM = 1024
+INDEX_NAME = "exercise-embedding"  # Align with index_embed PINECONE_INDEX_NAME
+EMBED_DIM = 1024  # Align with index_embed PINECONE_DIMENSION
 TOP_K_RETRIEVAL = 20
 
 # Embedding Model Config
-EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large"
+EMBEDDING_MODEL_NAME = "intfloat/multilingual-e5-large"  # Align with index_embed MODEL_NAME
 
 # Enhanced Inactivity Settings
 INACTIVITY_TIMEOUT = 60  # Increased from 30 seconds
@@ -167,41 +167,14 @@ academic_transition_prompt = ChatPromptTemplate.from_messages([
 ])
 academic_transition_chain = academic_transition_prompt | llm
 
-# New prompt for generating question and SVG
-question_svg_generation_prompt = ChatPromptTemplate.from_messages([
-    ("system", """You are a Math tutor creating a new question and SVG visualization.
-    
-    Language: Generate the question in {language} ({'Hebrew' if language == 'he' else 'English'}). Additionally, do not mismatch the language; suppose you start with english, continue in English.
-     and if you start with Hebrew, continue in Hebrew. Until the user changes the language.
-
-    Task:
-    - Generate a NEW math question for the given topic and grade.
-    - Include a corresponding SVG visualization (single <svg> element).
-    - For slope questions: Use two distinct points (e.g., (1,1) and (4,7)), calculate slope (e.g., 2).
-    - Structure output as JSON with fields: question (str), solution (str), svg (str).
-    - SVG Guidelines:
-      - Use viewBox="0 0 400 300".
-      - Include axes: x (0-10, bottom), y (0-10, left, inverted).
-      - Draw a bold blue line for the slope, add light grid, label points and axes.
-      - Ensure valid, self-contained SVG XML (no interactions).
-    - Question Guidelines:
-      - Simple, solvable, grade-appropriate (e.g., grade 7/8).
-      - Include specific points (e.g., "Find the slope of the line through (1,1) and (4,7)").
-      - Solution should show steps (e.g., "Slope = (y2-y1)/(x2-x1) = (7-1)/(4-1) = 6/3 = 2").
-    - Return ONLY the JSON object, no explanations or markdown."""),
-    ("user", "Topic: {topic}\nGrade: {grade}")
-])
-question_svg_generation_chain = question_svg_generation_prompt | llm
-
-
 # -----------------------------
 # Localization (Bilingual Support)
 # -----------------------------
 I18N = {
     "en": {
         "choose_language": "Choose language:\n1) English (default)",
-        "ask_grade": "Nice! Before we start, what grade are you in? (e.g., 7, 8)",
-        "ask_topic": "Which topic would you like to practice? (e.g., {topics})",
+        #"ask_grade": "Nice! Before we start, what grade are you in? (e.g., 7, 8)",
+        #"ask_topic": "Great! Grade {grade}. Which topic would you like to practice? (e.g., {topics})",
         "ready_for_question": "Awesome! Let's start with this exercise:",
         "hint_prefix": "💡 Hint: ",
         "solution_prefix": "✅ Solution: ",
@@ -226,12 +199,15 @@ I18N = {
         "diagnostic_last_class": "What did you cover in your last class?",
         "diagnostic_focus": "What would you like to work on today?",
         "doubt_answer_complete": "I hope that helps clarify things about {topic} for you!",
-        "lesson_closing": "Great, that was an awesome lesson! I’ll send you similar exercises for practice and see you in the next session. If you have questions, feel free to message me. And if you get stuck – just remember, you’re a genius. Bye!"
+        "lesson_closing": "Great, that was an awesome lesson! I’ll send you similar exercises for practice and see you in the next session. If you have questions, feel free to message me. And if you get stuck – just remember, you’re a genius. Bye!",
+        "invalid_topic": "Invalid topic. Please choose one of these:",
+        "invalid_class": "Invalid class. Please choose one of these:"  # Add this line
+
     },
     "he": {
         "choose_language": "בחר שפה:\n1) אנגלית (ברירת מחדל)",
-        "ask_grade": "נחמד! לפני שנתחיל, באיזו כיתה אתה? (למשל, ז, ח)",
-        "ask_topic": "מצוין! כיתה {grade}. באיזה נושא תרצה להתרגל? (לדוגמה: {topics})",
+        #"ask_grade": "נחמד! לפני שנתחיל, באיזו כיתה אתה? (למשל, ז, ח)",
+        #"ask_topic": "מצוין! כיתה {grade}. באיזה נושא תרצה להתרגל? (לדוגמה: {topics})",
         "ready_for_question": "מעולה! בואו נתחיל עם התרגיל הזה:",
         "hint_prefix": "💡 רמז: ",
         "solution_prefix": "✅ פתרון: ",
@@ -256,7 +232,10 @@ I18N = {
         "diagnostic_last_class": "מה סקרתם בשיעור האחרון שלך?",
         "diagnostic_focus": "על מה תרצה לעבוד היום?",
         "doubt_answer_complete": "אני מקווה שזה עוזר להבהיר דברים על {topic} עבורך!",
-        "lesson_closing": "נהדר, זה היה שיעור מדהים! אשלח לך תרגילים דומים לתרגול וניפגש בשיעור הבא. אם יש לך שאלות, אל תהסס לפנות אליי. ואם תיתקע – זכור, אתה גאון. להתראות!"
+        "lesson_closing": "נהדר, זה היה שיעור מדהים! אשלח לך תרגילים דומים לתרגול וניפגש בשיעור הבא. אם יש לך שאלות, אל תהסס לפנות אליי. ואם תיתקע – זכור, אתה גאון. להתראות!",
+        "invalid_topic": "נושא לא חוקי. אנא בחר אחד מהבאים:",
+        "invalid_class": "כיתה לא חוקית. אנא בחר אחת מהבאות:"  # Add this line
+
     }
 }
 
@@ -269,8 +248,8 @@ class State(Enum):
     PERSONAL_FOLLOWUP = auto()
     DIAGNOSTIC = auto()
     ACADEMIC_TRANSITION = auto()
-    ASK_GRADE = auto()
-    EXERCISE_SELECTION = auto()
+    PICK_CLASS = auto()  # New state for picking class/grade
+    PICK_TOPIC = auto()  # New state for picking topic
     QUESTION_ANSWER = auto()
     GUIDING_QUESTION = auto()
     PROVIDING_HINT = auto()
@@ -290,13 +269,30 @@ def detect_language(text: str) -> str:
 # Helper Functions-Cleantext
 # -----------------------------
 def clean_math_text(text: str) -> str:
-    if not text: return text
-    # Remove $$...$$ and $...$
-    text = re.sub(r'\$\$(.*?)\$\$', r'\1', text, flags=re.DOTALL)
+    """Remove LaTeX-style $ signs and other delimiters from math expressions."""
+    if not text:
+        return text
+    # Remove single and double dollar signs
     text = re.sub(r'\$(.*?)\$', r'\1', text, flags=re.DOTALL)
-    # (Do NOT remove backslash commands globally)
-    text = re.sub(r'\s+', ' ', text).replace('$', '')
+    text = re.sub(r'\$\$(.*?)\$\$', r'\1', text, flags=re.DOTALL)
+    
+    # Handle fractions with or without curly braces
+    def replace_fraction(match):
+        numerator = match.group(1)
+        denominator = match.group(2)
+        return f'({numerator}/{denominator})'
+    # Match \frac{num}{den} or \frac num den
+    text = re.sub(r'\\frac\s*\{?([^} ]+)\}?\s*\{?([^} ]+)\}?', replace_fraction, text)
+    
+    # Remove other LaTeX commands with arguments
+    text = re.sub(r'\\([a-zA-Z]+)\{([^}]*)\}', r'\2', text)
+    # Remove standalone LaTeX commands
+    text = re.sub(r'\\([a-zA-Z]+)', r'', text)
+    # Normalize whitespace and remove stray $
+    text = re.sub(r'\s+', ' ', text)
+    text = text.replace('$', '')
     return text.strip()
+
 
 def translate_text_to_english(text: str) -> str:
     """Translate text (likely Hebrew) to English using GenAI."""
@@ -304,79 +300,31 @@ def translate_text_to_english(text: str) -> str:
         return text
     try:
         translation_prompt = ChatPromptTemplate.from_messages([
-            ("system", "You are a precise translator. Translate the following text to English. If it's already in English, return it as is. Provide ONLY the translation."),
-            ("user", "{input}"),
+            ("system", """You are a precise translator. Translate the following text to English.
+            If it's already in English, return it unchanged with title case (e.g., 'linear functions' -> 'Linear Functions').
+            Preserve markdown formatting (e.g., **bold**, *italic*).
+            For math expressions, keep them intact (e.g., y = mx + b).
+            Provide ONLY the translated text, no extra explanations."""),
+            ("user", "{input}")
         ])
         translation_chain = translation_prompt | llm
         response = translation_chain.invoke({"input": text.strip()})
-        translated = response.content.strip()
-        translated = clean_math_text(translated)
-        if is_likely_hebrew(text) and not is_likely_hebrew(translated):
-             return translated
-        elif not is_likely_hebrew(text):
-             return text
-        else:
-             logger.warning(f"Potential translation issue. Input: {text}, Output: {translated}")
-             return translated
+        translated = clean_math_text(response.content.strip())
+        logger.debug(f"Translation input: '{text}' -> Output: '{translated}'")
+        return translated.title()  # Normalize to title case (e.g., "Linear Functions")
     except Exception as e:
         logger.error(f"Error translating text: {str(e)}")
-        return f"[Translation Error: {text}]"
-
-def translate_text_to_conversation_language(text: str, target_language: str) -> str:
-    """Translate text to match the conversation language (en or he)."""
-    if not text or not text.strip():
-        return text
-    
-    # If target language is English
-    if target_language == "en":
-        # Only translate if the text is actually in Hebrew
-        if is_likely_hebrew(text):
-            return translate_text_to_english(text)
-        else:
-            # Text is already in English (or other Latin script), return as is
-            return text
-    
-    # If target language is Hebrew
-    elif target_language == "he":
-        # Only translate if the text is in English/Latin script and not already Hebrew
-        if not is_likely_hebrew(text) and text.strip():
-            try:
-                translation_prompt = ChatPromptTemplate.from_messages([
-                    ("system", "You are a precise translator. Translate the following text to Hebrew. If it's already in Hebrew, return it as is. Provide ONLY the translation."),
-                    ("user", "{input}"),
-                ])
-                translation_chain = translation_prompt | llm
-                response = translation_chain.invoke({"input": text.strip()})
-                translated = response.content.strip()
-                translated = clean_math_text(translated)
-                return translated
-            except Exception as e:
-                logger.error(f"Error translating text to Hebrew: {str(e)}")
-                return text
-        else:
-            # Text is already in Hebrew, return as is
-            return text
-    
-    # Fallback: return original text
-    return text
+        return text.title()  # Return original text in title case as fallback
 
 def is_likely_hebrew(text: str) -> bool:
     """Simple heuristic to check if text contains Hebrew characters."""
     return any('\u0590' <= char <= '\u05FF' for char in text)
 
-def load_json(p: Path):
-    with open(p, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-def load_exercises(input_file: Path = None):
-    """Load exercises with flattening logic for nested structures."""
-    if input_file is None:
-        input_file = PARSED_INPUT_FILE  # Use default if not specified
-    
-    with open(input_file, "r", encoding="utf-8") as f:
+def load_exercises():
+    with open(INPUT_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    # Ensure we always get a flat list of dict exercises
+        # Ensure we always get a flat list of dict exercises
     exercises = []
     if isinstance(data, dict):
         exercises = [data]
@@ -387,6 +335,37 @@ def load_exercises(input_file: Path = None):
             elif isinstance(ex, list):  # flatten nested lists
                 exercises.extend([e for e in ex if isinstance(e, dict)])
     return exercises
+
+all_exercises = load_exercises()
+
+def get_classes():
+     # Normalize classes to numbers (e.g., "ז" to "7")
+    grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
+    classes = sorted(set(
+        grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"])
+        for ex in load_exercises()
+    ))
+    return classes
+
+def get_topics(chosen_class):
+    # Normalize chosen_class to number
+    grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
+    chosen_class = grade_map.get(chosen_class, chosen_class)
+    return sorted(set(
+        ex["exercise_metadata"]["topic"].title()
+        for ex in load_exercises()
+        if grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"]) == chosen_class
+    ))
+
+def get_exercises(chosen_class, chosen_topic):
+    # Normalize chosen_class to number
+    grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
+    chosen_class = grade_map.get(chosen_class, chosen_class)
+    return [
+        ex for ex in load_exercises()
+        if grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"]) == chosen_class
+        and ex["exercise_metadata"]["topic"].strip().lower() == chosen_topic.strip().lower()
+    ]
 
 try:
     embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
@@ -451,6 +430,58 @@ def describe_svg_content(svg_content: str) -> str:
     except Exception as e:
         logger.error(f"Error describing SVG content: {str(e)}")
         return "An error occurred while describing the image."
+    
+
+def save_svg_to_file(svg_content: str, filename: str) -> Optional[str]:
+    """Save SVG content to a file in the svg_outputs folder and return its path."""
+    output_dir = Path("svg_outputs")
+    output_dir.mkdir(exist_ok=True)
+    file_path = output_dir / filename
+    try:
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(svg_content)
+        print(f"SVG saved to {file_path}. Open it in a browser to view.")
+        return str(file_path)
+    except Exception as e:
+        print(f"Error saving SVG: {e}")
+        return None
+
+import re
+
+def to_markdown_steps(text: str) -> str:
+    """
+    Convert text containing 'Step N:' into a markdown numbered list.
+    Tolerates leading '**', '>', '-' etc (e.g., '**Step 1:** ...').
+    """
+    if not text:
+        return ""
+
+    # Normalize common bold markers around 'Step N:'
+    # e.g., '**Step 1:**' -> 'Step 1:'
+    normalized = re.sub(r'\*\*\s*Step\s+(\d+)\s*:\s*\*\*', r'Step \1:', text, flags=re.IGNORECASE)
+    normalized = re.sub(r'>\s*Step\s+(\d+)\s*:', r'Step \1:', normalized, flags=re.IGNORECASE)
+    normalized = re.sub(r'^\s*-\s*(Step\s+\d+\s*:)', r'\1', normalized, flags=re.IGNORECASE | re.MULTILINE)
+
+    # Robust pattern: allow spaces and ignore case
+    pattern = re.compile(
+        r'(?:^|\n)\s*Step\s*(\d+)\s*:\s*(.*?)(?=(?:\n\s*Step\s*\d+\s*:)|\Z)',
+        re.IGNORECASE | re.DOTALL
+    )
+    items = pattern.findall(normalized)
+
+    if not items:
+        # No explicit steps—just return the cleaned text (still markdown-friendly)
+        return re.sub(r'[ \t]+\n', '\n', normalized).strip()
+
+    lines = []
+    for n, content in sorted(((int(n), c) for n, c in items), key=lambda x: x[0]):
+        cleaned = re.sub(r"\s+", " ", content).strip()
+        lines.append(f"{n}. {cleaned}")
+
+    # Add a blank line before the list so markdown renderers recognize it
+    return "\n\n" + "\n".join(lines)
+
+
 
 # -----------------------------
 # Enhanced Inactivity Timer with Typing Detection
@@ -545,39 +576,85 @@ class AttemptTracker:
             return True
         return False
     
-    def generate_exercise_with_llm(topic: str, grade: str) -> Optional[Dict[str, Any]]:
-        """Generates a new exercise and SVG using a generative LLM."""
+    def generate_exercise_with_llm(topic: str, grade: str, language: str = "en") -> Optional[Dict[str, Any]]:
+        """Generate a new exercise (with SVG) directly using Gemini, without LangChain prompts."""
         try:
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            prompt = question_svg_generation_prompt.format(topic=topic, grade=grade)
+            model = genai.GenerativeModel("gemini-2.5-flash")
+
+            # Build plain-text prompt
+            prompt = f"""
+            You are a Math tutor creating a NEW exercise for grade {grade}, topic: {topic}.
+            Language: {"Hebrew" if language == "he" else "English"}
+
+            Output JSON only, no explanations, in this structure:
+            {{
+              "question": "<short math problem text>",
+              "solution": "<step by step solution>",
+              "svg": "<valid single <svg> element string>"
+            }}
+
+            SVG requirements:
+            - viewBox="0 0 400 300"
+            - include axes x (0–10) and y (0–10)
+            - grid lines
+            - plot a blue line with two distinct points labeled
+            - ensure well-formed XML <svg>…</svg>
+            """
+
             response = model.generate_content(prompt)
-            
-            # Extract and parse the JSON from the response
-            generated_json = response.text.strip('` \n').strip('json\n')
-            exercise = json.loads(generated_json)
+            raw = response.text.strip("` \n").replace("json", "")
+            data = json.loads(raw)
+
+            # Wrap into your exercise schema
+            ex_num = str(uuid.uuid4())[:8]
+            exercise = {
+                "exercise_metadata": {
+                    "exercise_number": ex_num,
+                    "exercise_type": "generated",
+                    "class": grade,
+                    "grade": grade,
+                    "topic": topic,
+                    "total_sections": 1
+                },
+                "exercise_content": {
+                    "main_data": {
+                        "text": clean_math_text(data.get("question", "")),
+                        "svg": data.get("svg")
+                    },
+                    "sections": [
+                        {
+                            "section_number": 1,
+                            "question": {"text": clean_math_text(data.get("question", ""))},
+                            "solution": {"text": clean_math_text(data.get("solution", ""))}
+                        }
+                    ]
+                }
+            }
             return exercise
+
         except Exception as e:
-            logger.error(f"❌ Error generating exercise with LLM: {e}")
+            logger.error(f"❌ Error generating exercise with Gemini: {e}", exc_info=True)
             return None
 
 # -----------------------------
 # Enhanced Dialogue FSM
 # -----------------------------
 class DialogueFSM:
-    def __init__(self, exercises_data, pinecone_index):
+    def __init__(self, exercises_data, pinecone_index,llm):
         self.state = State.START
         self.grade = None
         self.hebrew_grade = None
-        self.topic = None
+        self.llm = llm  # Store llm as an instance attribute
         self.exercises_data = exercises_data
+        self.pinecone_index = pinecone_index
+        self.topic = None
         self.current_exercise = None
         self.current_hint_index = 0
         self.current_question_index = 0
-        self.pinecone_index = pinecone_index
         self.chat_history = []
         self.current_svg_description = None
         self.recently_asked_exercise_ids = []
-        self.RECENTLY_ASKED_LIMIT = 5
+        self.RECENTLY_ASKED_LIMIT = 20
         self.small_talk_turns = 0
         self.user_language = "en"
         self.topic_exercises_count = 0   # Track number of completed exercises per topic
@@ -587,11 +664,6 @@ class DialogueFSM:
         self.personal_followup_chain = personal_followup_chain
         self.diagnostic_chain = diagnostic_chain  
         self.academic_transition_chain = academic_transition_chain
-
-        self.small_talk_question_index = 0
-        self.small_talk_responses = []  # Store user responses for small talk
-        self.diagnostic_question_index = 0
-        self.diagnostic_responses = []  # Store user responses for test, last class, and focus
 
         # Enhanced attempt tracking
         self.attempt_tracker = AttemptTracker()
@@ -606,6 +678,10 @@ class DialogueFSM:
         # SVG handling attributes
         self.current_svg_file_path = None  # Track the current SVG file
         self.svg_generated_for_question = False  # Track if SVG was generated for current question
+        self.completed_exercises = 0  # New counter for completed exercises
+        
+        # Student answers recording
+        self.student_answers = []
 
     def _start_inactivity_timer(self):
         """Start or reset the inactivity timer."""
@@ -621,10 +697,12 @@ class DialogueFSM:
             self._send_inactivity_message(lang_dict["session_timeout"])
     
     def _send_inactivity_message(self, message):
-        logger.info(f"[INACTIVITY TIMEOUT] {message}")
+          print(f"\nA_GUY (auto): {message}")
+          self.chat_history.append(AIMessage(content=message))
 
     @staticmethod
     def _translate_grade_to_hebrew(grade_num: str) -> str:
+        """Translate numeric grade to Hebrew equivalent."""
         grade_map = {"7": "ז", "8": "ח"}
         return grade_map.get(grade_num, grade_num)
 
@@ -635,8 +713,11 @@ class DialogueFSM:
         return text.format(**kwargs) if kwargs else text
     
     def _extract_grade_from_input(self, text: str) -> Optional[str]:
-        """Extract grade number (7/8 or Hebrew equivalent) from user input using regex."""
+        """Extract grade/class number (7/8 or Hebrew equivalent) from user input using regex."""
         import re
+
+        # Normalize input to handle "grade" or "class"
+        text = text.lower().replace("class", "grade").strip()
         
         # English grades: 7 or 8 (case-insensitive, whole word)
         english_match = re.search(r'\b(7|8)\b', text, re.IGNORECASE)
@@ -650,280 +731,351 @@ class DialogueFSM:
             hebrew_char = hebrew_match.group(1)
             return hebrew_map.get(hebrew_char, None)
         
+        # Handle phrases like "grade 7", "class 7", "כיתה ז"
+        phrase_match = re.search(r'(?:grade|class|כיתה)\s*(\d+|ז|ח)', text, re.IGNORECASE)
+        if phrase_match:
+            value = phrase_match.group(1)
+            return hebrew_map.get(value, value) if value in hebrew_map else value if value in ["7", "8"] else None
+        
         return None
+    
+    # Add the new function here or with other helper methods
+    def _get_grade_key(self, metadata: dict) -> Optional[str]:
+        """
+        Retrieves the grade from exercise metadata, checking for 'grade' and 'class' keys.
+        """
+        # Prioritize the 'grade' key if it exists, otherwise fall back to 'class'
+        grade_key = metadata.get("grade")
+        if grade_key is None:
+            grade_key = metadata.get("class")
+        return grade_key
+    
+    def _extract_metadata(self, exercise: Any) -> Optional[Dict]:
+        # Assuming this is the truncated part, I'll assume it's defined or add placeholder
+        # For completeness, let's assume it's to extract metadata
+        return exercise.get("exercise_metadata", None)
+    
+    def _save_svg(self, svg_content: str) -> Optional[str]:
+        """Save SVG content to a file and return its path."""
+        if not svg_content:
+            return None
+        filename = f"exercise_{self.current_exercise['exercise_metadata']['exercise_number']}_q{self.current_question_index}.svg"
+        return save_svg_to_file(svg_content, filename)
 
-    def _generate_grade_acknowledgment(self, user_input: str, grade: str) -> str:
-        """Generate AI-based acknowledgment for grade selection."""
+    def _get_current_question(self) -> str:
+        if not self.current_exercise or "exercise_content" not in self.current_exercise:
+            return self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
+        
         try:
-            acknowledgment_prompt = ChatPromptTemplate.from_messages([
-                ("system", f"""You are a friendly Math AI tutor acknowledging a student's grade selection.
+            meta = self.current_exercise.get("exercise_metadata", {})
+            content = self.current_exercise.get("exercise_content", {})
+            sections = content.get("sections", [])
+            
+            if self.current_question_index >= len(sections):
+                return ""
+            
+            main_data = content.get("main_data", {})
+            main_text = main_data.get("text", "")
+            section = sections[self.current_question_index]
+            q_text = section.get("question", {}).get("text", "")
+            
+            # Clean math text
+            main_text = clean_math_text(main_text)
+            q_text = clean_math_text(q_text)
+            
+            # Format the question output
+            formatted_question = (
+                 f"\n📘 Next Question {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
+                 f"\nMain Text: {main_text}\n"
+                 f"\n❓ Section {section.get('section_number', 'N/A')} - {q_text}"
+            )
+            
+            # Handle question table if available
+            question_table = section.get("question", {}).get("table")
+            if question_table and isinstance(question_table, dict) and question_table.get("headers") and question_table.get("rows_data"):
+                # Format table as a markdown-like string for readability
+                headers = question_table["headers"]
+                rows = question_table["rows_data"]
                 
-                Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
+                # Calculate column widths for alignment
+                col_widths = [max(len(str(cell)) for row in [headers] + rows for cell in row)]
+                for row in rows:
+                    for i, cell in enumerate(row):
+                        col_widths[i] = max(col_widths[i], len(str(cell)))
                 
-                Guidelines:
-                - Acknowledge the user's input warmly and briefly (1 sentence, 5-10 words)
-                - Mention the grade they selected
-                - Be encouraging and conversational
-                - Examples: 'Great, grade 8 sounds awesome!', 'Nice choice, grade 7!'
-                - Return ONLY the acknowledgment sentence
-                """),
-                MessagesPlaceholder(variable_name="chat_history"),
-                ("user", "User input: {input}\nSelected grade: {grade}")
-            ])
-            acknowledgment_chain = acknowledgment_prompt | llm
-            response = acknowledgment_chain.invoke({
-                "chat_history": self.chat_history[-3:],
-                "input": user_input,
-                "grade": grade
-            })
+                # Build table string
+                table_str = "\n\nTable:\n"
+                # Header row
+                header_row = " | ".join(f"{h:<{w}}" for h, w in zip(headers, col_widths))
+                table_str += header_row + "\n"
+                table_str += "-|-".join("-" * w for w in col_widths) + "\n"
+                # Data rows
+                for row in rows:
+                    row_str = " | ".join(f"{cell:<{w}}" for cell, w in zip(row, col_widths))
+                    table_str += row_str + "\n"
+                
+                formatted_question += table_str
+
+            # --- Section-level SVG (prefer showing alongside main) ---
+                section_svg = section.get("question", {}).get("svg")
+                if section_svg:
+                    sec_filename = f"exercise_{meta.get('exercise_number','N')}_sec{section.get('section_number','N')}_q{self.current_question_index}_section.svg"
+                    sec_svg_path = save_svg_to_file(section_svg, sec_filename)
+                    if sec_svg_path:
+                        formatted_question += f"\n\n[Section SVG: {sec_svg_path}]"
+                        sec_desc = describe_svg_content(section_svg)
+                        formatted_question += f"\n\nImage Description (Section): {sec_desc}"
+
+            
+            # Add SVG reference if available
+            main_svg = main_data.get("svg")
+            if main_svg and not self.svg_generated_for_question:
+                self.current_svg_file_path = self._save_svg(main_svg)
+                if self.current_svg_file_path:
+                    formatted_question += f"\n\n[See visualization in SVG file: {self.current_svg_file_path}]"
+                    self.current_svg_description = describe_svg_content(main_svg)
+                    formatted_question += f"\n\nImage Description: {self.current_svg_description}"
+                self.svg_generated_for_question = True
+            
+            # Add main table if available
+            main_table = main_data.get("table")
+            if main_table and isinstance(main_table, dict) and main_table.get("headers") and main_table.get("rows_data"):
+                # Format main table similarly
+                headers = main_table["headers"]
+                rows = main_table["rows_data"]
+                col_widths = [max(len(str(cell)) for row in [headers] + rows for cell in row)]
+                for row in rows:
+                    for i, cell in enumerate(row):
+                        col_widths[i] = max(col_widths[i], len(str(cell)))
+                
+                table_str = "\n\nMain Table:\n"
+                header_row = " | ".join(f"{h:<{w}}" for h, w in zip(headers, col_widths))
+                table_str += header_row + "\n"
+                table_str += "-|-".join("-" * w for w in col_widths) + "\n"
+                for row in rows:
+                    row_str = " | ".join(f"{cell:<{w}}" for cell, w in zip(row, col_widths))
+                    table_str += row_str + "\n"
+                
+                formatted_question += table_str
+            
+            # Handle bilingual output
+            if self.user_language == "en" and (is_likely_hebrew(main_text) or is_likely_hebrew(q_text) or is_likely_hebrew(formatted_question)):
+                logger.debug(f"Translating question to English: {formatted_question}")
+                translated = translate_text_to_english(formatted_question)
+                logger.debug(f"Translated question: {translated}")
+                return translated
+            return formatted_question
+                    
+        except Exception as e:
+            logger.error(f"Error formatting question: {str(e)}")
+            return self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
+
+    def _get_current_solution(self) -> str:
+        content = self.current_exercise["exercise_content"]
+        sec = content["sections"][self.current_question_index]
+        sol_text = ""
+        
+        # Handle solution text
+        solution = sec.get("solution")
+        if solution and isinstance(solution, dict):
+            sol = solution.get("text")
+            if sol:
+                sol_text += clean_math_text(sol) + "\n\n"
+        
+        # Handle full solution text
+        full_solution = sec.get("full_solution")
+        if full_solution and isinstance(full_solution, dict):
+            full_sol = full_solution.get("text")
+            if full_sol:
+                sol_text += clean_math_text(full_sol) + "\n\n"
+
+        # Handle solution table
+        if solution and isinstance(solution, dict):
+            sol_table = solution.get("table")
+            if sol_table and isinstance(sol_table, dict) and sol_table.get("headers") and sol_table.get("rows_data"):
+                sol_text += "Solution Table:\n" + json.dumps(sol_table, ensure_ascii=False) + "\n\n"
+        
+        # Handle full solution table
+        if full_solution and isinstance(full_solution, dict):
+            full_sol_table = full_solution.get("table")
+            if full_sol_table and isinstance(full_sol_table, dict) and full_sol_table.get("headers") and full_sol_table.get("rows_data"):
+                sol_text += "Full Solution Table:\n" + json.dumps(full_sol_table, ensure_ascii=False) + "\n\n"
+
+        if not sol_text:
+            return "No solution available."
+
+        # Return in user's preferred language
+        if self.user_language == "en":
+            return translate_text_to_english(sol_text)
+        return sol_text
+    
+    def _generate_lesson_summary(self) -> str:
+        closing_prompt = ChatPromptTemplate.from_messages([
+            ("system", """You are a friendly math tutor closing a short session.
+            Write a 2–3 sentence positive summary of the lesson.
+            End with a light humorous encouragement."""),
+            MessagesPlaceholder(variable_name="chat_history"),
+            ("user", "Summarize the lesson we just completed.")
+        ])
+        summary_chain = closing_prompt | llm
+        try:
+            response = summary_chain.invoke({"chat_history": self.chat_history[-10:]})
             return clean_math_text(response.content.strip())
         except Exception as e:
-            logger.error(f"Error generating grade acknowledgment: {e}")
-            return f"Got it, grade {grade} is perfect!" if self.user_language == "en" else f"מצוין, כיתה {self._translate_grade_to_hebrew(grade)} נהדרת!"
+            logger.error(f"Error generating lesson summary: {e}")
+            return "Great job today! You tackled some tough problems with confidence."
 
-    def _generate_ai_small_talk(self, user_input: str = "") -> str:
-        """Generate AI-based small talk response."""
-        try:
-            response = self.small_talk_chain.invoke({
-                "chat_history": self.chat_history[-3:],
-                "input": user_input or ""
-            })
-            return clean_math_text(response.content.strip())  # Clean small talk response
-        except Exception as e:
-            logger.error(f"Error generating AI small talk: {e}")
-            return "Hey! How's it going today?"
-
-    def _generate_ai_personal_followup(self, user_input: str = "") -> str:
-        """Generate AI-based personal follow-up response."""
-        try:
-            response = self.personal_followup_chain.invoke({
-                "chat_history": self.chat_history[-3:],
-                "input": user_input or ""
-            })
-            return clean_math_text(response.content.strip())  # Clean personal talk response
-        except Exception as e:
-            logger.error(f"Error generating AI personal follow-up: {e}")
-            return "That's interesting! How was your day yesterday?"
-        
-    def _get_small_talk_question(self) -> str:
-        """Get the small talk question (only hobbies)."""
-        return self._get_localized_text("small_talk_hobbies")
-        
-    def _get_diagnostic_question(self) -> str:
-        """Get the current diagnostic question based on index."""
-        diagnostic_questions = [
-            self._get_localized_text("diagnostic_test"),
-            self._get_localized_text("diagnostic_last_class"),
-            self._get_localized_text("diagnostic_focus")
+    def _pick_new_exercise(self, grade: str, topic: Optional[str] = None):
+        exercises = get_exercises(grade, topic) if topic else [
+            ex for ex in all_exercises if ex["exercise_metadata"]["class"] == grade
         ]
-        return diagnostic_questions[self.diagnostic_question_index]
+        if not exercises:
+            # No dataset exercises → generate new one
+            self.current_exercise = self.attempt_tracker.generate_exercise_with_llm(topic or "geometry", grade)
+            if not self.current_exercise:
+                return None
+            self.current_svg_file_path = self._save_svg(self.current_exercise.get("svg"))
+            self.svg_generated_for_question = True
+        else:
+            # Only pick exercises not used before
+            available = [ex for ex in exercises if ex["exercise_metadata"]["exercise_number"]
+                        not in self.recently_asked_exercise_ids]
+            
+            if not available:
+                # 🚫 Do NOT reset to all exercises → this prevents repetition
+                return None   # signal that all exercises are exhausted
 
-    def _generate_academic_transition(self, user_input: str = "") -> str:
-        """Generate AI-based academic transition response."""
-        try:
-            response = self.academic_transition_chain.invoke({
-                "chat_history": self.chat_history[-3:],
-                "input": user_input or ""
-            })
-            return clean_math_text(response.content.strip())  # Clean small talk response
-        except Exception as e:
-            logger.error(f"Error generating academic transition: {e}")
-            return "By the way, what have you been learning lately?"
+            self.current_exercise = random.choice(available)
 
-    def _generate_guiding_question(self, user_answer: str, question: str, context: str) -> str:
-        """Generate a guiding question to help student think through the problem."""
+            # Save SVG if it exists
+            main_svg = self.current_exercise.get("exercise_content", {}).get("main_data", {}).get("svg")
+            if main_svg:
+                self.current_svg_file_path = self._save_svg(main_svg)
+                self.svg_generated_for_question = True
+
+            # If geometric exercise requires SVG but missing, generate new one
+            question_text = self.current_exercise["exercise_content"]["sections"][0].get("question", {}).get("text", "")
+            if ("parallel" in question_text.lower() or "axes" in question_text.lower() or "segment" in question_text.lower()) and not main_svg:
+                self.current_exercise = self.attempt_tracker.generate_exercise_with_llm(topic or "geometry", grade)
+                if self.current_exercise:
+                    self.current_svg_file_path = self._save_svg(self.current_exercise.get("svg"))
+                    self.svg_generated_for_question = True
+
+        # Track used exercises
+        if self.current_exercise:
+            self.recently_asked_exercise_ids.append(
+                self.current_exercise["exercise_metadata"]["exercise_number"]
+            )
+            if len(self.recently_asked_exercise_ids) > self.RECENTLY_ASKED_LIMIT:
+                self.recently_asked_exercise_ids.pop(0)
+
+            # Reset state
+            self.current_question_index = 0
+            self.current_hint_index = 0
+            self.attempt_tracker.reset()
+            self.student_answers = []
+
+        return self.current_exercise
+
+    
+
+    def _move_to_next_exercise_or_question(self) -> str:
+        """Moves to the next question in the current exercise or to a new exercise."""
+        if not self.current_exercise or "exercise_content" not in self.current_exercise:
+            self.state = State.PICK_TOPIC
+            self.current_exercise = None
+            self.current_question_index = 0
+            self.svg_generated_for_question = False
+            self.completed_exercises = 0  # Reset counter if no exercise
+            return self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
+        
+        sections = self.current_exercise.get("exercise_content", {}).get("sections", [])
+        self.current_question_index += 1
+        
+        if self.current_question_index < len(sections):
+            # Move to the next question in the current exercise
+            self.state = State.QUESTION_ANSWER
+            self.attempt_tracker.reset()  # Reset attempts for the new question
+            self.svg_generated_for_question = False  # Allow new SVG for the next question
+            return f"\n{self._get_current_question()}"
+        else:
+            # Exercise completed, increment counter
+            self.completed_exercises += 1
+            self.current_question_index = 0  # Reset for new exercise
+            self.svg_generated_for_question = False
+            
+            if self.completed_exercises < 2:
+                new_ex = self._pick_new_exercise(self.hebrew_grade, self.topic)
+                if not new_ex:
+                    self.state = State.PICK_TOPIC
+                    return "✅ You’ve finished all available exercises for this topic! Want to try another topic?"
+                self.state = State.QUESTION_ANSWER
+                return f"\nGreat job! Let's try another exercise:\n{self._get_current_question()}"
+
+            else:
+                # At least 2 exercises completed, move to ASK_FOR_DOUBTS
+                self.state = State.ASK_FOR_DOUBTS
+                topic_name = self.topic or "this topic"
+                return f"\n{self._get_localized_text('ask_for_doubts', topic=topic_name)}"
+            
+    def _generate_doubt_clearing_response(self, user_question: str) -> str:
+        """Generate response to clear student's doubts using RAG."""
         try:
-            guiding_prompt = ChatPromptTemplate.from_messages([
-                ("system", f"""You are a Math AI tutor. Generate a guiding question to help the student think through the problem step by step.
+            # Translate the question if needed
+            translated_question = translate_text_to_english(user_question) if self.user_language == "en" else user_question
+            
+            # Retrieve relevant context for the doubt
+            retrieved_context = retrieve_relevant_chunks(
+                translated_question,
+                self.pinecone_index,
+                grade=self.hebrew_grade,
+                topic=self.topic if self.topic and self.topic.lower() not in ["anyone", "any", "anything", "random", "whatever", "any topic"] else None
+            )
+            
+            context_str = "\n".join([c.get("text", "") for c in retrieved_context if c.get("text")])
+            context_str = clean_math_text(context_str)  # Clean context
+            
+            # Create a doubt-clearing prompt
+            doubt_clearing_prompt = ChatPromptTemplate.from_messages([
+                ("system", f"""You are a helpful Math AI tutor addressing a student's doubt or question.
                 
                 Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
                 
                 Guidelines:
-                - Ask a question that guides them toward the solution
-                - Don't give away the answer directly
-                - Focus on the mathematical concept or method
-                - Be encouraging and supportive
-                - Keep it concise (1-2 sentences)
-                
-                Example guiding questions:
-                - "What operation should we use first?"
-                - "Can you identify what type of equation this is?"
-                - "What do you think the first step should be?"
+                - Provide clear, detailed explanations
+                - Use the context to give accurate information
+                - Be patient and encouraging
+                - Break down complex concepts into simple steps
+                - If context doesn't contain relevant information, acknowledge this
+                - Start with encouragement
+                - Give step-by-step explanation
+                - Use examples from context when available
+                - End with confirmation question
                 """),
                 MessagesPlaceholder(variable_name="chat_history"),
-                ("user", "Problem: {question}\nStudent's Answer: {answer}\nContext: {context}\n\nGenerate a helpful guiding question:")
+                ("user", "Student's Question: {question}\n\nRelevant Context: {context}")
             ])
             
-            guiding_chain = guiding_prompt | llm
-            response = guiding_chain.invoke({
-                "chat_history": self.chat_history[-3:],
-                "question": question,
-                "answer": user_answer,
-                "context": context
+            doubt_clearing_chain = doubt_clearing_prompt | llm
+            response = doubt_clearing_chain.invoke({
+                "chat_history": self.chat_history[-5:],
+                "question": translated_question,
+                "context": context_str
             })
             
-            return clean_math_text(response.content.strip())  # Clean guiding question
+            topic_name = self.topic or "this topic"
+            intro = self._get_localized_text("doubt_clearing_intro", topic=topic_name)
+            return f"{intro}\n\n{clean_math_text(response.content.strip())}"
+            
         except Exception as e:
-            logger.error(f"Error generating guiding question: {e}")
-            guiding_text = self._get_localized_text("guiding_question")
-            return f"{guiding_text}What do you think the first step should be?"
-        
-    def _generate_question_and_svg_with_llm(self, topic: str, grade: str) -> Optional[Dict[str, Any]]:
-            """Generate a new question and SVG using LLM."""
-            try:
-                response = question_svg_generation_chain.invoke({
-                    "topic": topic,
-                    "grade": grade,
-                    "language": self.user_language
-                })
-                result = json.loads(response.content.strip())
-                if not all(key in result for key in ["question", "solution", "svg"]):
-                    logger.error("Incomplete JSON from LLM: missing question, solution, or svg")
-                    return None
-                if not result["svg"].startswith('<svg') or not result["svg"].endswith('</svg>'):
-                    logger.error("Invalid SVG generated by LLM")
-                    return None
-                return {
-                    "canonical_exercise_id": f"generated_{uuid.uuid4().hex}",
-                    "grade": grade,
-                    "topic": topic,
-                    "text": {
-                        "question": [result["question"]],
-                        "solution": [result["solution"]],
-                        "hint": []  # No hints for generated questions
-                    },
-                    "svg": [result["svg"]]
-                }
-            except Exception as e:
-                logger.error(f"Error generating question and SVG with LLM: {e}")
-                return None
-
-    def _generate_progressive_hint(self, hint_level: int = 0) -> Optional[str]:
-        """Generate progressive hints based on level."""
-        if not self.current_exercise:
-            return None
-        
-        # Check if it's a local exercise (merged_output.json format)
-        if "exercise_content" in self.current_exercise:
-            exercise_content = self.current_exercise["exercise_content"]
-            sections = exercise_content.get("sections", [])
-            
-            if not sections or not (0 <= self.current_question_index < len(sections)):
-                return None
-            
-            current_section = sections[self.current_question_index]
-            hint_text = current_section.get("hint", {}).get("text", "")
-            
-            if hint_text:
-                hint_text = clean_math_text(hint_text)
-                return translate_text_to_conversation_language(hint_text, self.user_language)
-            return None
-        
-        # Fallback for original RAG exercise format
-        if (self.current_exercise and
-            self.current_exercise.get("text", {}).get("hint") and
-            isinstance(self.current_exercise["text"]["hint"], list)):
-            
-            hints = self.current_exercise["text"]["hint"]
-            if hint_level < len(hints):
-                hint_text = hints[hint_level]  # Remove commas and $ for consistency
-                hint_text = clean_math_text(hint_text)  # ← remove $
-                return translate_text_to_conversation_language(hint_text, self.user_language)
-        return None
-
-    def _evaluate_answer_with_guidance(self, user_input: str, question: str, solution: str, context: str) -> Dict[str, Any]:
-        """Enhanced answer evaluation with progressive guidance system."""
-        evaluation_prompt = ChatPromptTemplate.from_messages([
-            ("system", f"""You are a Math AI tutor evaluating a student's answer.
-            
-            Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
-            
-            Evaluation Guidelines:
-            1. Determine if the answer is CORRECT or INCORRECT
-            2. If INCORRECT, identify the specific mistake or misconception
-            3. Provide encouragement regardless of correctness
-            4. DO NOT reveal the correct answer
-            5. Be supportive and educational
-            
-            Response Format:
-            CORRECT: [brief encouraging comment]
-            OR
-            SORRY: [brief explanation of what went wrong without giving the answer]
-            """),
-            MessagesPlaceholder(variable_name="chat_history"),
-            ("user", "Question: {question}\nStudent Answer: {answer}\nContext: {context}\n\nEvaluate the answer:")
-        ])
-        
-        evaluation_chain = evaluation_prompt | llm
-        try:
-            eval_response = evaluation_chain.invoke({
-                "chat_history": self.chat_history[-4:],
-                "question": question,
-                "answer": user_input,
-                "context": context
-            })
-            
-            evaluation_result = clean_math_text(eval_response.content.strip())  # Clean evaluation response
-            is_correct = evaluation_result.lower().startswith("correct:")
-            
-            return {
-                "is_correct": is_correct,
-                "feedback": evaluation_result,
-                "needs_guidance": not is_correct
-            }
-        except Exception as e:
-            logger.error(f"Error in answer evaluation: {e}")
-            return {
-                "is_correct": False,
-                "feedback": "I couldn't evaluate your answer right now.",
-                "needs_guidance": True
-            }
-
-    def _provide_progressive_guidance(self, user_input: str, question: str, context: str, is_forced: bool = False) -> str:
-        """Provide progressive guidance based on attempts and current guidance level."""
-        lang_dict = I18N[self.user_language]
-        
-        if self.attempt_tracker.guidance_level == 0:  # Encouragement
-            
-            self.attempt_tracker.guidance_level = 1
-            self.state = State.GUIDING_QUESTION
-            
-            guiding_q = self._generate_guiding_question(user_input, question, context)
-            guiding_prefix = lang_dict["guiding_question"]
-    
-            return f"{guiding_prefix}{guiding_q}"
-            
-        elif self.attempt_tracker.guidance_level == 1:  # Second Guiding Question
-            self.attempt_tracker.guidance_level = 2
-            self.state = State.GUIDING_QUESTION
-            # Generate a different guiding question, possibly using more context or rephrasing
-            guiding_q = self._generate_guiding_question(user_input, question, context)
-            guiding_prefix = lang_dict["guiding_question"]
-            return f"{guiding_prefix}{guiding_q}"
-
-        elif self.attempt_tracker.guidance_level == 2:  # Hint
-            if not is_forced and not self.attempt_tracker.can_provide_hint():
-                return f"{lang_dict['encouragement']}{lang_dict['try_again']}"
-            self.attempt_tracker.guidance_level = 3
-            self.state = State.PROVIDING_HINT
-            hint = self._generate_progressive_hint(0)
-            if hint:
-                hint_prefix = lang_dict["hint_prefix"]
-                return f"{hint_prefix}{hint}"
-            else:
-                self.attempt_tracker.guidance_level = 4
-                return self._get_current_solution()
-                
-        else:  # guidance_level >= 3, provide solution
-            solution_prefix = lang_dict["solution_prefix"]
-            solution = self._get_current_solution()
-            return f"{solution_prefix}{solution}\n\n{self._move_to_next_exercise_or_question()}"
+            logger.error(f"Error generating doubt clearing response: {e}")
+            return "I'd be happy to help with your question, but I'm having trouble processing it right now. Could you try asking it in a different way?"
 
     def _handle_hint_request(self, user_input: str) -> str:
-        """Handle explicit hint requests by providing guiding questions."""
-        lang_dict = I18N[self.user_language]
-        
-        # Get current question context
+        """Always provide progressive guidance when hint is requested."""
+        self.attempt_tracker.has_requested_hint = True
+        self.state = State.PROVIDING_HINT
+
         current_question = self._get_current_question()
         retrieved_context = retrieve_relevant_chunks(
             f"Question: {current_question} User's Answer: {user_input}",
@@ -932,11 +1084,18 @@ class DialogueFSM:
             topic=self.topic if self.topic and self.topic.lower() not in ["anyone", "any", "anything", "random", "whatever", "any topic"] else None
         )
         context_str = "\n".join([c.get("text", "") for c in retrieved_context if c.get("text")])
-        context_str = clean_math_text(context_str)  # Clean context
-        
-        # Instead of checking attempts, provide progressive guidance
-        return self._provide_progressive_guidance(user_input, current_question, context_str, is_forced=True)
+        context_str = clean_math_text(context_str)
+        if getattr(self, "current_svg_description", None):
+            context_str += f"\n\nImage Description: {self.current_svg_description}"
 
+        guidance = self._provide_progressive_guidance(
+            user_input=user_input,  # Changed from user_answer to user_input
+            question=current_question,
+            context=context_str,
+            is_forced=True  # ensure >= level 1
+        )
+        return guidance
+    
     def _handle_solution_request(self, user_input: str) -> str:
         """Handle explicit solution requests by providing guiding questions first."""
         lang_dict = I18N[self.user_language]
@@ -945,6 +1104,9 @@ class DialogueFSM:
         current_question = self._get_current_question()
         current_solution = self._get_current_solution()
         
+        # If they haven't gone through the guidance sequence, provide guiding questions first
+        #if self.attempt_tracker.guidance_level < 2:  # Less than hint level
+            # To this:
         if self.attempt_tracker.guidance_level < 3:  # Haven't completed guiding questions + hint
             current_question = self._get_current_question()
             retrieved_context = retrieve_relevant_chunks(
@@ -955,6 +1117,8 @@ class DialogueFSM:
             )
             context_str = "\n".join([c.get("text", "") for c in retrieved_context if c.get("text")])
             context_str = clean_math_text(context_str)  # Clean context
+            #if self.current_svg_description:
+                #context_str += f"\n\nImage Description: {self.current_svg_description}"
             
             # Provide guiding question instead of direct solution
             encouragement = lang_dict["encouragement"]
@@ -1000,7 +1164,11 @@ class DialogueFSM:
                     "solution": solution
                 })
                 
-                explanation = clean_math_text(response.content.strip())  # Clean explanation
+                explanation = clean_math_text(response.content.strip())
+                
+                # ✅ Turn the explanation into markdown steps
+                steps_md = to_markdown_steps(explanation)
+                result = f"{solution_prefix}\n{steps_md}"
                 
                 # Generate NEW SVG for solution explanation
                 svg_reference = ""
@@ -1008,8 +1176,10 @@ class DialogueFSM:
                     svg_reference = self._generate_and_save_svg(for_solution_explanation=True)
                 
                 result = f"{solution_prefix}{solution}\n\n{explanation}"
+    
                 if svg_reference:
                     result += f"\n{svg_reference}"
+                result +="\n\n"
                 result += self._move_to_next_exercise_or_question()
                 return result
                 
@@ -1018,578 +1188,216 @@ class DialogueFSM:
                 result = f"{solution_prefix}{solution}"
                 result += self._move_to_next_exercise_or_question()
                 return result
-
-    def _reset_attempt_tracking(self):
-        """Reset attempt tracking for new exercise."""
-        self.attempt_tracker.reset()
-        # Reset SVG tracking for new question/exercise
-        self.svg_generated_for_question = False
-        self.current_svg_file_path = None
-
-    def _get_exercise_by_id(self, exercise_id: str) -> Optional[Dict[str, Any]]:
-        # Try to find by canonical_exercise_id first (for generated exercises)
-        for ex in self.exercises_data:
-            if isinstance(ex, dict) and ex.get("canonical_exercise_id") == exercise_id:
-                return ex
-        
-        # For loaded exercises, create an ID from metadata
-        for ex in self.exercises_data:
-            if isinstance(ex, dict) and "exercise_metadata" in ex:
-                metadata = ex["exercise_metadata"]
-                generated_id = f"{metadata.get('class', '')}_{metadata.get('lesson_number', '')}_{metadata.get('exercise_number', '')}"
-                if generated_id == exercise_id:
-                    return ex
-        
-        return None
-
-    def _find_matching_topic(self, user_topic: str, grade: str) -> Optional[str]:
-        """Find a matching Hebrew topic for user input."""
-        # Get available topics for the grade
-        available_topics = []
+            
+    def _generate_progressive_hint(self, hint_index: int) -> str:
+        """Generate a progressive hint for the current question."""
         try:
-            for ex in self.exercises_data:
-                if isinstance(ex, dict) and ex.get("exercise_metadata", {}).get("class") == grade:
-                    topic = ex.get("exercise_metadata", {}).get("topic", "")
-                    if topic and topic not in available_topics:
-                        available_topics.append(topic)
-        except Exception as e:
-            logger.error(f"Error getting available topics: {e}")
-            return None
-        
-        if not available_topics:
-            return None
-        
-        # Create English-to-Hebrew mappings for user input matching
-        topic_mappings = {
-            # English terms that users might type -> Hebrew topics
-            "coordinate system": ["מערכת צירים", "מערכת צירים ומשוואות (חזרה)"],
-            "coordinate": ["מערכת צירים", "מערכת צירים ומשוואות (חזרה)"],
-            "equation of a line": ["משוואת ישר", "משוואת ישר ושיפוע"],
-            "equation": ["משוואת ישר", "משוואת ישר ושיפוע"],
-            "line": ["משוואת ישר", "משוואת ישר ושיפוע", "הצגה של ישר "],
-            "slope": ["משוואת ישר ושיפוע", "מציאת שיפוע ונקודת חיתוך עם ציר Y", "פונקציות - שיפוע ומשוואת ישר"],
-            "linear functions": ["פונקציות לינאריות"],
-            "functions": ["פונקציות לינאריות", "פונקציות - משוואת ישר מנקודות", "פונקציות - שיפוע ומשוואת ישר"],
-            "line representation": ["הצגה של ישר "],
-            "representation": ["הצגה של ישר "],
-            "parallelogram": ["מקבילית"],
-            "y-intercept": ["מציאת שיפוע ונקודת חיתוך עם ציר Y"],
-            "intercept": ["מציאת שיפוע ונקודת חיתוך עם ציר Y"]
-        }
-        
-        user_lower = user_topic.lower().strip()
-        
-        # Direct mapping check
-        for english_key, hebrew_topics in topic_mappings.items():
-            if english_key in user_lower:
-                for hebrew_topic in hebrew_topics:
-                    if hebrew_topic in available_topics:
-                        return hebrew_topic
-        
-        # Fuzzy matching for Hebrew input
-        if any(ord(char) > 127 for char in user_topic):  # Contains non-ASCII (Hebrew)
-            for topic in available_topics:
-                if user_topic.strip() in topic or topic in user_topic.strip():
-                    return topic
-        
-        # Return first available topic if no match found
-        return available_topics[0] if available_topics else None
-
-    def _get_english_topic_mapping(self, hebrew_topic: str) -> str:
-        """Map Hebrew topics to their English equivalents using predefined mappings."""
-        topic_mappings = {
-            # Grade 7 topics
-            "מערכת צירים": "Coordinate system",
-            "מקבילית": "Parallelogram",
-            
-            # Grade 8 topics (in order as they appear in JSON)
-            "מערכת צירים ומשוואות (חזרה)": "Coordinate system and equations (review)",
-            "הצגה של ישר ": "Line representation",  # Note: includes trailing space
-            "משוואת ישר ושיפוע": "Equation of a line and slope", 
-            "פונקציות - משוואת ישר מנקודות": "Functions - Equation of a line from points",
-            "פונקציות - שיפוע ומשוואת ישר": "Functions - Slope and equation of a line",
-            "משוואת ישר": "Equation of a line",
-            "פונקציות לינאריות": "Linear functions",
-            "מציאת שיפוע ונקודת חיתוך עם ציר Y": "Finding slope and Y-intercept"
-        }
-        
-        return topic_mappings.get(hebrew_topic, hebrew_topic)
-
-    def _pick_new_exercise_rag(self, query: str, grade: str = None, topic: str = None):
-        """Retrieve relevant exercises using RAG, with local fallback."""
-        
-        # Try RAG first only if Pinecone is available
-        if self.pinecone_index:
-            try:
-                relevant_chunks = retrieve_relevant_chunks(query, self.pinecone_index, grade=grade, topic=topic)
-                
-                if relevant_chunks:
-                    all_exercise_ids = list(set(chunk["exercise_id"] for chunk in relevant_chunks))
-                    if all_exercise_ids:
-                        # Filter out recently asked exercises
-                        available_exercise_ids = [ex_id for ex_id in all_exercise_ids if ex_id not in self.recently_asked_exercise_ids]
-
-                        if not available_exercise_ids:
-                            logger.info("All retrieved exercises were recently asked. Clearing history.")
-                            self.recently_asked_exercise_ids.clear()
-                            available_exercise_ids = all_exercise_ids
-
-                        if available_exercise_ids:
-                            chosen_exercise_id = random.choice(available_exercise_ids)
-                            self.current_exercise = self._get_exercise_by_id(chosen_exercise_id)
-                            
-                            if self.current_exercise:
-                                logger.info(f"Selected exercise via RAG: {chosen_exercise_id}")
-                                self._setup_selected_exercise(chosen_exercise_id)
-                                return
-            except Exception as e:
-                logger.warning(f"RAG retrieval failed: {e}, falling back to local exercises")
-        
-        # Fallback to local exercises from merged_output.json
-        logger.info("Using local exercises as primary source")
-        self._pick_local_exercise(grade=grade, topic=topic)
-
-    def _pick_local_exercise(self, grade: str = None, topic: str = None):
-        """Pick exercise from local JSON files (merged_output.json)."""
-        if not self.exercises_data:
-            logger.error("No local exercises data available")
-            self.current_exercise = None
-            return
-        
-        # Filter exercises by grade and topic
-        filtered_exercises = []
-        for ex in self.exercises_data:
-            if not isinstance(ex, dict) or "exercise_metadata" not in ex:
-                continue
-                
-            metadata = ex["exercise_metadata"]
-            
-            # Check grade match
-            if grade and metadata.get("class") != grade:
-                continue
-                
-            # Check topic match (if topic is specified)
-            if topic:
-                exercise_topic = metadata.get("topic", "")
-                # Use fuzzy matching for topic
-                if not (topic.lower() in exercise_topic.lower() or exercise_topic.lower() in topic.lower()):
-                    continue
-            
-            filtered_exercises.append(ex)
-        
-        if not filtered_exercises:
-            logger.warning(f"No local exercises found for grade={grade}, topic={topic}")
-            self.current_exercise = None
-            return
-        
-        # Select random exercise from filtered ones
-        self.current_exercise = random.choice(filtered_exercises)
-        logger.info(f"Selected local exercise: grade {grade}, topic {topic}, total options: {len(filtered_exercises)}")
-        
-        # Setup the exercise (reset counters, handle SVG, etc.)
-        self._setup_selected_exercise()
-
-    def _setup_selected_exercise(self, exercise_id: str = None):
-        """Setup selected exercise with counters and SVG handling."""
-        if not self.current_exercise:
-            return
-            
-        # Reset exercise-specific counters
-        self.current_hint_index = 0
-        self.current_question_index = 0
-        self.current_svg_description = None
-        self._reset_attempt_tracking()
-        
-        # Reset SVG tracking for new exercise
-        self.svg_generated_for_question = False
-        self.current_svg_file_path = None
-
-        # Add to recently asked list (for RAG exercises with IDs)
-        if exercise_id:
-            self.recently_asked_exercise_ids.append(exercise_id)
-            if len(self.recently_asked_exercise_ids) > self.RECENTLY_ASKED_LIMIT:
-                self.recently_asked_exercise_ids.pop(0)
-
-    def _generate_and_save_svg(self, for_solution_explanation: bool = False) -> str:
-        """Generate SVG dynamically using AI based on the current question. Returns the file reference text."""
-        if not self.current_exercise:
-            return ""
-            
-        try:
-            # Get the current question text
+            # Get the current question and solution
             current_question = self._get_current_question()
-            if not current_question:
-                return ""
-            
-            # Generate SVG using AI
-            svg_content = self._generate_svg_with_ai(current_question, for_solution_explanation)
-            if not svg_content:
-                return ""
-                
-            # Generate unique filename
-            suffix = "_solution" if for_solution_explanation else ""
-            svg_filename = f"dynamic_exercise_q{self.current_question_index}{suffix}_{uuid.uuid4().hex[:8]}.svg"
-            svg_filepath = SVG_OUTPUT_DIR / svg_filename
-            
-            # Save SVG file
-            with open(svg_filepath, "w", encoding="utf-8") as f:
-                f.write(svg_content)
-            
-            # Store file path for future reference
-            if not for_solution_explanation:
-                self.current_svg_file_path = str(svg_filepath)
-            
-            # Return file reference
-            if self.user_language == "he":
-                return f"📊 תרשים זמין: {svg_filepath.name}"
-            else:
-                return f"📊 Diagram available: {svg_filepath.name}"
-                
-        except Exception as e:
-            logger.error(f"Error generating and saving dynamic SVG: {e}")
-            return ""
+            current_solution = self._get_current_solution()
 
-    def _generate_svg_with_ai(self, question_text: str, for_solution: bool = False) -> str:
-        """Generate SVG content using AI based on the question text."""
-        try:
-            context = "solution explanation" if for_solution else "problem visualization"
-            
-            svg_generation_prompt = ChatPromptTemplate.from_messages([
-                ("system", f"""You are an expert math visualization generator. Create a clean, educational SVG for the given math question.
-
-                Context: Creating {context}
-
-                SVG Requirements:
-                - Use viewBox="0 0 400 300" for consistent sizing
-                - Include coordinate axes if the problem involves coordinates, graphs, or geometry
-                - Add a subtle grid if appropriate for the math concept
-                - Use clear colors: black for axes, blue for main elements, red for points
-                - Include proper labels and numbers
-                - Make it educational and clear
-                - Ensure valid SVG XML structure
-                - NO interactive elements - static visualization only
-
-                Question Types & Visualizations:
-                - Coordinate geometry: Show coordinate plane with labeled points
-                - Line equations: Show the line with equation label
-                - Slope: Show two points with rise/run visualization
-                - Triangles: Show triangle with labeled vertices
-                - Functions: Show function graph with key points
-
-                Return ONLY the SVG code, no explanations."""),
-                ("user", f"Generate an SVG visualization for this math question: {question_text}")
-            ])
-            
-            svg_chain = svg_generation_prompt | llm
-            response = svg_chain.invoke({"question_text": question_text})
-            
-            svg_content = response.content.strip()
-            
-            # Clean up the response - remove any markdown formatting
-            svg_content = re.sub(r'```svg\s*', '', svg_content)
-            svg_content = re.sub(r'```\s*$', '', svg_content)
-            svg_content = svg_content.strip()
-            
-            # Validate SVG structure
-            if svg_content.startswith('<svg') and svg_content.endswith('</svg>'):
-                return svg_content
-            else:
-                logger.warning(f"Invalid SVG structure generated: {svg_content[:100]}...")
-                return ""
-                
-        except Exception as e:
-            logger.error(f"Error generating SVG with AI: {e}")
-            return ""
-
-    def _should_generate_svg(self, question_text: str) -> bool:
-        """Determine if the question would benefit from an SVG visualization."""
-        # Convert to lowercase for keyword matching
-        text_lower = question_text.lower()
-        
-        # Keywords that suggest visual content would be helpful
-        visual_keywords = [
-            # Coordinate geometry
-            "coordinate", "נקודה", "נקודות", "point", "points", "axes", "axis", "צירים",
-            # Geometry
-            "triangle", "משולש", "parallelogram", "מקבילית", "line", "ישר", "קו",
-            # Graphing and functions
-            "graph", "גרף", "plot", "function", "פונקציה", "slope", "שיפוע",
-            # Visual math terms
-            "draw", "תרשים", "diagram", "מערכת", "system", "equation", "משוואה"
-        ]
-        
-        # Check if any visual keywords are present
-        for keyword in visual_keywords:
-            if keyword in text_lower:
-                return True
-        
-        # Check for coordinate patterns like (x,y) or specific numbers
-        coordinate_patterns = [
-            r'\([+-]?\d+\s*,\s*[+-]?\d+\)',  # (x,y) coordinates
-            r'\([+-]?\d+\s*,\s*__\)',        # (x,__) incomplete coordinates
-            r'\(__\s*,\s*[+-]?\d+\)',        # (__,y) incomplete coordinates
-        ]
-        
-        for pattern in coordinate_patterns:
-            if re.search(pattern, question_text):
-                return True
-        
-        return False
-
-    def _get_current_question(self) -> str:
-        """Retrieves the current question text for the exercise."""
-        if not self.current_exercise:
-            return "No question available."
-        
-        # Check if it's a local exercise (merged_output.json format)
-        if "exercise_content" in self.current_exercise:
-            exercise_content = self.current_exercise["exercise_content"]
-            main_instruction = exercise_content.get("main_data", {}).get("text", "")
-            sections = exercise_content.get("sections", [])
-            
-            if not sections:
-                return main_instruction if main_instruction else "No question available."
-            
-            # Get current section
-            if not (0 <= self.current_question_index < len(sections)):
-                logger.warning(f"Invalid question index: {self.current_question_index}")
-                return main_instruction if main_instruction else "No question available."
-            
-            current_section = sections[self.current_question_index]
-            question_text = current_section.get("question", {}).get("text", "")
-            section_number = current_section.get("section_number", "")
-            
-            # Combine main instruction with specific question
-            if main_instruction and question_text:
-                full_question = f"{main_instruction}\n\n{section_number}) {question_text}"
-            elif question_text:
-                full_question = f"{section_number}) {question_text}" if section_number else question_text
-            else:
-                full_question = main_instruction if main_instruction else "No question available."
-            
-            # Clean the question text
-            clean_question = clean_math_text(full_question)
-            
-            # Add SVG reference if one was already generated for this question
-            if self.current_svg_file_path and self.svg_generated_for_question:
-                clean_question += f"\n\n[Image File: {self.current_svg_file_path}]"
-            
-            # Translate to match conversation language
-            return translate_text_to_conversation_language(clean_question, self.user_language)
-        
-        # Fallback for original RAG exercise format
-        if not (self.current_exercise and 
-                self.current_exercise.get("text", {}).get("question") and
-                isinstance(self.current_exercise["text"]["question"], list)):
-            logger.warning("Invalid exercise data structure for question retrieval.")
-            return "No question available."
-
-        questions = self.current_exercise["text"]["question"]
-        if not (0 <= self.current_question_index < len(questions)):
-            logger.warning(f"Invalid question index: {self.current_question_index}")
-            return "No question available."
-
-        q_text = questions[self.current_question_index].replace(',', '')
-        q_text = clean_math_text(q_text)   # Remove $
-
-        # Generate SVG dynamically for math questions that could benefit from visualization
-        if not self.svg_generated_for_question and self._should_generate_svg(q_text):
-            svg_reference = self._generate_and_save_svg(for_solution_explanation=False)
-            if svg_reference and isinstance(svg_reference, str):
-                q_text += f"\n{svg_reference}"
-            self.svg_generated_for_question = True
-        elif self.current_svg_file_path and self.svg_generated_for_question:
-            # Reuse existing SVG file reference for hints
-            q_text += f"\n\n[Image File: {self.current_svg_file_path.as_posix()}]"
-
-        # Translate to match conversation language
-        return translate_text_to_conversation_language(q_text, self.user_language)
-
-    def _get_current_solution(self) -> str:
-        if not self.current_exercise:
-            return "No solution available."
-        
-        # Check if it's a local exercise (merged_output.json format)
-        if "exercise_content" in self.current_exercise:
-            exercise_content = self.current_exercise["exercise_content"]
-            sections = exercise_content.get("sections", [])
-            
-            if not sections or not (0 <= self.current_question_index < len(sections)):
-                return "No solution available."
-            
-            current_section = sections[self.current_question_index]
-            solution_text = current_section.get("solution", {}).get("text", "")
-            
-            if solution_text:
-                sol_text = clean_math_text(solution_text)
-                # Translate to match conversation language
-                return translate_text_to_conversation_language(sol_text, self.user_language)
-            return "No solution available."
-        
-        # Fallback for original RAG exercise format
-        if (self.current_exercise and
-            self.current_exercise.get("text", {}).get("solution") and
-            isinstance(self.current_exercise["text"]["solution"], list) and
-            self.current_question_index < len(self.current_exercise["text"]["solution"])):
-            sol_text = self.current_exercise["text"]["solution"][self.current_question_index]
-            sol_text = clean_math_text(sol_text)   # ← remove $
-            
-            # Translate to match conversation language
-            return translate_text_to_conversation_language(sol_text, self.user_language)
-        return "No solution available."
-    
-    def _generate_lesson_summary(self) -> str:
-        closing_prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are a friendly math tutor closing a short session.
-            Write a 2–3 sentence positive summary of the lesson.
-            End with a light humorous encouragement."""),
-            MessagesPlaceholder(variable_name="chat_history"),
-            ("user", "Summarize the lesson we just completed.")
-        ])
-        summary_chain = closing_prompt | llm
-        try:
-            response = summary_chain.invoke({"chat_history": self.chat_history[-10:]})
-            return clean_math_text(response.content.strip())
-        except Exception as e:
-            logger.error(f"Error generating lesson summary: {e}")
-            return "Great job today! You tackled some tough problems with confidence."
-
-    def _has_more_questions(self) -> bool:
-        """Check if the current exercise has more questions."""
-        if not self.current_exercise:
-            return False
-        
-        # Check for local exercise format
-        if "exercise_content" in self.current_exercise:
-            sections = self.current_exercise["exercise_content"].get("sections", [])
-            return self.current_question_index < len(sections) - 1
-        
-        # Check for RAG exercise format
-        if ("text" in self.current_exercise and
-            "question" in self.current_exercise["text"] and
-            isinstance(self.current_exercise["text"]["question"], list)):
-            return self.current_question_index < len(self.current_exercise["text"]["question"]) - 1
-        
-        return False
-
-    def _advance_to_next_question(self) -> str:
-        """Advance to next question and return the formatted question text."""
-        self.current_question_index += 1
-        self.current_hint_index = 0
-        self._reset_attempt_tracking()  # This will reset SVG tracking too
-        
-        # Get the next question
-        current_question_text = self._get_current_question()
-        
-        # Generate SVG for the new question if needed
-        if not self.svg_generated_for_question and self._should_generate_svg(current_question_text):
-            svg_reference = self._generate_and_save_svg(for_solution_explanation=False)
-            if svg_reference and isinstance(svg_reference, str):
-                current_question_text += f"\n{svg_reference}"
-            self.svg_generated_for_question = True
-        
-        return f"\n\nNext question:\n{current_question_text}"
-
-    def _move_to_next_exercise_or_question(self) -> str:
-        """Enhanced version that strictly provides 2 exercises before doubt checking."""
-        
-        # Check if there are more questions in the current exercise
-        if self._has_more_questions():
-            # Move to next question within the same exercise
-            return self._advance_to_next_question()
-        else:
-            # Current exercise is finished - increment counter
-            self.topic_exercises_count += 1
-
-            # Strictly check for exactly 2 exercises
-            if self.topic_exercises_count >= self.MAX_EXERCISES:
-                self.state = State.ASK_FOR_DOUBTS
-                topic_name = self.topic or "this topic"
-                return f"\n\n{self._get_localized_text('ask_for_doubts', topic=topic_name)}"
-
-            # Construct query for a new exercise
-            query = f"Next exercise for grade {self.hebrew_grade}"
-            topic_for_query = None
-            if self.topic and self.topic.lower() not in ["anyone", "any", "anything", "random", "whatever", "any topic"]:
-                query += f" on topic {self.topic}"
-                topic_for_query = self.topic
-
-            self._pick_new_exercise_rag(query=query, grade=self.hebrew_grade, topic=topic_for_query)
-
-            if not self.current_exercise:
-                self.state = State.ASK_FOR_DOUBTS
-                topic_name = self.topic or "this topic"
-                return f"\n\n{self._get_localized_text('ask_for_doubts', topic=topic_name)}"
-
-            # Get the new exercise question
-            current_question_text = self._get_current_question()
-            
-            # Generate SVG for the new exercise question if needed
-            if not self.svg_generated_for_question and self._should_generate_svg(current_question_text):
-                svg_reference = self._generate_and_save_svg(for_solution_explanation=False)
-                if svg_reference and isinstance(svg_reference, str):
-                    current_question_text += f"\n{svg_reference}"
-                self.svg_generated_for_question = True
-            
-            return f"\n\nNext exercise:\n{current_question_text}"
-
-    def _generate_doubt_clearing_response(self, user_question: str) -> str:
-        """Generate response to clear student's doubts using RAG."""
-        try:
-            # Only translate to English for retrieval if the question is in Hebrew
-            # This helps with Pinecone search but doesn't affect the response language
-            search_question = translate_text_to_english(user_question) if is_likely_hebrew(user_question) else user_question
-            
-            # Retrieve relevant context for the doubt
+            # Retrieve relevant context from Pinecone
             retrieved_context = retrieve_relevant_chunks(
-                search_question,
+                f"Question: {current_question}",
                 self.pinecone_index,
                 grade=self.hebrew_grade,
                 topic=self.topic if self.topic and self.topic.lower() not in ["anyone", "any", "anything", "random", "whatever", "any topic"] else None
             )
-            
             context_str = "\n".join([c.get("text", "") for c in retrieved_context if c.get("text")])
-            context_str = clean_math_text(context_str)  # Clean context
-            
-            # Create a doubt-clearing prompt
-            doubt_clearing_prompt = ChatPromptTemplate.from_messages([
-                ("system", f"""You are a helpful Math AI tutor addressing a student's doubt or question.
+            context_str = clean_math_text(context_str)
+
+            # Add SVG description if available
+            if getattr(self, "current_svg_description", None):
+                context_str += f"\n\nImage Description: {self.current_svg_description}"
+
+            # Create a prompt to generate a hint
+            hint_prompt = ChatPromptTemplate.from_messages([
+                ("system", f"""You are a Math AI tutor providing a concise hint for a math problem.
                 
                 Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
                 
                 Guidelines:
-                - Provide clear, detailed explanations
-                - Use the context to give accurate information
-                - Be patient and encouraging
-                - Break down complex concepts into simple steps
-                - If context doesn't contain relevant information, acknowledge this
-                - Start with encouragement
-                - Give step-by-step explanation
-                - Use examples from context when available
-                - End with confirmation question
+                - Provide a single, concise hint (1-2 sentences) to guide the student toward the solution
+                - Do NOT reveal the full solution
+                - Focus on a key concept, formula, or step needed to solve the problem
+                - Use the context to ensure relevance
+                - Example: "Consider the slope of each line to match it with the function."
                 """),
                 MessagesPlaceholder(variable_name="chat_history"),
-                ("user", "Student's Question: {question}\n\nRelevant Context: {context}")
+                ("user", "Question: {question}\nContext: {context}\n\nGenerate a concise hint:")
             ])
-            
-            doubt_clearing_chain = doubt_clearing_prompt | llm
-            response = doubt_clearing_chain.invoke({
-                "chat_history": self.chat_history[-5:],
-                "question": user_question,  # Use original question in user's language
+
+            hint_chain = hint_prompt | self.llm
+            response = hint_chain.invoke({
+                "chat_history": self.chat_history[-3:],
+                "question": current_question,
                 "context": context_str
             })
-            
-            topic_name = self.topic or "this topic"
-            intro = self._get_localized_text("doubt_clearing_intro", topic=topic_name)
-            return f"{intro}\n\n{clean_math_text(response.content.strip())}"
-            
-        except Exception as e:
-            logger.error(f"Error generating doubt clearing response: {e}")
-            return "I'd be happy to help with your question, but I'm having trouble processing it right now. Could you try asking it in a different way?"
 
-    def transition(self, user_input: str) -> str:
-        """Enhanced FSM transition with progressive guidance and improved attempt tracking."""
+            return clean_math_text(response.content.strip())
+        except Exception as e:
+            logger.error(f"Error generating hint: {str(e)}")
+            return "Try breaking the problem into smaller steps."
+
+    def _evaluate_answer_with_guidance(self, user_input: str, question: str, solution: str, context: str) -> Dict[str, Any]:
+        """Enhanced answer evaluation with progressive guidance system."""
+        evaluation_prompt = ChatPromptTemplate.from_messages([
+            ("system", f"""You are a Math AI tutor evaluating a student's answer.
+            
+            Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
+            
+            Evaluation Guidelines:
+            1. Determine if the answer is CORRECT or INCORRECT
+            2. If INCORRECT, identify the specific mistake or misconception
+            3. Provide encouragement regardless of correctness
+            4. DO NOT reveal the correct answer
+            5. Be supportive and educational
+            
+            Response Format:
+            CORRECT: [brief encouraging comment]
+            OR
+            SORRY: [brief explanation of what went wrong without giving the answer]
+            """),
+            MessagesPlaceholder(variable_name="chat_history"),
+            ("user", "Question: {question}\nStudent Answer: {answer}\nContext: {context}\n\nEvaluate the answer:"),
+        ])
         
+        evaluation_chain = evaluation_prompt | llm
+        try:
+            eval_response = evaluation_chain.invoke({
+                "chat_history": self.chat_history[-4:],
+                "question": question,
+                "answer": user_input,
+                "context": context
+            })
+            
+            evaluation_result = clean_math_text(eval_response.content.strip())  # Clean evaluation response
+            is_correct = evaluation_result.lower().startswith("correct:")
+            #is_partial = evaluation_result.lower().startswith("partial:") ##updated
+            
+            return {
+                "is_correct": is_correct,
+                #"is_partial": is_partial,  #updated
+                "feedback": evaluation_result,
+                "needs_guidance": not is_correct
+            }
+        except Exception as e:
+            logger.error(f"Error in answer evaluation: {e}")
+            return {
+                "is_correct": False,
+                "feedback": "I couldn't evaluate your answer right now.",
+                "needs_guidance": True
+            }
+
+    def _provide_progressive_guidance(self, user_input: str, question: str, context: str, is_forced: bool = False) -> str:
+        """Provide progressive guidance based on attempts and current guidance level."""
+        lang_dict = I18N[self.user_language]
+        
+        if self.attempt_tracker.guidance_level == 0:  # Encouragement
+            
+            self.attempt_tracker.guidance_level = 1
+            self.state = State.GUIDING_QUESTION
+            
+            guiding_q = self._generate_guiding_question(user_input, question, context)
+            guiding_prefix = lang_dict["guiding_question"]
+    
+            return f"{guiding_prefix}{guiding_q}"
+            
+        elif self.attempt_tracker.guidance_level == 1:  # Second Guiding Question
+            self.attempt_tracker.guidance_level = 2
+            self.state = State.GUIDING_QUESTION
+            # Generate a different guiding question, possibly using more context or rephrasing
+            guiding_q = self._generate_guiding_question(user_input, question, context)
+            guiding_prefix = lang_dict["guiding_question"]
+            return f"{guiding_prefix}{guiding_q}"
+
+        elif self.attempt_tracker.guidance_level == 2:  # Hint
+            if not is_forced and not self.attempt_tracker.can_provide_hint():
+                return f"{lang_dict['encouragement']}{lang_dict['try_again']}"
+            self.attempt_tracker.guidance_level = 3
+            self.state = State.PROVIDING_HINT
+            hint = self._generate_progressive_hint(0)
+            if hint:
+                return f"{hint}"
+            else:
+                self.attempt_tracker.guidance_level = 4
+                return self._get_current_solution()
+                
+        else:  # guidance_level >= 3, provide solution
+            solution_prefix = lang_dict["solution_prefix"]
+            solution = self._get_current_solution()
+            return f"{solution_prefix}{solution}\n\n{self._move_to_next_exercise_or_question()}"
+
+    def _reset_attempt_tracking(self):
+        self.attempt_tracker.reset()
+
+    def _generate_grade_acknowledgment(self, user_input: str, grade: str) -> str:
+        ack_prompt = ChatPromptTemplate.from_messages([
+            ("system", "Generate a short acknowledgment for the grade."),
+            ("user", "Grade: {grade}")
+        ])
+        chain = ack_prompt | llm
+        response = chain.invoke({"grade": grade})
+        return response.content.strip()
+
+    def _get_diagnostic_question(self) -> str:
+        questions = ["diagnostic_test", "diagnostic_last_class", "diagnostic_focus"]
+        return self._get_localized_text(questions[self.diagnostic_question_index])
+
+    def _generate_ai_personal_followup(self, user_input: str) -> str:
+        response = self.personal_followup_chain.invoke({
+            "chat_history": self.chat_history[-3:],
+            "input": user_input
+        })
+        return clean_math_text(response.content.strip())
+
+    def _generate_academic_transition(self, user_input: str) -> str:
+        response = self.academic_transition_chain.invoke({
+            "chat_history": self.chat_history[-3:],
+            "input": user_input
+        })
+        return clean_math_text(response.content.strip())
+    
+    def _generate_guiding_question(self, user_answer: str, question: str, context: str) -> str:
+        """Generate a guiding question to help student think through the problem."""
+        try:
+            guiding_prompt = ChatPromptTemplate.from_messages([
+                ("system", f"""You are a Math AI tutor. Generate a guiding question to help the student think through the problem step by step.
+                
+                Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
+                
+                Guidelines:
+                - Ask a question that guides them toward the solution
+                - Don't give away the answer directly
+                - Focus on the mathematical concept or method
+                - Be encouraging and supportive
+                - Keep it concise (1-2 sentences)
+                
+                Example guiding questions:
+                - "What operation should we use first?"
+                - "Can you identify what type of equation this is?"
+                - "What do you think the first step should be?"
+                """),
+                MessagesPlaceholder(variable_name="chat_history"),
+                ("user", "Problem: {question}\nStudent's Answer: {answer}\nContext: {context}\n\nGenerate a helpful guiding question:")
+            ])
+            
+            guiding_chain = guiding_prompt | llm
+            response = guiding_chain.invoke({
+                "chat_history": self.chat_history[-3:],
+                "question": question,
+                "answer": user_answer,
+                "context": context
+            })
+            
+            return clean_math_text(response.content.strip())  # Clean guiding question
+        except Exception as e:
+            logger.error(f"Error generating guiding question: {e}")
+            guiding_text = self._get_localized_text("guiding_question")
+            return f"{guiding_text}What do you think the first step should be?"
+
+    def transition(self, user_input: str) -> Dict[str, Any]:
+        """Enhanced FSM transition with progressive guidance and improved attempt tracking."""
         # Mark user activity (prevents premature inactivity timeout)
         if user_input.strip():
             self.inactivity_timer.reset()
@@ -1597,14 +1405,18 @@ class DialogueFSM:
         text_lower = (user_input or "").strip().lower()
 
         # Detect user language from input
-        if user_input:
+        if user_input and user_input.strip():
             detected_lang = detect_language(user_input)
-            if detected_lang != self.user_language and detected_lang in ["he", "en"]:
+            if detected_lang in ["he", "en"]:
                 self.user_language = detected_lang
-            
+            else:
+                self.user_language = "en"
+                
         # Add user input to chat history
         if user_input:
             self.chat_history.append(HumanMessage(content=clean_math_text(user_input)))
+
+        response_dict = {"text": "", "svg_file_path": None}  # Initialize response dictionary
 
         # --- State Transitions ---
         if self.state == State.START:
@@ -1613,60 +1425,47 @@ class DialogueFSM:
             self.small_talk_responses = []
             self.small_talk_turns = 1
             simple_greetings = ["Hey! How are you?", "Hi there!", "What's up?", "How's it going?"]
-            ai_response = random.choice(simple_greetings)
-            self.chat_history.append(AIMessage(content=ai_response))
-            return ai_response
+            response_dict["text"] = random.choice(simple_greetings)
+            self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state == State.SMALL_TALK:
             if self.small_talk_question_index == 0:
-                # Generate contextual response to greeting + hobbies question
                 try:
                     response = self.small_talk_chain.invoke({
                         "chat_history": self.chat_history[-3:],
                         "input": user_input or ""
                     })
                     response_text = clean_math_text(response.content.strip())
-                    # Ensure hobbies question is included
                     hobbies_q = self._get_localized_text("small_talk_hobbies")
-                    response_text = f"{response_text} {hobbies_q}"
+                    response_dict["text"] = f"{response_text} {hobbies_q}"
                     self.small_talk_question_index += 1
-                    self.chat_history.append(AIMessage(content=response_text))
-                    return response_text
+                    self.chat_history.append(AIMessage(content=response_dict["text"]))
                 except Exception as e:
                     logger.error(f"Error generating contextual small talk: {e}")
-                    # Fallback: static response + hobbies
                     fallback_response = "I'm doing great, thanks for asking!" if self.user_language == "en" else "אני בסדר, תודה ששאלת!"
                     hobbies_q = self._get_localized_text("small_talk_hobbies")
-                    response_text = f"{fallback_response} {hobbies_q}"
+                    response_dict["text"] = f"{fallback_response} {hobbies_q}"
                     self.small_talk_question_index += 1
-                    self.chat_history.append(AIMessage(content=response_text))
-                    return response_text
+                    self.chat_history.append(AIMessage(content=response_dict["text"]))
+
             else:
-                # User responded to hobbies, move to personal followup
                 self.small_talk_responses.append(user_input)
                 self.state = State.PERSONAL_FOLLOWUP
-                ai_response = self._generate_ai_personal_followup(user_input)
-                self.chat_history.append(AIMessage(content=ai_response))
-                return ai_response
+                response_dict["text"] = self._generate_ai_personal_followup(user_input)
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state == State.PERSONAL_FOLLOWUP:
             self.state = State.DIAGNOSTIC
             self.diagnostic_question_index = 0
-            self.diagnostic_responses = []  # Reset responses
-            response_text = self._get_diagnostic_question()
-            self.chat_history.append(AIMessage(content=response_text))
-            return response_text
-        
+            self.diagnostic_responses = []
+            response_dict["text"] = self._get_diagnostic_question()
+            self.chat_history.append(AIMessage(content=response_dict["text"]))
+
         elif self.state == State.DIAGNOSTIC:
-            # Store the user's response
             self.diagnostic_responses.append(user_input)
             self.diagnostic_question_index += 1
-
-            # Check if there are more diagnostic questions
-            if self.diagnostic_question_index < 3:  # 3 questions total
-                # Get next diagnostic question
+            if self.diagnostic_question_index < 3:
                 next_question = self._get_diagnostic_question()
-                # Generate short contextual acknowledgment
                 try:
                     contextual_prompt = ChatPromptTemplate.from_messages([
                         ("system", f"""You are a friendly math tutor.
@@ -1684,167 +1483,93 @@ class DialogueFSM:
                         "chat_history": self.chat_history[-3:],
                         "input": user_input
                     })
-                    acknowledgment = clean_math_text(ack_response.content.strip())
-                    if not acknowledgment:  # Ensure non-empty
-                        acknowledgment = "That's awesome!"
+                    acknowledgment = clean_math_text(ack_response.content.strip()) or "That's awesome!"
                 except Exception as e:
                     logger.error(f"Error generating contextual acknowledgment: {e}")
-                    acknowledgment = "That's awesome!"  # Fallback
-
-                # Combine acknowledgment with diagnostic question
-                response_text = f"{acknowledgment} So, {next_question}"
-                self.chat_history.append(AIMessage(content=response_text))
-                return response_text
+                    acknowledgment = "That's awesome!"
+                response_dict["text"] = f"{acknowledgment} So, {next_question}"
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
             else:
-                # All questions done - move to academic transition
                 self.state = State.ACADEMIC_TRANSITION
-                ai_response = self._generate_academic_transition(user_input)
-                self.chat_history.append(AIMessage(content=ai_response))
-                return ai_response
-            
+                response_dict["text"] = self._generate_academic_transition(user_input)
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
+
         elif self.state == State.ACADEMIC_TRANSITION:
-            # Use existing academic transition
-            ai_response = self._generate_academic_transition(user_input)
-            self.state = State.ASK_GRADE
-            grade_ask = self._get_localized_text("ask_grade")
-            response_text = f"{ai_response}\n\n{grade_ask}"
-            self.chat_history.append(AIMessage(content=response_text))
-            return response_text
+            self.state = State.PICK_CLASS
+            classes = get_classes()
+            response_dict["text"] = self._generate_academic_transition(user_input) + f"\n\nAvailable classes: {classes}\nPick a class: "
+            self.chat_history.append(AIMessage(content=response_dict["text"]))
 
-        elif self.state == State.ASK_GRADE:
-            # Extract grade number from user input using regex and AI
-            extracted_grade = self._extract_grade_from_input(user_input.strip())
-            
-            if not extracted_grade:
-                # Ask again if no valid grade found - localized with examples
-                examples = "7 or 8" if self.user_language == "en" else "ז or ח"
-                retry_message = f"{self._get_localized_text('ask_grade')} ({self._get_localized_text('examples', examples=examples)})"
-                self.chat_history.append(AIMessage(content=retry_message))
-                return retry_message
-            
-            # Success: Set grades
-            self.grade = extracted_grade
-            self.hebrew_grade = self._translate_grade_to_hebrew(self.grade)
-            self.state = State.EXERCISE_SELECTION
-            
-            # Generate contextual acknowledgment using AI
-            grade_acknowledgment = self._generate_grade_acknowledgment(user_input, self.grade)
-            
-            # Get available topics with error handling - preserve order from JSON
-            available_topics_hebrew = []
-            try:
-                # Get topics in the order they appear in the JSON, without duplicates
-                seen_topics = set()
-                for ex in self.exercises_data:
-                    if isinstance(ex, dict) and ex.get("exercise_metadata", {}).get("class") == self.hebrew_grade:
-                        topic = ex.get("exercise_metadata", {}).get("topic", "")
-                        if topic and topic != "Unknown" and topic not in seen_topics:
-                            available_topics_hebrew.append(topic)
-                            seen_topics.add(topic)
-            except Exception as e:
-                logger.error(f"Error extracting topics: {e}")
-                available_topics_hebrew = []
-            
-            if available_topics_hebrew:
-                if self.user_language == "en":
-                    # Use predefined English mappings instead of AI translation
-                    english_topics = []
-                    for topic in available_topics_hebrew:  # Show ALL topics, not just [:3]
-                        english_topic = self._get_english_topic_mapping(topic)
-                        english_topics.append(english_topic)
-                    topics_str = ", ".join(english_topics)
-                else:
-                    topics_str = ", ".join(available_topics_hebrew)  # Show ALL topics
+        elif self.state == State.PICK_CLASS:
+            chosen_class = user_input.strip()
+            classes_hebrew = get_classes()
+            if self.user_language == "en":
+                classes_display = [translate_text_to_english(c) for c in classes_hebrew]
             else:
-                topics_str = "Any topic"
-                
-            topic_question = self._get_localized_text("ask_topic", grade=self.grade, topics=topics_str)
-            response_text = f"{grade_acknowledgment} {topic_question}"
-            self.chat_history.append(AIMessage(content=response_text))
-            return response_text
+                classes_display = classes_hebrew
+            if chosen_class not in classes_display:
+                response_dict["text"] = f"{self._get_localized_text('invalid_class')} {classes_display}"
+            else:
+                if self.user_language == "en":
+                    idx = classes_display.index(chosen_class)
+                    self.grade = classes_display[idx]
+                    self.hebrew_grade = classes_hebrew[idx]
+                else:
+                    self.grade = chosen_class if not is_likely_hebrew(chosen_class) else self._translate_grade_to_hebrew(chosen_class)
+                    self.hebrew_grade = self._translate_grade_to_hebrew(self.grade) if not is_likely_hebrew(chosen_class) else chosen_class
+                self.state = State.PICK_TOPIC
+                topics_hebrew = get_topics(self.hebrew_grade)
+                topics_display = [translate_text_to_english(t) for t in topics_hebrew] if self.user_language == "en" else topics_hebrew[:]
+                response_dict["text"] = f"{'Available topics' if self.user_language=='en' else 'נושאים זמינים'}: {topics_display}\n{'Pick a topic:' if self.user_language=='en' else 'בחר נושא:'}"
+            self.chat_history.append(AIMessage(content=response_dict["text"]))
 
-        elif self.state == State.EXERCISE_SELECTION:
-            self.topic = clean_math_text(user_input.strip()) # Clean topic input
-            # Reset counters when new topic is selected
-            self.topic_exercises_count = 0  # Reset for new topic
-            self.doubt_questions_count = 0
-            
-            # Try to find a matching Hebrew topic
-            matched_topic = self._find_matching_topic(self.topic, self.hebrew_grade)
-            
-            # Use the improved exercise picking method (tries RAG first, then local)
-            query = f"Find an exercise for grade {self.hebrew_grade} on topic {self.topic}"
-            topic_for_picking = matched_topic if matched_topic else (self.topic if self.topic.lower() not in ["anyone", "any", "anything", "random", "whatever", "any topic"] else None)
-            self._pick_new_exercise_rag(query=query, grade=self.hebrew_grade, topic=topic_for_picking)
-
-            # Final fallback: try any exercise for the grade if still no match
-            if not self.current_exercise:
-                logger.info(f"No exercises found for grade {self.hebrew_grade} and topic {self.topic}. Trying any exercise for the grade.")
-                self._pick_new_exercise_rag(query=f"Find an exercise for grade {self.hebrew_grade}", grade=self.hebrew_grade, topic=None)
-
-            if not self.current_exercise:
-                self.state = State.EXERCISE_SELECTION
-                no_exercises = self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
-                no_relevant = self._get_localized_text("no_relevant_exercises")
-                response_text = f"{no_exercises}\n{no_relevant}\n\nPlease choose another topic:"
-                self.chat_history.append(AIMessage(content=response_text))
-                return response_text
-
-            self.state = State.QUESTION_ANSWER
-            ready_text = self._get_localized_text("ready_for_question")
-            
-            # Generate SVG for the first question if needed
-            current_question_text = self._get_current_question()
-            if not self.svg_generated_for_question and self._should_generate_svg(current_question_text):
-                svg_reference = self._generate_and_save_svg(for_solution_explanation=False)
-                if svg_reference and isinstance(svg_reference, str):
-                    current_question_text += f"\n{svg_reference}"
-                self.svg_generated_for_question = True
-            
-            response_text = f"{ready_text}\n{current_question_text}"
-            self.chat_history.append(AIMessage(content=response_text))
-            return response_text
+        elif self.state == State.PICK_TOPIC:
+            chosen_topic = user_input.strip()
+            topics_hebrew = get_topics(self.hebrew_grade)
+            if user_input and detect_language(user_input) == "en":
+                self.user_language = "en"
+            topics_display = [translate_text_to_english(t) for t in topics_hebrew] if self.user_language == "en" else topics_hebrew
+            topics_display_lower = [t.lower() for t in topics_display]
+            if chosen_topic.lower() not in topics_display_lower:
+                response_dict["text"] = f"{self._get_localized_text('invalid_topic')} {topics_display[:]}"
+            else:
+                if self.user_language == "en":
+                    idx = topics_display.index(chosen_topic)
+                    self.topic = topics_hebrew[idx]
+                else:
+                    self.topic = chosen_topic
+                self.topic_exercises_count = 0
+                self.doubt_questions_count = 0
+                self._pick_new_exercise(self.hebrew_grade, self.topic)
+                if not self.current_exercise:
+                    response_dict["text"] = self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
+                else:
+                    self.state = State.QUESTION_ANSWER
+                    ready_text = self._get_localized_text("ready_for_question")
+                    response_dict["text"] = f"{ready_text}\n{self._get_current_question()}"
+                    response_dict["svg_file_path"] = self.current_svg_file_path  # Pass SVG file path
+            self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state in [State.QUESTION_ANSWER, State.GUIDING_QUESTION, State.PROVIDING_HINT]:
-            # Handle irrelevant questions
-            irrelevant_keywords = [
-                "recipe", "cake", "story", "joke", "weather", "song", "news", "football",
-                "music", "movie", "politics", "food", "travel", "holiday"
-            ]
+            irrelevant_keywords = ["recipe", "cake", "story", "joke", "weather", "song", "news", "football", "music", "movie", "politics", "food", "travel", "holiday"]
             if any(word in text_lower for word in irrelevant_keywords):
-                irrelevant_msg = self._get_localized_text("irrelevant_msg")
-                response_text = irrelevant_msg + "\n\nLet's focus on the current exercise."
-                self.chat_history.append(AIMessage(content=response_text))
-                return response_text
-
-            # Handle explicit hint requests with attempt checking
-            hint_keywords = ["hint", "help", "clue", "tip", "stuck", "don't know", "not sure", "confused", "רמז", "עזרה"]
-            if (text_lower == "hint" or 
-                any(keyword in text_lower for keyword in hint_keywords) or
+                response_dict["text"] = self._get_localized_text("irrelevant_msg") + "\n\nLet's focus on the current exercise."
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
+            elif (text_lower == "hint" or any(keyword in text_lower for keyword in ["hint", "help", "clue", "tip", "stuck", "don't know", "not sure", "confused", "רמז", "עזרה"]) or
                 ("give" in text_lower and any(keyword in text_lower for keyword in ["hint", "help", "clue"])) or
                 ("can you" in text_lower and any(keyword in text_lower for keyword in ["hint", "help"]))):
-                
-                response_text = self._handle_hint_request(user_input)
-                self.chat_history.append(AIMessage(content=response_text))
-                return response_text
-
-            # Handle solution requests with attempt checking
-            solution_keywords = ["solution", "answer", "pass", "skip", "give up", "show me the solution", "פתרון", "תשובה"]
-            if (text_lower in {"solution", "pass"} or
-                any(keyword in text_lower for keyword in solution_keywords) or
+                response_dict["text"] = self._handle_hint_request(user_input)
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
+            elif (text_lower in {"solution", "pass"} or
+                any(keyword in text_lower for keyword in ["solution", "answer", "pass", "skip", "give up", "show me the solution", "פתרון", "תשובה"]) or
                 ("give me" in text_lower and any(keyword in text_lower for keyword in ["solution", "answer"])) or
                 ("show me" in text_lower and any(keyword in text_lower for keyword in ["solution", "answer"]))):
-                
-                response_text = self._handle_solution_request(user_input)
-                self.chat_history.append(AIMessage(content=response_text))
-                return response_text
-
-            # Handle answer evaluation with enhanced attempt tracking
+                response_dict["text"] = self._handle_solution_request(user_input)
+                response_dict["svg_file_path"] = self.current_svg_file_path  # Pass SVG file path if updated
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
             else:
                 current_question = self._get_current_question()
                 current_solution = self._get_current_solution()
-
-                # Get context for evaluation
                 retrieved_context = retrieve_relevant_chunks(
                     f"Question: {current_question} User's Answer: {user_input}",
                     self.pinecone_index,
@@ -1854,329 +1579,116 @@ class DialogueFSM:
                 context_str = "\n".join([c.get("text", "") for c in retrieved_context if c.get("text")])
                 if self.current_svg_description:
                     context_str += f"\n\nImage Description: {self.current_svg_description}"
-
-                # Evaluate answer
                 evaluation_result = self._evaluate_answer_with_guidance(user_input, current_question, current_solution, context_str)
-                
-                # Record the attempt
                 should_offer_guidance = self.attempt_tracker.record_attempt(evaluation_result["is_correct"])
-                
                 if evaluation_result["is_correct"]:
-                    response_text = "✅ Correct!"
-                    response_text += self._move_to_next_exercise_or_question()
+                    self.student_answers.append({
+                        "section": self.current_exercise["exercise_content"]["sections"][self.current_question_index]['section_number'],
+                        "question": current_question,
+                        "answer": user_input
+                    })
+                    response_dict["text"] = "✅ Correct!" + self._move_to_next_exercise_or_question()
+                    response_dict["svg_file_path"] = self.current_svg_file_path  # Pass SVG file path for next question
                     self.state = State.QUESTION_ANSWER
-                    self._reset_attempt_tracking()
-                    self.chat_history.append(AIMessage(content=response_text))
-                    return response_text
-                
+                    self.chat_history.append(AIMessage(content=response_dict["text"]))
                 else:
-                    # Incorrect answer - handle based on attempt count
                     feedback_lines = evaluation_result.get("feedback", self._get_localized_text("wrong_answer")).split('\n')
                     main_feedback = feedback_lines[0] if feedback_lines else self._get_localized_text("wrong_answer")
-                    
                     if should_offer_guidance:
-                        # Provide progressive guidance
                         guidance = self._provide_progressive_guidance(user_input, current_question, context_str)
-                        response_text = f"{main_feedback}\n\n{guidance}"
+                        response_dict["text"] = f"{main_feedback}\n\n{guidance}"
                     else:
-                        # Encourage another attempt
                         encouragement = self._get_localized_text("encouragement")
                         try_again = self._get_localized_text("try_again")
-                        response_text = f"{main_feedback}\n\n{encouragement}{try_again}"
-                    
-                    self.chat_history.append(AIMessage(content=response_text))
-                    return response_text
+                        response_dict["text"] = f"{main_feedback}\n\n{encouragement}{try_again}"
+                    self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state == State.ASK_FOR_DOUBTS:
             no_doubt_indicators = ["no", "nope", "nothing", "i'm good", "all clear", "no doubts", "no questions", "לא", "אין", "בסדר"]
             doubt_indicators = ["yes", "yeah", "yep", "i have", "question", "doubt", "confused", "don't understand", "כן", "יש לי", "שאלה"]
-            
             topic_name = self.topic or "this topic"
-            
             if any(indicator in text_lower for indicator in no_doubt_indicators):
-                # Generate lesson summary and reset for new topic
                 summary = self._generate_lesson_summary()
                 closing_message = self._get_localized_text("lesson_closing")
-                self.state = State.EXERCISE_SELECTION
+                self.state = State.PICK_TOPIC
                 self.topic_exercises_count = 0
                 self.doubt_questions_count = 0
+                self.completed_exercises = 0  # Reset counter for new topic
                 self.current_exercise = None
-                response_text = f"{summary}\n\n{closing_message}\n\nWould you like to continue with more exercises on this topic or choose a new topic?"
-                self.chat_history.append(AIMessage(content=response_text))
-                return response_text
-            
+                response_dict["text"] = f"{summary}\n\n{closing_message}\n\nWould you like to continue with more exercises on this topic or choose a new topic?"
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
             elif any(indicator in text_lower for indicator in doubt_indicators) or "?" in user_input:
                 self.state = State.DOUBT_CLEARING
                 self.doubt_questions_count = 1
-                
                 if "?" in user_input:
                     doubt_response = self._generate_doubt_clearing_response(user_input)
                 else:
                     doubt_response = f"I'm ready to help! What would you like me to explain or clarify about {topic_name}?"
-                
-                doubt_response += f"\n\n{self._get_localized_text('ask_more_doubts', topic=topic_name)}"
-                self.chat_history.append(AIMessage(content=doubt_response))
-                return doubt_response
-            
+                response_dict["text"] = doubt_response + f"\n\n{self._get_localized_text('ask_more_doubts', topic=topic_name)}"
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
             else:
-                # Treat as a doubt/question
                 self.state = State.DOUBT_CLEARING
                 self.doubt_questions_count = 1
-                doubt_response = self._generate_doubt_clearing_response(user_input)
-                doubt_response += f"\n\n{self._get_localized_text('ask_more_doubts', topic=topic_name)}"
-                self.chat_history.append(AIMessage(content=doubt_response))
-                return doubt_response
+                response_dict["text"] = self._generate_doubt_clearing_response(user_input) + f"\n\n{self._get_localized_text('ask_more_doubts', topic=topic_name)}"
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state == State.DOUBT_CLEARING:
             no_doubt_indicators = ["no", "nope", "nothing", "i'm good", "all clear", "no more", "that's all", "thanks", "לא", "אין", "תודה", "זה הכל"]
             doubt_indicators = ["yes", "yeah", "yep", "i have", "question", "doubt", "confused", "don't understand", "כן", "יש לי", "שאלה"]
             topic_name = self.topic or "this topic"
-            
             if any(indicator in text_lower for indicator in no_doubt_indicators) or self.doubt_questions_count >= self.MAX_DOUBT_QUESTIONS:
-                # Generate lesson summary and reset for new topic
                 summary = self._generate_lesson_summary()
                 closing_message = self._get_localized_text("lesson_closing")
-                self.state = State.EXERCISE_SELECTION
+                self.state = State.PICK_TOPIC
                 self.topic_exercises_count = 0
                 self.doubt_questions_count = 0
+                self.completed_exercises = 0  # Reset counter for new topic
                 self.current_exercise = None
-                response_text = f"{summary}\n\n{closing_message}\n\nWould you like to continue with more exercises on this topic or choose a new topic?"
-                self.chat_history.append(AIMessage(content=response_text))
-                return response_text
-                
+                response_dict["text"] = f"{summary}\n\n{closing_message}\n\nWould you like to continue with more exercises on this topic or choose a new topic?"
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
             elif any(indicator in text_lower for indicator in doubt_indicators) or "?" in user_input:
                 self.doubt_questions_count += 1
                 doubt_response = self._generate_doubt_clearing_response(user_input)
                 if self.doubt_questions_count < self.MAX_DOUBT_QUESTIONS:
                     doubt_response += f"\n\n{self._get_localized_text('ask_more_doubts', topic=topic_name)}"
-                self.chat_history.append(AIMessage(content=doubt_response))
-                return doubt_response
+                response_dict["text"] = doubt_response
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
             else:
-                # Unclear response
-                doubt_response = f"Could you clarify your question about {topic_name} or say 'no' if you're ready to move on?"
-                self.chat_history.append(AIMessage(content=doubt_response))
-                return doubt_response
+                response_dict["text"] = f"Could you clarify your question about {topic_name} or say 'no' if you're ready to move on?"
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
 
-        # Default fallback
-        response_text = "I'm not sure how to proceed. Type 'exit' to quit."
-        self.chat_history.append(AIMessage(content=response_text))
-        return response_text
+        else:
+            response_dict["text"] = "I'm not sure how to proceed. Type 'exit' to quit."
+            self.chat_history.append(AIMessage(content=response_dict["text"]))
 
-# -----------------------------
-# BOT.PY INTEGRATION - GUIDED EXERCISES AND RETRIEVAL SYSTEM
-# -----------------------------
-
-# Additional configuration for bot.py functionality
-BOT_INPUT_FILE = Path("Files/merged_output.json")  # Fixed path
-BOT_MODEL_NAME = "intfloat/multilingual-e5-large"
-BOT_PINECONE_INDEX_NAME = "exercise-embeddings"  # Use same index as main chatbot
-
-# Initialize bot.py components
-try:
-    bot_pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-    bot_index = bot_pc.Index(BOT_PINECONE_INDEX_NAME)
-    bot_model = SentenceTransformer(BOT_MODEL_NAME)
-    bot_all_exercises = []
-    
-    def load_bot_exercises():
-        """Load exercises for bot.py functionality."""
-        global bot_all_exercises
-        try:
-            with open(BOT_INPUT_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            
-            # Ensure we always get a flat list of dict exercises
-            exercises = []
-            if isinstance(data, dict):
-                exercises = [data]
-            elif isinstance(data, list):
-                for ex in data:
-                    if isinstance(ex, dict):
-                        exercises.append(ex)
-                    elif isinstance(ex, list):  # flatten nested lists
-                        exercises.extend([e for e in ex if isinstance(e, dict)])
-            
-            bot_all_exercises = exercises
-            logger.info(f"Loaded {len(bot_all_exercises)} exercises for bot functionality")
-            return exercises
-        except Exception as e:
-            logger.error(f"Error loading bot exercises: {e}")
-            return []
-    
-    # Load exercises on startup
-    load_bot_exercises()
-    
-except Exception as e:
-    logger.error(f"Error initializing bot.py components: {e}")
-    bot_pc = None
-    bot_index = None
-    bot_model = None
-    bot_all_exercises = []
-
-def get_bot_classes():
-    """Get available classes from bot exercises."""
-    if not bot_all_exercises:
-        return []
-    return sorted(set(ex["exercise_metadata"]["class"] for ex in bot_all_exercises if "exercise_metadata" in ex))
-
-def get_bot_topics(chosen_class):
-    """Get available topics for a specific class."""
-    if not bot_all_exercises:
-        return []
-    return sorted(set(
-        ex["exercise_metadata"]["topic"]
-        for ex in bot_all_exercises
-        if "exercise_metadata" in ex and ex["exercise_metadata"]["class"] == chosen_class
-    ))
-
-def get_bot_exercises(chosen_class, chosen_topic):
-    """Get exercises for specific class and topic."""
-    if not bot_all_exercises:
-        return []
-    return [
-        ex for ex in bot_all_exercises
-        if "exercise_metadata" in ex 
-        and ex["exercise_metadata"]["class"] == chosen_class
-        and ex["exercise_metadata"]["topic"] == chosen_topic
-    ]
-
-def run_bot_exercise(exercise):
-    """Run a guided exercise from bot.py functionality."""
-    try:
-        meta = exercise["exercise_metadata"]
-        content = exercise["exercise_content"]
-
-        print(f"\n📘 Exercise {meta['exercise_number']} ({meta['exercise_type']})")
-        print("Main text:", content["main_data"]["text"])
-
-        student_answers = []
-        for sec in content["sections"]:
-            q = sec.get("question", {}).get("text")
-            if q:
-                print(f"\n❓ Section {sec['section_number']} - {q}")
-                answer = input("Your answer: ")
-                student_answers.append({
-                    "section": sec['section_number'],
-                    "question": q,
-                    "answer": answer
-                })
-                print(f"Answer recorded: {answer}")
-                input("Press Enter to continue to the next question...")
-
-        print("\nYour answers:")
-        for ans in student_answers:
-            print(f"Section {ans['section']}: {ans['answer']}")
-            
-        return student_answers
-    except Exception as e:
-        logger.error(f"Error running bot exercise: {e}")
-        print("Sorry, there was an error running this exercise.")
-        return []
-
-def retrieve_bot_answer(query, top_k=3):
-    """Retrieve answers using bot.py retrieval system."""
-    if not bot_model or not bot_index:
-        return []
-    
-    try:
-        emb = bot_model.encode([query])[0].tolist()
-        results = bot_index.query(vector=emb, top_k=top_k, include_metadata=True)
-
-        answers = []
-        for match in results["matches"]:
-            meta = match["metadata"]
-            answers.append({
-                "score": match["score"],
-                "text": meta.get("text", ""),
-                "chunk_type": meta.get("chunk_type"),
-                "parent_id": meta.get("parent_id"),
-                "exercise_number": meta.get("exercise_number"),
-            })
-        return answers
-    except Exception as e:
-        logger.error(f"Error in bot retrieval: {e}")
-        return []
-
-def run_bot_mode():
-    """Run the bot.py main functionality as an alternative mode."""
-    print("Welcome to the Math Chatbot! 🎓")
-    print("Choose mode: (1) Guided Exercises, (2) Free Q&A")
-    mode = input("> ")
-
-    if mode == "1":
-        # Guided pipeline
-        classes = get_bot_classes()
-        if not classes:
-            print("No classes available in bot exercises.")
-            return
-            
-        print(f"Available classes: {classes}")
-        chosen_class = input("Pick a class: ")
-
-        topics = get_bot_topics(chosen_class)
-        if not topics:
-            print(f"No topics available for class {chosen_class}.")
-            return
-            
-        print(f"Available topics: {topics}")
-        chosen_topic = input("Pick a topic: ")
-
-        exercises = get_bot_exercises(chosen_class, chosen_topic)
-        if not exercises:
-            print("No exercises found for this selection.")
-            return
-
-        # Run the first exercise for now
-        exercise = exercises[0]
-        results = run_bot_exercise(exercise)
-        
-        if len(exercises) > 1:
-            print(f"\nThere are {len(exercises)} exercises available for this topic.")
-            continue_choice = input("Would you like to continue with more exercises? (y/n): ")
-            if continue_choice.lower() in ['y', 'yes']:
-                for i, ex in enumerate(exercises[1:], 2):
-                    print(f"\n=== Exercise {i} ===")
-                    run_bot_exercise(ex)
-
-    else:
-        # Retrieval chatbot
-        print("Ask me anything about math exercises! (type 'quit' to exit)")
-        while True:
-            query = input("You: ")
-            if query.lower() in ["quit", "exit"]:
-                break
-            results = retrieve_bot_answer(query)
-            if results:
-                print("\n🔍 Found these relevant answers:")
-                for i, ans in enumerate(results, 1):
-                    print(f"\n[{i}] [{ans['chunk_type']} | Ex {ans['exercise_number']} | parent {ans['parent_id']} | Score: {ans['score']:.3f}]")
-                    print(ans['text'])
-            else:
-                print("Sorry, I couldn't find anything relevant.")
+        return response_dict
 
 # -----------------------------
 # MAIN
 # -----------------------------
 def main():
-    print("\n🎓 Welcome to the Enhanced Math Tutoring System!")
-    
-    # Load data and start the tutor directly
-    if not PARSED_INPUT_FILE.exists():
+    if not INPUT_FILE.exists():
         logger.error("❌ Missing JSON file.")
         return
 
     try:
-        exercises = load_exercises(PARSED_INPUT_FILE)
+        exercises = load_exercises()
         pinecone_index = get_pinecone_index()
     except Exception as e:
         logger.error(f"❌ Error loading data or connecting to Pinecone: {e}")
         return
 
-    fsm = DialogueFSM(exercises, pinecone_index)
+    fsm = DialogueFSM(exercises, pinecone_index,llm)  # Pass llm to FSM
 
     # Initial transition to start the conversation
     initial_response = fsm.transition("")
-    print(f"A_GUY: {initial_response}")
+
+    print(f"A_GUY: {initial_response['text']}")
+    if initial_response["svg_file_path"]:
+        print(f"[SVG available at: {initial_response['svg_file_path']}]")
+
+
+    #print(f"A_GUY: {initial_response}")
 
     while True:
         try:
@@ -2187,23 +1699,16 @@ def main():
             print("\n👋 Bye!")
             fsm.inactivity_timer.stop()
             break
-            
         if user_input.lower() in {"exit", "quit", "done"}:
             print("👋 Bye!")
             fsm.inactivity_timer.stop()
             break
 
-        try:
-            response = fsm.transition(user_input)
-            print(f"A_GUY: {response}")
-        except KeyboardInterrupt:
-            print("\n👋 Chat interrupted. Bye!")
-            fsm.inactivity_timer.stop()
-            break
-        except Exception as e:
-            logger.error(f"Error during conversation: {e}")
-            print("A_GUY: Sorry, I encountered an error. Let's continue!")
-            continue
+        response = fsm.transition(user_input)
+
+        print(f"A_GUY: {response['text']}")
+        if response["svg_file_path"]:
+            print(f"[SVG available at: {response['svg_file_path']}]")
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,3077 @@
+[
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_1",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 1,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "נתונות הנקודות: $ (0,0),  (1,1),  (2,2),  (3,3)  $"
+    },
+    "section_count": 3,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "multiple_choice",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "multiple_choice",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": false,
+        "content_types": [
+          "visual_diagram"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "multiple_choice",
+        "has_hint": false,
+        "has_solution": true,
+        "content_types": [
+          "multiple_choice"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 1\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 3\n        \n        Main Content: Text: נתונות הנקודות: $ (0,0),  (1,1),  (2,2),  (3,3)  $\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"multiple_choice\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"multiple_choice\", \"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": false, \"content_types\": [\"visual_diagram\"]}, {\"section_number\": \"ג\", \"question_type\": \"multiple_choice\", \"has_hint\": false, \"has_solution\": true, \"content_types\": [\"multiple_choice\"]}]",
+    "token_count": 218
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_1",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 1,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 1,
+        "section_number": "א",
+        "question": {
+          "text": "קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "$y=3x$",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$y=x$",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$y=2x$",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "hint": {
+          "text": "נסו להבין מה משותף לכל הנקודות הנתונות",
+          "table": null,
+          "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"8.5\" y=\"0.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n&nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"0\" cy=\"0\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"1\" cy=\"-1\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; </svg>"
+        },
+        "solution": {
+          "text": "y=x",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "בכל הנקודות שיעור ה-x ו-y זהים",
+          "table": null,
+          "svg": null
+        }
+      },
+      {
+        "section_id": 2,
+        "section_number": "ב",
+        "question": {
+          "text": "סמנו את הנקודות במערכת צירים",
+          "table": null,
+          "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"8.5\" y=\"0.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"0\" cy=\"0\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"1\" cy=\"-1\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; </svg>"
+        },
+        "hint": {
+          "text": "שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות",
+          "table": null,
+          "svg": null
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: נתונות הנקודות: $ (0,0),  (1,1),  (2,2),  (3,3)  $\n\nQuestion: Text: קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות\n\nAnswer Options: Option 1: Text: $y=3x$ | Option 2: Text: $y=x$ | Option 3: Text: $y=2x$\n\nHint: Text: נסו להבין מה משותף לכל הנקודות הנתונות\n\nSolution: Text: y=x\n\nFull Solution: Text: בכל הנקודות שיעור ה-x ו-y זהים\n\n--- Next Section ---\n\nExercise Context: Text: נתונות הנקודות: $ (0,0),  (1,1),  (2,2),  (3,3)  $\n\nQuestion: Text: סמנו את הנקודות במערכת צירים\n\nHint: Text: שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות",
+    "token_count": 368,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_1",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 1,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 3,
+        "section_number": "ג",
+        "question": {
+          "text": "קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל:",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "גרף לא ישר",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "גרף של קו ישר",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "solution": {
+          "text": "גרף של קו ישר",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+          "table": null,
+          "svg": null
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: נתונות הנקודות: $ (0,0),  (1,1),  (2,2),  (3,3)  $\n\nQuestion: Text: קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל:\n\nAnswer Options: Option 1: Text: גרף לא ישר | Option 2: Text: גרף של קו ישר\n\nSolution: Text: גרף של קו ישר\n\nFull Solution: Text: וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+    "token_count": 219,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": false,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_2",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 2,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "נתונות הנקודות: $ (0,2), (1,3), (2,4), (3,5) $"
+    },
+    "section_count": 3,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "multiple_choice",
+        "has_hint": false,
+        "has_solution": true,
+        "content_types": [
+          "multiple_choice",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "multiple_choice",
+        "has_hint": false,
+        "has_solution": true,
+        "content_types": [
+          "multiple_choice"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 2\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 3\n        \n        Main Content: Text: נתונות הנקודות: $ (0,2), (1,3), (2,4), (3,5) $\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"multiple_choice\", \"has_hint\": false, \"has_solution\": true, \"content_types\": [\"multiple_choice\", \"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\"]}, {\"section_number\": \"ג\", \"question_type\": \"multiple_choice\", \"has_hint\": false, \"has_solution\": true, \"content_types\": [\"multiple_choice\"]}]",
+    "token_count": 209
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_2",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 2,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 1,
+        "section_number": "א",
+        "question": {
+          "text": "קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "$y=x+1$",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$y=2x$",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$y=x+2$",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "solution": {
+          "text": "$y=x+2$",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "בכל הנקודות שיעור y  גדול ב-2 משיעור ה-x",
+          "table": null,
+          "svg": null
+        }
+      },
+      {
+        "section_id": 2,
+        "section_number": "ב",
+        "question": {
+          "text": "סמנו את הנקודות במערכת צירים",
+          "table": null,
+          "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"8.5\" y=\"0.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"0\" cy=\"-2\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"1\" cy=\"-3\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; </svg>"
+        },
+        "hint": {
+          "text": "שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות",
+          "table": null,
+          "svg": null
+        },
+        "solution": {
+          "text": null,
+          "table": null,
+          "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"8.5\" y=\"0.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"0\" cy=\"-2\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"1\" cy=\"-3\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"2\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"3\" cy=\"-5\" r=\"0.2\" fill=\"#C00000\"></circle>\n&nbsp; &nbsp; </svg>"
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: נתונות הנקודות: $ (0,2), (1,3), (2,4), (3,5) $\n\nQuestion: Text: קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות\n\nAnswer Options: Option 1: Text: $y=x+1$ | Option 2: Text: $y=2x$ | Option 3: Text: $y=x+2$\n\nSolution: Text: $y=x+2$\n\nFull Solution: Text: בכל הנקודות שיעור y  גדול ב-2 משיעור ה-x\n\n--- Next Section ---\n\nExercise Context: Text: נתונות הנקודות: $ (0,2), (1,3), (2,4), (3,5) $\n\nQuestion: Text: סמנו את הנקודות במערכת צירים\n\nHint: Text: שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות\n\nSolution: ",
+    "token_count": 335,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_2",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 2,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 3,
+        "section_number": "ג",
+        "question": {
+          "text": "קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל:",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "גרף לא ישר",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "גרף של קו ישר",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "solution": {
+          "text": "גרף של קו ישר",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+          "table": null,
+          "svg": null
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: נתונות הנקודות: $ (0,2), (1,3), (2,4), (3,5) $\n\nQuestion: Text: קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל:\n\nAnswer Options: Option 1: Text: גרף לא ישר | Option 2: Text: גרף של קו ישר\n\nSolution: Text: גרף של קו ישר\n\nFull Solution: Text: וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+    "token_count": 215,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": false,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_3",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 3,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "מחיר של כדור שוקולד הוא 3 שקלים."
+    },
+    "section_count": 4,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": false,
+        "content_types": [
+          "table_data"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "multiple_choice",
+        "has_hint": false,
+        "has_solution": false,
+        "content_types": [
+          "multiple_choice",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "open_ended",
+        "has_hint": false,
+        "has_solution": false,
+        "content_types": []
+      },
+      {
+        "section_number": "ד",
+        "question_type": "multiple_choice",
+        "has_hint": false,
+        "has_solution": false,
+        "content_types": [
+          "multiple_choice"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 3\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 4\n        \n        Main Content: Text: מחיר של כדור שוקולד הוא 3 שקלים.\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": false, \"content_types\": [\"table_data\"]}, {\"section_number\": \"ב\", \"question_type\": \"multiple_choice\", \"has_hint\": false, \"has_solution\": false, \"content_types\": [\"multiple_choice\", \"mathematical\"]}, {\"section_number\": \"ג\", \"question_type\": \"open_ended\", \"has_hint\": false, \"has_solution\": false, \"content_types\": []}, {\"section_number\": \"ד\", \"question_type\": \"multiple_choice\", \"has_hint\": false, \"has_solution\": false, \"content_types\": [\"multiple_choice\"]}]",
+    "token_count": 233
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_3",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 3,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 1,
+        "section_number": "א",
+        "question": {
+          "text": "השלימו את הטבלה הבאה:",
+          "table": {
+            "headers": [
+              "מס' כדורים",
+              "0",
+              "1",
+              "2",
+              "3"
+            ],
+            "rows_data": [
+              [
+                "עלות",
+                "0",
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          "svg": null
+        },
+        "hint": {
+          "text": "דוגמה, מחיר של 6 כדורי שוקולד הוא 6 כפול 3 שזה 18 ש\"ח",
+          "table": null,
+          "svg": null
+        }
+      },
+      {
+        "section_id": 2,
+        "section_number": "ב",
+        "question": {
+          "text": "אילו נקודות מתקבלות מהטבלה ?",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "$ (0,0) ,  (1,3) ,  (2,6),  (3,9) $",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$ (0,0) ,  (1,2) ,  (2,4),  (3,6) $",
+            "table": null,
+            "svg": null
+          }
+        ]
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: מחיר של כדור שוקולד הוא 3 שקלים.\n\nQuestion: Text: השלימו את הטבלה הבאה: | Headers: מס' כדורים | Headers: 0 | Headers: 1 | Headers: 2 | Headers: 3 | Rows Data: עלות | Rows Data: 0 | Rows Data:  | Rows Data:  | Rows Data: \n\nHint: Text: דוגמה, מחיר של 6 כדורי שוקולד הוא 6 כפול 3 שזה 18 ש\"ח\n\n--- Next Section ---\n\nExercise Context: Text: מחיר של כדור שוקולד הוא 3 שקלים.\n\nQuestion: Text: אילו נקודות מתקבלות מהטבלה ?\n\nAnswer Options: Option 1: Text: $ (0,0) ,  (1,3) ,  (2,6),  (3,9) $ | Option 2: Text: $ (0,0) ,  (1,2) ,  (2,4),  (3,6) $",
+    "token_count": 310,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": true,
+      "has_multiple_choice": true,
+      "has_hint": true,
+      "has_solution": false,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_3",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 3,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 3,
+        "section_number": "ג",
+        "question": {
+          "text": "סמנו את הנקודות שבחרתן בסעיף קודם במערכת צירים",
+          "table": null,
+          "svg": null
+        }
+      },
+      {
+        "section_id": 4,
+        "section_number": "ד",
+        "question": {
+          "text": "קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "גרף של קו ישר",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "גרף לא ישר",
+            "table": null,
+            "svg": null
+          }
+        ]
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: מחיר של כדור שוקולד הוא 3 שקלים.\n\nQuestion: Text: סמנו את הנקודות שבחרתן בסעיף קודם במערכת צירים\n\n--- Next Section ---\n\nExercise Context: Text: מחיר של כדור שוקולד הוא 3 שקלים.\n\nQuestion: Text: קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל\n\nAnswer Options: Option 1: Text: גרף של קו ישר | Option 2: Text: גרף לא ישר",
+    "token_count": 216,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": false,
+      "has_solution": false,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_4",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 4,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "נתונות הנקודות: $ (0,0), (1,1), (2,4), (3,9) $"
+    },
+    "section_count": 3,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "multiple_choice",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "multiple_choice",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "multiple_choice",
+        "has_hint": false,
+        "has_solution": true,
+        "content_types": [
+          "multiple_choice"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 4\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 3\n        \n        Main Content: Text: נתונות הנקודות: $ (0,0), (1,1), (2,4), (3,9) $\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"multiple_choice\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"multiple_choice\", \"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\"]}, {\"section_number\": \"ג\", \"question_type\": \"multiple_choice\", \"has_hint\": false, \"has_solution\": true, \"content_types\": [\"multiple_choice\"]}]",
+    "token_count": 209
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_4",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 4,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 1,
+        "section_number": "א",
+        "question": {
+          "text": "קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "$y=x^2$",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$y=2+x$",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "hint": {
+          "text": "בחנו את כל הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "solution": {
+          "text": "$y=x^2$",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "בכל הנקודות שיעור y שווה לשיעור ה-x  בחזקת 2",
+          "table": null,
+          "svg": null
+        }
+      },
+      {
+        "section_id": 2,
+        "section_number": "ב",
+        "question": {
+          "text": "סמנו את הנקודות במערכת צירים",
+          "table": null,
+          "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"8.5\" y=\"0.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"0\" cy=\"0\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"2\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; </svg>"
+        },
+        "hint": {
+          "text": "שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות",
+          "table": null,
+          "svg": null
+        },
+        "solution": {
+          "text": null,
+          "table": null,
+          "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"8.5\" y=\"0.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"0\" cy=\"0\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"1\" cy=\"-1\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"2\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"3\" cy=\"-9\" r=\"0.2\" fill=\"#C00000\"></circle>\n&nbsp; &nbsp; </svg>"
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: נתונות הנקודות: $ (0,0), (1,1), (2,4), (3,9) $\n\nQuestion: Text: קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות\n\nAnswer Options: Option 1: Text: $y=x^2$ | Option 2: Text: $y=2+x$\n\nHint: Text: בחנו את כל הנקודות הנתונות\n\nSolution: Text: $y=x^2$\n\nFull Solution: Text: בכל הנקודות שיעור y שווה לשיעור ה-x  בחזקת 2\n\n--- Next Section ---\n\nExercise Context: Text: נתונות הנקודות: $ (0,0), (1,1), (2,4), (3,9) $\n\nQuestion: Text: סמנו את הנקודות במערכת צירים\n\nHint: Text: שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות\n\nSolution: ",
+    "token_count": 356,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_4",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 4,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 3,
+        "section_number": "ג",
+        "question": {
+          "text": "קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל:",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "גרף לא ישר",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "גרף של קו ישר",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "solution": {
+          "text": "גרף של קו ישר",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+          "table": null,
+          "svg": null
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: נתונות הנקודות: $ (0,0), (1,1), (2,4), (3,9) $\n\nQuestion: Text: קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל:\n\nAnswer Options: Option 1: Text: גרף לא ישר | Option 2: Text: גרף של קו ישר\n\nSolution: Text: גרף של קו ישר\n\nFull Solution: Text: וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+    "token_count": 215,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": false,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_5",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 5,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "נתונות הנקודות: $ (0,0), (1,-2), (2,-4), (3,-6) $"
+    },
+    "section_count": 3,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "multiple_choice",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "multiple_choice",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "multiple_choice",
+        "has_hint": false,
+        "has_solution": true,
+        "content_types": [
+          "multiple_choice"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 5\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 3\n        \n        Main Content: Text: נתונות הנקודות: $ (0,0), (1,-2), (2,-4), (3,-6) $\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"multiple_choice\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"multiple_choice\", \"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\"]}, {\"section_number\": \"ג\", \"question_type\": \"multiple_choice\", \"has_hint\": false, \"has_solution\": true, \"content_types\": [\"multiple_choice\"]}]",
+    "token_count": 209
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_5",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 5,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 1,
+        "section_number": "א",
+        "question": {
+          "text": "קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "$y=-x$",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$y = -2 \\cdot x$",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "hint": {
+          "text": "בחנו את כל הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "solution": {
+          "text": "$y = -2 \\cdot x$",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "בכל הנקודות שיעור y שווה לשיעור ה-x כפול 2-",
+          "table": null,
+          "svg": null
+        }
+      },
+      {
+        "section_id": 2,
+        "section_number": "ב",
+        "question": {
+          "text": "סמנו את הנקודות במערכת צירים",
+          "table": null,
+          "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"-5\" x2=\"8\" y2=\"-5\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"8.5\" y=\"-4.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"0\" cy=\"-5\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"1\" cy=\"-3\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; </svg>"
+        },
+        "hint": {
+          "text": "שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות",
+          "table": null,
+          "svg": null
+        },
+        "solution": {
+          "text": null,
+          "table": null,
+          "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"-5\" x2=\"8\" y2=\"-5\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"8.5\" y=\"-4.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"0\" cy=\"-5\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"1\" cy=\"-3\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"2\" cy=\"-1\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"3\" cy=\"1\" r=\"0.2\" fill=\"#C00000\"></circle>\n&nbsp; &nbsp; </svg>"
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: נתונות הנקודות: $ (0,0), (1,-2), (2,-4), (3,-6) $\n\nQuestion: Text: קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות\n\nAnswer Options: Option 1: Text: $y=-x$ | Option 2: Text: $y = -2 \\cdot x$\n\nHint: Text: בחנו את כל הנקודות הנתונות\n\nSolution: Text: $y = -2 \\cdot x$\n\nFull Solution: Text: בכל הנקודות שיעור y שווה לשיעור ה-x כפול 2-\n\n--- Next Section ---\n\nExercise Context: Text: נתונות הנקודות: $ (0,0), (1,-2), (2,-4), (3,-6) $\n\nQuestion: Text: סמנו את הנקודות במערכת צירים\n\nHint: Text: שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות\n\nSolution: ",
+    "token_count": 360,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_5",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 5,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 3,
+        "section_number": "ג",
+        "question": {
+          "text": "קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל:",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "גרף של ישר",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "גרף לא של קו ישר",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "solution": {
+          "text": "גרף של קו ישר",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+          "table": null,
+          "svg": null
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: נתונות הנקודות: $ (0,0), (1,-2), (2,-4), (3,-6) $\n\nQuestion: Text: קבעו, אם נעביר עקומה דרך הנקודות שסימנתם, נקבל:\n\nAnswer Options: Option 1: Text: גרף של ישר | Option 2: Text: גרף לא של קו ישר\n\nSolution: Text: גרף של קו ישר\n\nFull Solution: Text: וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+    "token_count": 217,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": false,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_6",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 6,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "ענו על הסעיפים הבאים"
+    },
+    "section_count": 3,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "multiple_choice",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "multiple_choice",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "multiple_choice",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "multiple_choice",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "multiple_choice",
+        "has_hint": false,
+        "has_solution": true,
+        "content_types": [
+          "multiple_choice",
+          "mathematical"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 6\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 3\n        \n        Main Content: Text: ענו על הסעיפים הבאים\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"multiple_choice\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"multiple_choice\", \"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"multiple_choice\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"multiple_choice\", \"mathematical\"]}, {\"section_number\": \"ג\", \"question_type\": \"multiple_choice\", \"has_hint\": false, \"has_solution\": true, \"content_types\": [\"multiple_choice\", \"mathematical\"]}]",
+    "token_count": 204
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_6",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 6,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 1,
+        "section_number": "א",
+        "section_data": {
+          "text": "נתונות הנקודות: $ (0,0), (1,-1), (2,-2), (3,-3) $",
+          "table": null,
+          "svg": null
+        },
+        "question": {
+          "text": "קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "$y=-x$",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$y = -2 \\cdot x$",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "hint": {
+          "text": "בחנו את כל הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "solution": {
+          "text": "$y = -x$",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "בכל הנקודות שיעור y שווה לשיעור ה-x כפול 2-",
+          "table": null,
+          "svg": null
+        }
+      },
+      {
+        "section_id": 2,
+        "section_number": "ב",
+        "section_data": {
+          "text": "נתונות הנקודות: $ (0,2), (1,4), (3,6), (3,4) $",
+          "table": null,
+          "svg": null
+        },
+        "question": {
+          "text": "קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "$y=2x$",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$y=5x$",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "hint": {
+          "text": "שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות",
+          "table": null,
+          "svg": null
+        },
+        "solution": {
+          "text": null,
+          "table": null,
+          "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"-5\" x2=\"8\" y2=\"-5\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"8.5\" y=\"-4.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n&nbsp; &nbsp; &nbsp; &nbsp; <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"0\" cy=\"-5\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <circle cx=\"1\" cy=\"-3\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"2\" cy=\"-1\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"3\" cy=\"1\" r=\"0.2\" fill=\"#C00000\"></circle>\n&nbsp; &nbsp; </svg>"
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: ענו על הסעיפים הבאים\n\nSection Data: Text: נתונות הנקודות: $ (0,0), (1,-1), (2,-2), (3,-3) $\n\nQuestion: Text: קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות\n\nAnswer Options: Option 1: Text: $y=-x$ | Option 2: Text: $y = -2 \\cdot x$\n\nHint: Text: בחנו את כל הנקודות הנתונות\n\nSolution: Text: $y = -x$\n\nFull Solution: Text: בכל הנקודות שיעור y שווה לשיעור ה-x כפול 2-\n\n--- Next Section ---\n\nExercise Context: Text: ענו על הסעיפים הבאים\n\nSection Data: Text: נתונות הנקודות: $ (0,2), (1,4), (3,6), (3,4) $\n\nQuestion: Text: קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות\n\nAnswer Options: Option 1: Text: $y=2x$ | Option 2: Text: $y=5x$\n\nHint: Text: שרטטו במחברת, ציר x וציר y וסמנו את הנקודות לפי משבצות\n\nSolution: ",
+    "token_count": 467,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_6",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 6,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 3,
+        "section_number": "ג",
+        "section_data": {
+          "text": "נתונות הנקודות: $ (0,1), (1,2), (2,3), (3,4) $",
+          "table": null,
+          "svg": null
+        },
+        "question": {
+          "text": "קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות",
+          "table": null,
+          "svg": null
+        },
+        "question_options": [
+          {
+            "text": "$y=x+5$",
+            "table": null,
+            "svg": null
+          },
+          {
+            "text": "$y=x+1$",
+            "table": null,
+            "svg": null
+          }
+        ],
+        "solution": {
+          "text": "גרף של קו ישר",
+          "table": null,
+          "svg": null
+        },
+        "full_solution": {
+          "text": "וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+          "table": null,
+          "svg": null
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: ענו על הסעיפים הבאים\n\nSection Data: Text: נתונות הנקודות: $ (0,1), (1,2), (2,3), (3,4) $\n\nQuestion: Text: קבעו איזה ייצוג אלגברי מציג את הקשר בין x ו-y של הנקודות הנתונות\n\nAnswer Options: Option 1: Text: $y=x+5$ | Option 2: Text: $y=x+1$\n\nSolution: Text: גרף של קו ישר\n\nFull Solution: Text: וודאו שסימנתם את הנקודות נכון, ואז העבירו עקומה",
+    "token_count": 234,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": false,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_7",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 7,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר",
+      "table": {
+        "headers": [
+          "ייצוג גרפי",
+          "ייצוג אלגברי",
+          "שיפוע M"
+        ],
+        "rows_data": [
+          [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          [
+            "",
+            "$y=1\\cdot x$",
+            "$M=1$"
+          ]
+        ]
+      },
+      "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n    <line x1=\"-1\" y1=\"1\" x2=\"5\" y2=\"-5\" stroke=\"black\" stroke-width=\"0.1\"></line>\n     \n     <path d=\"M1 -1 L1 -2 L2 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n     <path d=\"M2 -2 L2 -3 L3 -3\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n\n      </svg>"
+    },
+    "section_count": 4,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ד",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 7\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 4\n        \n        Main Content: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ג\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ד\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}]",
+    "token_count": 476
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_7",
+    "section_id": 1,
+    "section_number": "א",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 7,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 1,
+      "section_number": "א",
+      "question": {
+        "text": "השלימו את מה שחסר בטבלה",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי",
+              "שיפוע M"
+            ],
+            [
+              "\n   \n  ",
+              "$y=2\\cdot x$",
+              ""
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadX\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadY\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-1\" y1=\"2\" x2=\"3\" y2=\"-6\" stroke=\"black\" stroke-width=\"0.1\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M1 0 L1 -2 L2 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M2 -2 L2 -4 L3 -4\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M3 -4 L3 -6 L3 -6\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>"
+      },
+      "hint": {
+        "text": "שימו לב לדוגמה בתחילת התרגיל",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$M=2$",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 2 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n\nQuestion: Text: השלימו את מה שחסר בטבלה | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: \n   \n   | Rows Data: $y=2\\cdot x$ | Rows Data: \n\nHint: Text: שימו לב לדוגמה בתחילת התרגיל\n\nSolution: Text: $M=2$\n\nFull Solution: Text: על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 2 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+    "token_count": 503,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_7",
+    "section_id": 2,
+    "section_number": "ב",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 7,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 2,
+      "section_number": "ב",
+      "question": {
+        "text": "השלימו את מה שחסר בטבלה",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי",
+              "שיפוע M"
+            ],
+            [
+              "\n   \n  ",
+              "",
+              ""
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n&nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-1\" y1=\"3\" x2=\"2\" y2=\"-6\" stroke=\"black\" stroke-width=\"0.1\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M0 0 L1 0 L1 -3\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M1 -3 L2 -3 L2 -6\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>"
+      },
+      "hint": {
+        "text": "העזרו בדוגמה בתחילת התרגיל",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$y=3\\cdot x$$M=3$",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 2 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n\nQuestion: Text: השלימו את מה שחסר בטבלה | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: \n   \n   | Rows Data:  | Rows Data: \n\nHint: Text: העזרו בדוגמה בתחילת התרגיל\n\nSolution: Text: $y=3\\cdot x$$M=3$\n\nFull Solution: Text: על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 2 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+    "token_count": 503,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_7",
+    "section_id": 3,
+    "section_number": "ג",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 7,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 3,
+      "section_number": "ג",
+      "question": {
+        "text": "השלימו את מה שחסר בטבלה",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי",
+              "שיפוע M"
+            ],
+            [
+              "\n  \n  ",
+              "$y=-1\\cdot x$",
+              ""
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 11\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadX\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadY\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"-4\" x2=\"8\" y2=\"-4\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-1\" y1=\"-5\" x2=\"5\" y2=\"1\" stroke=\"black\" stroke-width=\"0.1\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M0 -4 L1 -4 L1 -3\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M1 -3 L2 -3 L2 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M2 -2 L3 -2 L3 -1\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>"
+      },
+      "hint": {
+        "text": "העזרו בדוגמה בתחילת התרגיל",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$M=-1$",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 1 יחידות ירידה בכל תזוזה ימינה של יחידה אחת",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n\nQuestion: Text: השלימו את מה שחסר בטבלה | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: \n  \n   | Rows Data: $y=-1\\cdot x$ | Rows Data: \n\nHint: Text: העזרו בדוגמה בתחילת התרגיל\n\nSolution: Text: $M=-1$\n\nFull Solution: Text: על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 1 יחידות ירידה בכל תזוזה ימינה של יחידה אחת",
+    "token_count": 502,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_7",
+    "section_id": 4,
+    "section_number": "ד",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 7,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 4,
+      "section_number": "ד",
+      "question": {
+        "text": "השלימו את מה שחסר בטבלה",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי",
+              "שיפוע M"
+            ],
+            [
+              "\n    \n  ",
+              "$y=\\frac{1}{2}\\cdot x$",
+              ""
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n      <defs>\n        <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n          <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n        </marker>\n        <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n          <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n        </marker>\n        <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n          <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n        </pattern>\n      </defs>\n\n      <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n      <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n      <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n      <line x1=\"-2\" y1=\"1\" x2=\"6\" y2=\"-3\" stroke=\"black\" stroke-width=\"0.1\"></line>\n      <path d=\"M2 -1 L3 -1 L3 -1.5\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n      <path d=\"M3 -1.5 L4 -1.5 L4 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n    </svg>"
+      },
+      "hint": {
+        "text": "העזרו בדוגמה בתחילת התרגיל",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$M=\\frac{1}{2}$",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 1/2 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n\nQuestion: Text: השלימו את מה שחסר בטבלה | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: \n    \n   | Rows Data: $y=\\frac{1}{2}\\cdot x$ | Rows Data: \n\nHint: Text: העזרו בדוגמה בתחילת התרגיל\n\nSolution: Text: $M=\\frac{1}{2}$\n\nFull Solution: Text: על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 1/2 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+    "token_count": 513,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_8",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "חישוב",
+      "exercise_number": 8,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר",
+      "table": {
+        "headers": [
+          "ייצוג גרפי",
+          "ייצוג אלגברי",
+          "שיפוע M"
+        ],
+        "rows_data": [
+          [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          [
+            "",
+            "$y=1\\cdot x$",
+            "$M=1$"
+          ]
+        ]
+      },
+      "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n    <line x1=\"-1\" y1=\"1\" x2=\"5\" y2=\"-5\" stroke=\"black\" stroke-width=\"0.1\"></line>\n     \n     <path d=\"M1 -1 L1 -2 L2 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n     <path d=\"M2 -2 L2 -3 L3 -3\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n\n      </svg>"
+    },
+    "section_count": 4,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ד",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 8\n        Topic: הצגה של ישר \n        Type: חישוב\n        Total Sections: 4\n        \n        Main Content: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ג\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ד\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}]",
+    "token_count": 478
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_8",
+    "section_id": 1,
+    "section_number": "א",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "חישוב",
+      "exercise_number": 8,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 1,
+      "section_number": "א",
+      "question": {
+        "text": "השלימו את מה שחסר בטבלה",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי",
+              "שיפוע M"
+            ],
+            [
+              "\n   \n  ",
+              "",
+              ""
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadX\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadY\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-0.5\" y1=\"2\" x2=\"1.5\" y2=\"-6\" stroke=\"black\" stroke-width=\"0.1\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M0 0 L1 0 L1 -4\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>"
+      },
+      "hint": {
+        "text": "שימו לב לדוגמה בתחילת התרגיל",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$y=4\\cdot x$$M=4$",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 2 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n\nQuestion: Text: השלימו את מה שחסר בטבלה | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: \n   \n   | Rows Data:  | Rows Data: \n\nHint: Text: שימו לב לדוגמה בתחילת התרגיל\n\nSolution: Text: $y=4\\cdot x$$M=4$\n\nFull Solution: Text: על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 2 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+    "token_count": 503,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_8",
+    "section_id": 2,
+    "section_number": "ב",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "חישוב",
+      "exercise_number": 8,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 2,
+      "section_number": "ב",
+      "question": {
+        "text": "השלימו את מה שחסר בטבלה",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי",
+              "שיפוע M"
+            ],
+            [
+              "\n   \n  ",
+              "",
+              "$M=1.5$"
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n&nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-1\" y1=\"1.5\" x2=\"4\" y2=\"-6\" stroke=\"black\" stroke-width=\"0.1\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M0 0 L1 0 L1 -1.5\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M1 -1.5 L2 -1.5 L2 -3\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>"
+      },
+      "hint": {
+        "text": "העזרו בדוגמה בתחילת התרגיל",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$y=1.5\\cdot x$",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 1.5 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n\nQuestion: Text: השלימו את מה שחסר בטבלה | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: \n   \n   | Rows Data:  | Rows Data: $M=1.5$\n\nHint: Text: העזרו בדוגמה בתחילת התרגיל\n\nSolution: Text: $y=1.5\\cdot x$\n\nFull Solution: Text: על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 1.5 יחידות עלייה בכל תזוזה ימינה של יחידה אחת",
+    "token_count": 509,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_8",
+    "section_id": 3,
+    "section_number": "ג",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "חישוב",
+      "exercise_number": 8,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 3,
+      "section_number": "ג",
+      "question": {
+        "text": "השלימו את מה שחסר בטבלה",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי",
+              "שיפוע M"
+            ],
+            [
+              "\n  \n  ",
+              "",
+              ""
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 11\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadX\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadY\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"-4\" x2=\"8\" y2=\"-4\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-1\" y1=\"-6\" x2=\"3\" y2=\"2\" stroke=\"black\" stroke-width=\"0.1\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M0 -4 L1 -4 L1 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M1 -2 L2 -2 L2 0\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>"
+      },
+      "hint": {
+        "text": "העזרו בדוגמה בתחילת התרגיל",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$y=-2\\cdot x$$M=-2$",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 2 יחידות ירידה בכל תזוזה ימינה של יחידה אחת",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n\nQuestion: Text: השלימו את מה שחסר בטבלה | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: \n  \n   | Rows Data:  | Rows Data: \n\nHint: Text: העזרו בדוגמה בתחילת התרגיל\n\nSolution: Text: $y=-2\\cdot x$$M=-2$\n\nFull Solution: Text: על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 2 יחידות ירידה בכל תזוזה ימינה של יחידה אחת",
+    "token_count": 502,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_8",
+    "section_id": 4,
+    "section_number": "ד",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "חישוב",
+      "exercise_number": 8,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 4,
+      "section_number": "ד",
+      "question": {
+        "text": "השלימו את מה שחסר בטבלה",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי",
+              "שיפוע M"
+            ],
+            [
+              "\n    \n  ",
+              "$y=\\frac{1}{3}\\cdot x$",
+              ""
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n      <defs>\n        <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n          <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n        </marker>\n        <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n          <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n        </marker>\n        <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n          <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n        </pattern>\n      </defs>\n\n      <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n      <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n      <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n      <line x1=\"-3\" y1=\"1\" x2=\"8\" y2=\"-2.66\" stroke=\"black\" stroke-width=\"0.1\"></line>\n      <path d=\"M3 -1 L4 -1 L4 -1.333\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n      <path d=\"M4 -1.333 L5 -1.333 L5 -1.66\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n\n<path d=\"M5 -1.66 L6 -1.66 L6 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n    </svg>"
+      },
+      "hint": {
+        "text": "העזרו בדוגמה בתחילת התרגיל",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$M=\\frac{1}{2}$",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 1/3 יחידות עלייה בכל תזוזה ימינה של יחידה אחת, כך שבכל תזוזה של 3 יחידות ימינה נעלה רק משבצת אחת",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: בטבלה נתון ייצוג גרפי של ישר וסימון קצב השינוי (השיפוע) שלו - גובה  המדרגה.\nבנוסף נתון הייצוג האלגברי המתאים וגם השיפוע של הישר | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data:  | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$\n\nQuestion: Text: השלימו את מה שחסר בטבלה | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: \n    \n   | Rows Data: $y=\\frac{1}{3}\\cdot x$ | Rows Data: \n\nHint: Text: העזרו בדוגמה בתחילת התרגיל\n\nSolution: Text: $M=\\frac{1}{2}$\n\nFull Solution: Text: על פי הסימון בגרף, ניתן לראות שקצב ההשתנות הוא 1/3 יחידות עלייה בכל תזוזה ימינה של יחידה אחת, כך שבכל תזוזה של 3 יחידות ימינה נעלה רק משבצת אחת",
+    "token_count": 565,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_9",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 9,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "נתונים 3 גרפים של ישרים, עם שיפוע זהה - M=1 .\nההבדל בין הישרים, הוא בנקודת החיתוך שלהם עם הציר ה-y",
+      "table": {
+        "headers": [
+          "ייצוג גרפי",
+          "ייצוג אלגברי",
+          "שיפוע M",
+          "נק' חיתוך עם ציר ה-y"
+        ],
+        "rows_data": [
+          [
+            "ייצוג גרפי",
+            "ייצוג אלגברי",
+            "שיפוע M",
+            "נק' חיתוך עם ציר ה-y"
+          ],
+          [
+            "\n  ",
+            "$y=1\\cdot x$",
+            "$M=1$",
+            "$(0,0)$"
+          ],
+          [
+            "\n  ",
+            "$y=1\\cdot x+2$",
+            "$M=1$",
+            ""
+          ],
+          [
+            "\n  ",
+            "$y=1\\cdot x-2$",
+            "",
+            "$(0,-2)$"
+          ]
+        ]
+      },
+      "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n    <line x1=\"-1\" y1=\"1\" x2=\"5\" y2=\"-5\" stroke=\"black\" stroke-width=\"0.1\"></line>\n     \n  &nbsp; <circle cx=\"0\" cy=\"0\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n      </svg>\n<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n    <line x1=\"-1\" y1=\"-1\" x2=\"4\" y2=\"-6\" stroke=\"black\" stroke-width=\"0.1\"></line>\n     \n&nbsp; <circle cx=\"0\" cy=\"-2\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n      </svg>\n<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"-2\" x2=\"8\" y2=\"-2\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n    <line x1=\"-1\" y1=\"1\" x2=\"5\" y2=\"-5\" stroke=\"black\" stroke-width=\"0.1\"></line>\n     \n  &nbsp; <circle cx=\"0\" cy=\"0\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n      </svg>"
+    },
+    "section_count": 2,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": false,
+        "has_solution": false,
+        "content_types": []
+      },
+      {
+        "section_number": "ב",
+        "question_type": "multiple_choice",
+        "has_hint": false,
+        "has_solution": false,
+        "content_types": [
+          "multiple_choice",
+          "mathematical"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 9\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 2\n        \n        Main Content: Text: נתונים 3 גרפים של ישרים, עם שיפוע זהה - M=1 .\nההבדל בין הישרים, הוא בנקודת החיתוך שלהם עם הציר ה-y | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Headers: נק' חיתוך עם ציר ה-y | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: נק' חיתוך עם ציר ה-y | Rows Data: \n   | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$ | Rows Data: $(0,0)$ | Rows Data: \n   | Rows Data: $y=1\\cdot x+2$ | Rows Data: $M=1$ | Rows Data:  | Rows Data: \n   | Rows Data: $y=1\\cdot x-2$ | Rows Data:  | Rows Data: $(0,-2)$\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": false, \"has_solution\": false, \"content_types\": []}, {\"section_number\": \"ב\", \"question_type\": \"multiple_choice\", \"has_hint\": false, \"has_solution\": false, \"content_types\": [\"multiple_choice\", \"mathematical\"]}]",
+    "token_count": 457
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_9",
+    "section_id": 1,
+    "section_number": "א",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 9,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 1,
+      "section_number": "א",
+      "question": {
+        "text": "השלימו את החסר בטבלה",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: נתונים 3 גרפים של ישרים, עם שיפוע זהה - M=1 .\nההבדל בין הישרים, הוא בנקודת החיתוך שלהם עם הציר ה-y | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Headers: נק' חיתוך עם ציר ה-y | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: נק' חיתוך עם ציר ה-y | Rows Data: \n   | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$ | Rows Data: $(0,0)$ | Rows Data: \n   | Rows Data: $y=1\\cdot x+2$ | Rows Data: $M=1$ | Rows Data:  | Rows Data: \n   | Rows Data: $y=1\\cdot x-2$ | Rows Data:  | Rows Data: $(0,-2)$\n\nQuestion: Text: השלימו את החסר בטבלה",
+    "token_count": 355,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": false,
+      "has_hint": false,
+      "has_solution": false,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_9",
+    "section_id": 2,
+    "section_number": "ב",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 9,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 2,
+      "section_number": "ב",
+      "question": {
+        "text": "קבעו, מהי המסקנה מהטבלה לגבי הייצוג האלגברי של ישר  $y=1\\cdot x+2$",
+        "table": null,
+        "svg": null
+      },
+      "question_options": [
+        {
+          "text": "1 - הוא השיפוע ,     2 - שיעור ה-y של נקודת החיתוך של הגרף עם ציר ה-y",
+          "table": null,
+          "svg": null
+        },
+        {
+          "text": "2 - הוא השיפוע ,   1 - שיעור ה-y של נקודת החיתוך של הגרף עם ציר ה-y",
+          "table": null,
+          "svg": null
+        }
+      ]
+    },
+    "searchable_text": "Exercise Context: Text: נתונים 3 גרפים של ישרים, עם שיפוע זהה - M=1 .\nההבדל בין הישרים, הוא בנקודת החיתוך שלהם עם הציר ה-y | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Headers: שיפוע M | Headers: נק' חיתוך עם ציר ה-y | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: שיפוע M | Rows Data: נק' חיתוך עם ציר ה-y | Rows Data: \n   | Rows Data: $y=1\\cdot x$ | Rows Data: $M=1$ | Rows Data: $(0,0)$ | Rows Data: \n   | Rows Data: $y=1\\cdot x+2$ | Rows Data: $M=1$ | Rows Data:  | Rows Data: \n   | Rows Data: $y=1\\cdot x-2$ | Rows Data:  | Rows Data: $(0,-2)$\n\nQuestion: Text: קבעו, מהי המסקנה מהטבלה לגבי הייצוג האלגברי של ישר  $y=1\\cdot x+2$\n\nAnswer Options: Option 1: Text: 1 - הוא השיפוע ,     2 - שיעור ה-y של נקודת החיתוך של הגרף עם ציר ה-y | Option 2: Text: 2 - הוא השיפוע ,   1 - שיעור ה-y של נקודת החיתוך של הגרף עם ציר ה-y",
+    "token_count": 526,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": true,
+      "has_hint": false,
+      "has_solution": false,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_10",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 10,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים",
+      "table": {
+        "headers": [
+          "ייצוג גרפי",
+          "ייצוג אלגברי"
+        ],
+        "rows_data": [
+          [
+            "ייצוג גרפי",
+            "ייצוג אלגברי"
+          ],
+          [
+            "\n  ",
+            "\n$y=1\\cdot x-2$<p>\n$y=1\\cdot x+3$</p><p>\n$y=1\\cdot x+1$\n</p>"
+          ]
+        ]
+      },
+      "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"-1\" x2=\"6\" y2=\"-1\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n  \n  <line x1=\"-1\" y1=\"-3\" x2=\"4\" y2=\"-8\" stroke=\"black\" stroke-width=\"0.1\"></line>\n  <line x1=\"-1\" y1=\"-1\" x2=\"4\" y2=\"-6\" stroke=\"black\" stroke-width=\"0.1\"></line>\n  <line x1=\"-1\" y1=\"2\" x2=\"4\" y2=\"-3\" stroke=\"black\" stroke-width=\"0.1\"></line>\n     \n <text x=\"4\" y=\"-7\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">(1)</text>\n <text x=\"4\" y=\"-5\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">(2)</text>\n  <text x=\"4\" y=\"-2\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">(3)</text>\n\n <circle cx=\"0\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"0\" cy=\"-2\" r=\"0.2\" fill=\"#C00000\"></circle>\n <circle cx=\"0\" cy=\"1\" r=\"0.2\" fill=\"#C00000\"></circle>\n      </svg>"
+    },
+    "section_count": 2,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "mathematical"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 10\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 2\n        \n        Main Content: Text: נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=1\\cdot x-2$<p>\n$y=1\\cdot x+3$</p><p>\n$y=1\\cdot x+1$\n</p>\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"mathematical\"]}]",
+    "token_count": 302
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_10",
+    "section_id": 1,
+    "section_number": "א",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 10,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 1,
+      "section_number": "א",
+      "question": {
+        "text": "התאימו בין הגרף המתאים וייצוג האלגברי",
+        "table": null,
+        "svg": null
+      },
+      "hint": {
+        "text": "נסו להבין מה משותף לישרים ומה שונה",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$y=1\\cdot x-2$  (3) \n$y=1\\cdot x+3$ (1) \n$y=1\\cdot x+1$  (2)",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "על פי נקודת החיתוך עם ציר ה-y ניתן להבין לגבי הייצוג האלגברי, כי השיפוע זהה לכל הישריםישר (1) חותך בנקודה (0,3)  ולכן משוואתו היא $y=1\\cdot x+3$ישר (2) חותך בנקודה (0,1)  ולכן משוואתו היא $y=1\\cdot x+1$ ישר (3) חותך בנקודה (2-,0)  ולכן משוואתו היא $y=1\\cdot x-2$",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=1\\cdot x-2$<p>\n$y=1\\cdot x+3$</p><p>\n$y=1\\cdot x+1$\n</p>\n\nQuestion: Text: התאימו בין הגרף המתאים וייצוג האלגברי\n\nHint: Text: נסו להבין מה משותף לישרים ומה שונה\n\nSolution: Text: $y=1\\cdot x-2$  (3) \n$y=1\\cdot x+3$ (1) \n$y=1\\cdot x+1$  (2)\n\nFull Solution: Text: על פי נקודת החיתוך עם ציר ה-y ניתן להבין לגבי הייצוג האלגברי, כי השיפוע זהה לכל הישריםישר (1) חותך בנקודה (0,3)  ולכן משוואתו היא $y=1\\cdot x+3$ישר (2) חותך בנקודה (0,1)  ולכן משוואתו היא $y=1\\cdot x+1$ ישר (3) חותך בנקודה (2-,0)  ולכן משוואתו היא $y=1\\cdot x-2$",
+    "token_count": 546,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_10",
+    "section_id": 2,
+    "section_number": "ב",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 10,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 2,
+      "section_number": "ב",
+      "question": {
+        "text": "רשמו מסקנה, כיצד ניתן להתאים בין גרף של ישר ובין משוואותו",
+        "table": null,
+        "svg": null
+      },
+      "hint": {
+        "text": "קשור לייצוג אלגברי כללי של ישר   $y=M\\cdot x+b$",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "השיפוע של הגרף הוא קצב העלייה - הוא M המקדם של x במשוואה   $y=M\\cdot x+b$הנקודות חיתוך (שיעור ה-y)  של הגרף  - הוא b האיבר החופשי במשוואה  $y=M\\cdot x+b$",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=1\\cdot x-2$<p>\n$y=1\\cdot x+3$</p><p>\n$y=1\\cdot x+1$\n</p>\n\nQuestion: Text: רשמו מסקנה, כיצד ניתן להתאים בין גרף של ישר ובין משוואותו\n\nHint: Text: קשור לייצוג אלגברי כללי של ישר   $y=M\\cdot x+b$\n\nSolution: Text: השיפוע של הגרף הוא קצב העלייה - הוא M המקדם של x במשוואה   $y=M\\cdot x+b$הנקודות חיתוך (שיעור ה-y)  של הגרף  - הוא b האיבר החופשי במשוואה  $y=M\\cdot x+b$",
+    "token_count": 408,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_11",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 11,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים",
+      "table": {
+        "headers": [
+          "ייצוג גרפי",
+          "ייצוג אלגברי"
+        ],
+        "rows_data": [
+          [
+            "ייצוג גרפי",
+            "ייצוג אלגברי"
+          ],
+          [
+            "\n  ",
+            "\n$y=1\\cdot x+1$<p>\n$y=2\\cdot x+1$</p><p>\n$y=3\\cdot x+1$\n</p>"
+          ]
+        ]
+      },
+      "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"-1\" x2=\"6\" y2=\"-1\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n  \n  <line x1=\"-1\" y1=\"1\" x2=\"2\" y2=\"-8\" stroke=\"black\" stroke-width=\"0.1\"></line>\n  <line x1=\"-1\" y1=\"0\" x2=\"2.5\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.1\"></line>\n  <line x1=\"-1\" y1=\"-1\" x2=\"3\" y2=\"-5\" stroke=\"black\" stroke-width=\"0.1\"></line>\n     \n <text x=\"1.7\" y=\"-7.4\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">(1)</text>\n <text x=\"2.5\" y=\"-4\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">(3)</text>\n  <text x=\"2.3\" y=\"-5.9\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">(2)</text>\n\n\n <circle cx=\"0\" cy=\"-2\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n      </svg>"
+    },
+    "section_count": 2,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "mathematical"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 11\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 2\n        \n        Main Content: Text: נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=1\\cdot x+1$<p>\n$y=2\\cdot x+1$</p><p>\n$y=3\\cdot x+1$\n</p>\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"mathematical\"]}]",
+    "token_count": 302
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_11",
+    "section_id": 1,
+    "section_number": "א",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 11,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 1,
+      "section_number": "א",
+      "question": {
+        "text": "התאימו בין הגרף המתאים וייצוג האלגברי",
+        "table": null,
+        "svg": null
+      },
+      "hint": {
+        "text": "נסו להבין מה משותף לישרים ומה שונה",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$y=1\\cdot x+1$ (1)$y=2\\cdot x+1$ (2)$y=3\\cdot x+1$ (3)",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "נקודת החיתוך עם ציר ה-y זהה לכל הישרים ולכן הייצוג נקבע לפי השיפוע של הגרף, ככל שהוא תלול יותר הוא גדול יותרישר (3) חותך בנקודה (0,3) ולכן משוואתו היא $y=1\\cdot x+1$ישר (2) חותך בנקודה (0,1) ולכן משוואתו היא $y=2\\cdot x+1$ישר (1) חותך בנקודה (2-,0) ולכן משוואתו היא $y=3\\cdot x+1$",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=1\\cdot x+1$<p>\n$y=2\\cdot x+1$</p><p>\n$y=3\\cdot x+1$\n</p>\n\nQuestion: Text: התאימו בין הגרף המתאים וייצוג האלגברי\n\nHint: Text: נסו להבין מה משותף לישרים ומה שונה\n\nSolution: Text: $y=1\\cdot x+1$ (1)$y=2\\cdot x+1$ (2)$y=3\\cdot x+1$ (3)\n\nFull Solution: Text: נקודת החיתוך עם ציר ה-y זהה לכל הישרים ולכן הייצוג נקבע לפי השיפוע של הגרף, ככל שהוא תלול יותר הוא גדול יותרישר (3) חותך בנקודה (0,3) ולכן משוואתו היא $y=1\\cdot x+1$ישר (2) חותך בנקודה (0,1) ולכן משוואתו היא $y=2\\cdot x+1$ישר (1) חותך בנקודה (2-,0) ולכן משוואתו היא $y=3\\cdot x+1$",
+    "token_count": 560,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_11",
+    "section_id": 2,
+    "section_number": "ב",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 11,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 2,
+      "section_number": "ב",
+      "question": {
+        "text": "רשמו מסקנה, כיצד ניתן להתאים בין גרף של ישר ובין משוואותו",
+        "table": null,
+        "svg": null
+      },
+      "hint": {
+        "text": "קשור לייצוג אלגברי כללי של ישר   $y=M\\cdot x+b$",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "השיפוע של הגרף הוא קצב העלייה - הוא M המקדם של x במשוואה   $y=M\\cdot x+b$הנקודות חיתוך (שיעור ה-y)  של הגרף  - הוא b האיבר החופשי במשוואה  $y=M\\cdot x+b$",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=1\\cdot x+1$<p>\n$y=2\\cdot x+1$</p><p>\n$y=3\\cdot x+1$\n</p>\n\nQuestion: Text: רשמו מסקנה, כיצד ניתן להתאים בין גרף של ישר ובין משוואותו\n\nHint: Text: קשור לייצוג אלגברי כללי של ישר   $y=M\\cdot x+b$\n\nSolution: Text: השיפוע של הגרף הוא קצב העלייה - הוא M המקדם של x במשוואה   $y=M\\cdot x+b$הנקודות חיתוך (שיעור ה-y)  של הגרף  - הוא b האיבר החופשי במשוואה  $y=M\\cdot x+b$",
+    "token_count": 408,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_12",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 12,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים",
+      "table": {
+        "headers": [
+          "ייצוג גרפי",
+          "ייצוג אלגברי"
+        ],
+        "rows_data": [
+          [
+            "ייצוג גרפי",
+            "ייצוג אלגברי"
+          ],
+          [
+            "\n  ",
+            "\n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n$y=-3\\cdot x+3$\n</p>"
+          ]
+        ]
+      },
+      "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"-1\" x2=\"6\" y2=\"-1\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n  \n  <line x1=\"-1\" y1=\"-7\" x2=\"2\" y2=\"2\" stroke=\"black\" stroke-width=\"0.1\"></line>\n  <line x1=\"-1\" y1=\"-6\" x2=\"3\" y2=\"2\" stroke=\"black\" stroke-width=\"0.1\"></line>\n  <line x1=\"-1\" y1=\"-5\" x2=\"4\" y2=\"0\" stroke=\"black\" stroke-width=\"0.1\"></line>\n     \n <text x=\"4\" y=\"0\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">(1)</text>\n <text x=\"1.2\" y=\"2\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">(3)</text>\n  <text x=\"2.4\" y=\"1\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">(2)</text>\n\n\n <circle cx=\"0\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n      </svg>"
+    },
+    "section_count": 2,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "mathematical"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 12\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 2\n        \n        Main Content: Text: נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n$y=-3\\cdot x+3$\n</p>\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"mathematical\"]}]",
+    "token_count": 302
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_12",
+    "section_id": 1,
+    "section_number": "א",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 12,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 1,
+      "section_number": "א",
+      "question": {
+        "text": "התאימו בין הגרף המתאים וייצוג האלגברי",
+        "table": null,
+        "svg": null
+      },
+      "hint": {
+        "text": "נסו להבין מה משותף לישרים ומה שונה",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$y=-1\\cdot x+3$ (1)$y=-2\\cdot x+3$ (2)$y=-3\\cdot x+3$ (3)",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "נקודת החיתוך עם ציר ה-y זהה לכל הישרים ולכן הייצוג נקבע לפי השיפוע של הגרף, ככל שהוא תלול יותר הוא גדול יותרישר (1) השיפוע הכי פחות תלול $y=-1\\cdot x+3$ישר (2) שיפוע פחות תלול ולכן $y=-2\\cdot x+3$ישר (3) שיפוע הכי תלול ולכן משוואתו היא $y=-3\\cdot x+3$",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n$y=-3\\cdot x+3$\n</p>\n\nQuestion: Text: התאימו בין הגרף המתאים וייצוג האלגברי\n\nHint: Text: נסו להבין מה משותף לישרים ומה שונה\n\nSolution: Text: $y=-1\\cdot x+3$ (1)$y=-2\\cdot x+3$ (2)$y=-3\\cdot x+3$ (3)\n\nFull Solution: Text: נקודת החיתוך עם ציר ה-y זהה לכל הישרים ולכן הייצוג נקבע לפי השיפוע של הגרף, ככל שהוא תלול יותר הוא גדול יותרישר (1) השיפוע הכי פחות תלול $y=-1\\cdot x+3$ישר (2) שיפוע פחות תלול ולכן $y=-2\\cdot x+3$ישר (3) שיפוע הכי תלול ולכן משוואתו היא $y=-3\\cdot x+3$",
+    "token_count": 528,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_12",
+    "section_id": 2,
+    "section_number": "ב",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 12,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 2,
+      "section_number": "ב",
+      "question": {
+        "text": "רשמו מסקנה, כיצד ניתן להתאים בין גרף של ישר ובין משוואותו",
+        "table": null,
+        "svg": null
+      },
+      "hint": {
+        "text": "קשור לייצוג אלגברי כללי של ישר   $y=M\\cdot x+b$",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "השיפוע של הגרף הוא קצב העלייה - הוא M המקדם של x במשוואה   $y=M\\cdot x+b$הנקודות חיתוך (שיעור ה-y)  של הגרף  - הוא b האיבר החופשי במשוואה  $y=M\\cdot x+b$",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: נתון בטבלה 3 גרפים של ישרים ו3 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n$y=-3\\cdot x+3$\n</p>\n\nQuestion: Text: רשמו מסקנה, כיצד ניתן להתאים בין גרף של ישר ובין משוואותו\n\nHint: Text: קשור לייצוג אלגברי כללי של ישר   $y=M\\cdot x+b$\n\nSolution: Text: השיפוע של הגרף הוא קצב העלייה - הוא M המקדם של x במשוואה   $y=M\\cdot x+b$הנקודות חיתוך (שיעור ה-y)  של הגרף  - הוא b האיבר החופשי במשוואה  $y=M\\cdot x+b$",
+    "token_count": 408,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": false,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_13",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 13,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "קבעו את השיפוע של כל אחד מהישרים הבאים: שיפוע 1, שיפוע 2 או שיפוע -1"
+    },
+    "section_count": 3,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 13\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 3\n        \n        Main Content: Text: קבעו את השיפוע של כל אחד מהישרים הבאים: שיפוע 1, שיפוע 2 או שיפוע -1\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\"]}, {\"section_number\": \"ג\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\"]}]",
+    "token_count": 237
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_13",
+    "section_id": 1,
+    "section_number": "א",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 13,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 1,
+      "section_number": "א",
+      "section_data": {
+        "text": null,
+        "table": null,
+        "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <defs>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </marker>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pattern>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </defs>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n&nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-1\" y1=\"1\" x2=\"5\" y2=\"-5\" stroke=\"black\" stroke-width=\"0.1\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M1 -1 L1 -2 L2 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M2 -2 L2 -3 L3 -3\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>"
+      },
+      "question": {
+        "text": "קבעו את השיפוע של הישר.",
+        "table": null,
+        "svg": null
+      },
+      "hint": {
+        "text": "השיפוע מחושב על ידי היחס 'שינוי בציר Y' חלקי 'שינוי בציר X' (עלייה/ריצה). התבוננו ב'מדרגות' האדומות.",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "שיפוע הישר הוא -1.",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "השיפוע של ישר מחושב על ידי היחס $\\frac{\\text{שינוי בציר } Y}{\\text{שינוי בציר } X}$ (עלייה/ריצה).\n\nבגרף א', ניתן לראות את ה'מדרגות' המסומנות באדום:\n* **מדרגה ראשונה**: מנקודה (1,-1) הישר יורד ב-1 יחידה (שינוי ב-Y = -1) ומתקדם ימינה ב-1 יחידה (שינוי ב-X = 1). השיפוע = $\\frac{-1}{1} = -1$.\n* **מדרגה שנייה**: מנקודה (2,-2) הישר יורד ב-1 יחידה (שינוי ב-Y = -1) ומתקדם ימינה ב-1 יחידה (שינוי ב-X = 1). השיפוע = $\\frac{-1}{1} = -1$.\n\nהשיפוע נשאר קבוע לאורך הישר. לכן, השיפוע של ישר א' הוא **-1**.",
+        "table": {
+          "headers": [
+            "טענה",
+            "נימוק"
+          ],
+          "rows_data": []
+        },
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: קבעו את השיפוע של כל אחד מהישרים הבאים: שיפוע 1, שיפוע 2 או שיפוע -1\n\nSection Data: \n\nQuestion: Text: קבעו את השיפוע של הישר.\n\nHint: Text: השיפוע מחושב על ידי היחס 'שינוי בציר Y' חלקי 'שינוי בציר X' (עלייה/ריצה). התבוננו ב'מדרגות' האדומות.\n\nSolution: Text: שיפוע הישר הוא -1.\n\nFull Solution: Text: השיפוע של ישר מחושב על ידי היחס $\\frac{\\text{שינוי בציר } Y}{\\text{שינוי בציר } X}$ (עלייה/ריצה).\n\nבגרף א', ניתן לראות את ה'מדרגות' המסומנות באדום:\n* **מדרגה ראשונה**: מנקודה (1,-1) הישר יורד ב-1 יחידה (שינוי ב-Y = -1) ומתקדם ימינה ב-1 יחידה (שינוי ב-X = 1). השיפוע = $\\frac{-1}{1} = -1$.\n* **מדרגה שנייה**: מנקודה (2,-2) הישר יורד ב-1 יחידה (שינוי ב-Y = -1) ומתקדם ימינה ב-1 יחידה (שינוי ב-X = 1). השיפוע = $\\frac{-1}{1} = -1$.\n\nהשיפוע נשאר קבוע לאורך הישר. לכן, השיפוע של ישר א' הוא **-1**. | Headers: טענה | Headers: נימוק",
+    "token_count": 629,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_13",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 13,
+      "total_sections": 3,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 2,
+        "section_number": "ב",
+        "section_data": {
+          "text": "ב.",
+          "table": null,
+          "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadX\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadY\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-1\" y1=\"2\" x2=\"3\" y2=\"-6\" stroke=\"black\" stroke-width=\"0.1\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M1 0 L1 -2 L2 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M2 -2 L2 -4 L3 -4\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M3 -4 L3 -6 L3 -6\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>"
+        },
+        "question": {
+          "text": "קבעו את השיפוע של הישר.",
+          "table": null,
+          "svg": null
+        },
+        "hint": {
+          "text": "השיפוע מחושב על ידי היחס 'שינוי בציר Y' חלקי 'שינוי בציר X' (עלייה/ריצה). התבוננו ב'מדרגות' האדומות.",
+          "table": null,
+          "svg": null
+        },
+        "solution": {
+          "text": "שיפוע הישר הוא 2.",
+          "table": null,
+          "svg": null
+        }
+      },
+      {
+        "section_id": 3,
+        "section_number": "ג",
+        "section_data": {
+          "text": "ג.",
+          "table": null,
+          "svg": "<svg viewBox=\"-2 -8 11 11\" preserveAspectRatio=\"xMidYMid meet\">\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadX\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href=\"#arrowheadY\"></use>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1=\"-1\" y1=\"-5\" x2=\"5\" y2=\"1\" stroke=\"black\" stroke-width=\"0.1\"></line>\n\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M0 -4 L1 -4 L1 -3\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M1 -3 L2 -3 L2 -2\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d=\"M2 -2 L3 -2 L3 -1\" stroke=\"red\" stroke-width=\"0.1\" fill=\"none\" stroke-dasharray=\"0.2,0.2\"></path>\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;\n&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>"
+        },
+        "question": {
+          "text": "קבעו את השיפוע של הישר.",
+          "table": null,
+          "svg": null
+        },
+        "hint": {
+          "text": "השיפוע מחושב על ידי היחס 'שינוי בציר Y' חלקי 'שינוי בציר X' (עלייה/ריצה). התבוננו ב'מדרגות' האדומות.",
+          "table": null,
+          "svg": null
+        },
+        "solution": {
+          "text": "שיפוע הישר הוא 1.",
+          "table": null,
+          "svg": null
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: קבעו את השיפוע של כל אחד מהישרים הבאים: שיפוע 1, שיפוע 2 או שיפוע -1\n\nSection Data: Text: ב.\n\nQuestion: Text: קבעו את השיפוע של הישר.\n\nHint: Text: השיפוע מחושב על ידי היחס 'שינוי בציר Y' חלקי 'שינוי בציר X' (עלייה/ריצה). התבוננו ב'מדרגות' האדומות.\n\nSolution: Text: שיפוע הישר הוא 2.\n\n--- Next Section ---\n\nExercise Context: Text: קבעו את השיפוע של כל אחד מהישרים הבאים: שיפוע 1, שיפוע 2 או שיפוע -1\n\nSection Data: Text: ג.\n\nQuestion: Text: קבעו את השיפוע של הישר.\n\nHint: Text: השיפוע מחושב על ידי היחס 'שינוי בציר Y' חלקי 'שינוי בציר X' (עלייה/ריצה). התבוננו ב'מדרגות' האדומות.\n\nSolution: Text: שיפוע הישר הוא 1.",
+    "token_count": 421,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": false,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_14",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 14,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "ענו על הסעיפים הבאים"
+    },
+    "section_count": 4,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ג",
+        "question_type": "open_ended",
+        "has_hint": false,
+        "has_solution": false,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      },
+      {
+        "section_number": "ד",
+        "question_type": "open_ended",
+        "has_hint": false,
+        "has_solution": false,
+        "content_types": [
+          "visual_diagram",
+          "table_data",
+          "mathematical"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 14\n        Topic: הצגה של ישר \n        Type: מנחה\n        Total Sections: 4\n        \n        Main Content: Text: ענו על הסעיפים הבאים\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ג\", \"question_type\": \"open_ended\", \"has_hint\": false, \"has_solution\": false, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}, {\"section_number\": \"ד\", \"question_type\": \"open_ended\", \"has_hint\": false, \"has_solution\": false, \"content_types\": [\"visual_diagram\", \"table_data\", \"mathematical\"]}]",
+    "token_count": 264
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_14",
+    "section_id": 1,
+    "section_number": "א",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 14,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 1,
+      "section_number": "א",
+      "question": {
+        "text": "נתון גרף של ישר- ו-2 ייצוגים אלגברים של ישרים",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי"
+            ],
+            [
+              "\n  ",
+              "\n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n</p>"
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"-1\" x2=\"6\" y2=\"-1\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n  \n  <line x1=\"-1\" y1=\"-7\" x2=\"2\" y2=\"2\" stroke=\"black\" stroke-width=\"0.1\"></line>\n\n     <circle cx=\"0\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n      </svg>"
+      },
+      "hint": {
+        "text": "נסו להבין מה משותף לישרים ומה שונה",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "$y=-1\\cdot x+3$ (1)$y=-2\\cdot x+3$ (2)$y=-3\\cdot x+3$ (3)",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "נקודת החיתוך עם ציר ה-y זהה לכל הישרים ולכן הייצוג נקבע לפי השיפוע של הגרף, ככל שהוא תלול יותר הוא גדול יותרישר (1) השיפוע הכי פחות תלול $y=-1\\cdot x+3$ישר (2) שיפוע פחות תלול ולכן $y=-2\\cdot x+3$ישר (3) שיפוע הכי תלול ולכן משוואתו היא $y=-3\\cdot x+3$",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: ענו על הסעיפים הבאים\n\nQuestion: Text: נתון גרף של ישר- ו-2 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n</p>\n\nHint: Text: נסו להבין מה משותף לישרים ומה שונה\n\nSolution: Text: $y=-1\\cdot x+3$ (1)$y=-2\\cdot x+3$ (2)$y=-3\\cdot x+3$ (3)\n\nFull Solution: Text: נקודת החיתוך עם ציר ה-y זהה לכל הישרים ולכן הייצוג נקבע לפי השיפוע של הגרף, ככל שהוא תלול יותר הוא גדול יותרישר (1) השיפוע הכי פחות תלול $y=-1\\cdot x+3$ישר (2) שיפוע פחות תלול ולכן $y=-2\\cdot x+3$ישר (3) שיפוע הכי תלול ולכן משוואתו היא $y=-3\\cdot x+3$",
+    "token_count": 492,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_14",
+    "section_id": 2,
+    "section_number": "ב",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 14,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 2,
+      "section_number": "ב",
+      "question": {
+        "text": "נתון גרף של ישר- ו-2 ייצוגים אלגברים של ישרים",
+        "table": {
+          "headers": [
+            "ייצוג גרפי",
+            "ייצוג אלגברי"
+          ],
+          "rows_data": [
+            [
+              "ייצוג גרפי",
+              "ייצוג אלגברי"
+            ],
+            [
+              "\n  ",
+              "\n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n</p>"
+            ]
+          ]
+        },
+        "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"-1\" x2=\"6\" y2=\"-1\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n  \n  <line x1=\"-1\" y1=\"-7\" x2=\"2\" y2=\"2\" stroke=\"black\" stroke-width=\"0.1\"></line>\n\n     <circle cx=\"0\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n      </svg>"
+      },
+      "hint": {
+        "text": "קשור לייצוג אלגברי כללי של ישר   $y=M\\cdot x+b$",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "השיפוע של הגרף הוא קצב העלייה - הוא M המקדם של x במשוואה   $y=M\\cdot x+b$הנקודות חיתוך (שיעור ה-y)  של הגרף  - הוא b האיבר החופשי במשוואה  $y=M\\cdot x+b$",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: ענו על הסעיפים הבאים\n\nQuestion: Text: נתון גרף של ישר- ו-2 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n</p>\n\nHint: Text: קשור לייצוג אלגברי כללי של ישר   $y=M\\cdot x+b$\n\nSolution: Text: השיפוע של הגרף הוא קצב העלייה - הוא M המקדם של x במשוואה   $y=M\\cdot x+b$הנקודות חיתוך (שיעור ה-y)  של הגרף  - הוא b האיבר החופשי במשוואה  $y=M\\cdot x+b$",
+    "token_count": 351,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "combined_sections",
+    "exercise_id": "ח_2_14",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "מנחה",
+      "exercise_number": 14,
+      "total_sections": 4,
+      "deleted": false
+    },
+    "combined_sections": [
+      {
+        "section_id": 3,
+        "section_number": "ג",
+        "question": {
+          "text": "נתון גרף של ישר- ו-2 ייצוגים אלגברים של ישרים",
+          "table": {
+            "headers": [
+              "ייצוג גרפי",
+              "ייצוג אלגברי"
+            ],
+            "rows_data": [
+              [
+                "ייצוג גרפי",
+                "ייצוג אלגברי"
+              ],
+              [
+                "\n  ",
+                "\n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n</p>"
+              ]
+            ]
+          },
+          "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"-1\" x2=\"6\" y2=\"-1\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n  \n  <line x1=\"-1\" y1=\"-7\" x2=\"2\" y2=\"2\" stroke=\"black\" stroke-width=\"0.1\"></line>\n\n     <circle cx=\"0\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n      </svg>"
+        }
+      },
+      {
+        "section_id": 4,
+        "section_number": "ד",
+        "question": {
+          "text": "נתון גרף של ישר- ו-2 ייצוגים אלגברים של ישרים",
+          "table": {
+            "headers": [
+              "ייצוג גרפי",
+              "ייצוג אלגברי"
+            ],
+            "rows_data": [
+              [
+                "ייצוג גרפי",
+                "ייצוג אלגברי"
+              ],
+              [
+                "\n  ",
+                "\n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n</p>"
+              ]
+            ]
+          },
+          "svg": "<svg viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n          <marker id=\"arrowheadX\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n          </marker>\n          <marker id=\"arrowheadY\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n            <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n          </marker>\n          <pattern id=\"grid\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n          </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid)\"></rect>\n\n   <line x1=\"-10\" y1=\"-1\" x2=\"6\" y2=\"-1\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX)\"></line>\n    <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY)\"></line>\n  \n  <line x1=\"-1\" y1=\"-7\" x2=\"2\" y2=\"2\" stroke=\"black\" stroke-width=\"0.1\"></line>\n\n     <circle cx=\"0\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n      </svg>"
+        }
+      }
+    ],
+    "searchable_text": "Exercise Context: Text: ענו על הסעיפים הבאים\n\nQuestion: Text: נתון גרף של ישר- ו-2 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n</p>\n\n--- Next Section ---\n\nExercise Context: Text: ענו על הסעיפים הבאים\n\nQuestion: Text: נתון גרף של ישר- ו-2 ייצוגים אלגברים של ישרים | Headers: ייצוג גרפי | Headers: ייצוג אלגברי | Rows Data: ייצוג גרפי | Rows Data: ייצוג אלגברי | Rows Data: \n   | Rows Data: \n$y=-1\\cdot x+3$<p>\n$y=-2\\cdot x+3$</p><p>\n</p>",
+    "token_count": 362,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": false,
+      "has_solution": false,
+      "has_full_solution": false
+    }
+  },
+  {
+    "chunk_type": "exercise_metadata",
+    "exercise_id": "ח_2_15",
+    "metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "בסיס",
+      "exercise_number": 15,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "main_data": {
+      "text": "נתון הייצוג האלגברי הבא:  $y = x + 3$"
+    },
+    "section_count": 2,
+    "sections_preview": [
+      {
+        "section_number": "א",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "table_data"
+        ]
+      },
+      {
+        "section_number": "ב",
+        "question_type": "open_ended",
+        "has_hint": true,
+        "has_solution": true,
+        "content_types": [
+          "visual_diagram"
+        ]
+      }
+    ],
+    "searchable_text": "Exercise: ח - Lesson 2 - Exercise 15\n        Topic: הצגה של ישר \n        Type: בסיס\n        Total Sections: 2\n        \n        Main Content: Text: נתון הייצוג האלגברי הבא:  $y = x + 3$\n        \n        Sections Overview: [{\"section_number\": \"א\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"table_data\"]}, {\"section_number\": \"ב\", \"question_type\": \"open_ended\", \"has_hint\": true, \"has_solution\": true, \"content_types\": [\"visual_diagram\"]}]",
+    "token_count": 163
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_15",
+    "section_id": 1,
+    "section_number": "א",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "בסיס",
+      "exercise_number": 15,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 1,
+      "section_number": "א",
+      "section_data": {
+        "text": "נתונה הטבלה הבאה:",
+        "table": {
+          "headers": [
+            "x",
+            "0",
+            "1",
+            "2",
+            "3"
+          ],
+          "rows_data": [
+            [
+              "y",
+              "3",
+              "",
+              "",
+              "6"
+            ]
+          ]
+        },
+        "svg": null
+      },
+      "question": {
+        "text": "השלימו את טבלת הערכים החלקיים על ידי הצבה בייצוג האלגברי הנתון(לדוגמה הצבה של x=3 אז y=3+3=6)",
+        "table": null,
+        "svg": null
+      },
+      "hint": {
+        "text": "הציבו כל ערך של x במשוואה y = x + 2 כדי למצוא את ערך y המתאים.",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "הטבלה שהושלמה:",
+        "table": {
+          "headers": [
+            "x",
+            "0",
+            "1",
+            "2",
+            "3"
+          ],
+          "rows_data": [
+            [
+              "y",
+              "2",
+              "3",
+              "4",
+              "5"
+            ]
+          ]
+        },
+        "svg": null
+      },
+      "full_solution": {
+        "text": "כדי להשלים את הטבלה, נציב כל ערך של x בביטוי האלגברי y = x + 2:עבור x = 2 : y = 2 + 3 = 5 עבור x = 3: y = 3 + 3 = 6 הטבלה שהושלמה, הנקודות שיתקבלו הן: (0,3), (1,4), (2,5), (3,6).",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: נתון הייצוג האלגברי הבא:  $y = x + 3$\n\nSection Data: Text: נתונה הטבלה הבאה: | Headers: x | Headers: 0 | Headers: 1 | Headers: 2 | Headers: 3 | Rows Data: y | Rows Data: 3 | Rows Data:  | Rows Data:  | Rows Data: 6\n\nQuestion: Text: השלימו את טבלת הערכים החלקיים על ידי הצבה בייצוג האלגברי הנתון(לדוגמה הצבה של x=3 אז y=3+3=6)\n\nHint: Text: הציבו כל ערך של x במשוואה y = x + 2 כדי למצוא את ערך y המתאים.\n\nSolution: Text: הטבלה שהושלמה: | Headers: x | Headers: 0 | Headers: 1 | Headers: 2 | Headers: 3 | Rows Data: y | Rows Data: 2 | Rows Data: 3 | Rows Data: 4 | Rows Data: 5\n\nFull Solution: Text: כדי להשלים את הטבלה, נציב כל ערך של x בביטוי האלגברי y = x + 2:עבור x = 2 : y = 2 + 3 = 5 עבור x = 3: y = 3 + 3 = 6 הטבלה שהושלמה, הנקודות שיתקבלו הן: (0,3), (1,4), (2,5), (3,6).",
+    "token_count": 488,
+    "content_flags": {
+      "has_svg": false,
+      "has_table": true,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  },
+  {
+    "chunk_type": "section_content",
+    "exercise_id": "ח_2_15",
+    "section_id": 2,
+    "section_number": "ב",
+    "exercise_metadata": {
+      "class": "ח",
+      "lesson_number": "2",
+      "topic": "הצגה של ישר ",
+      "exercise_type": "בסיס",
+      "exercise_number": 15,
+      "total_sections": 2,
+      "deleted": false
+    },
+    "section_data": {
+      "section_id": 2,
+      "section_number": "ב",
+      "section_data": {
+        "text": "נסמן את הנקודות במערכת הצירים.",
+        "table": null,
+        "svg": "<svg id=\"normalizedCoordinateSystem\" viewBox=\"-2 -8 11 10\" preserveAspectRatio=\"xMidYMid meet\">\n        <defs>\n            <marker id=\"arrowheadX_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"-0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n                <polygon points=\"0 0, 0.5 0.25, 0 0.5\" fill=\"black\"></polygon>\n            </marker>\n\n            <marker id=\"arrowheadY_norm\" markerWidth=\"0.5\" markerHeight=\"0.5\" refX=\"0\" refY=\"0.25\" orient=\"auto\" markerUnits=\"userSpaceOnUse\">\n                <polygon points=\"0 0.5, 0 0, 0.5 0.25\" fill=\"black\"></polygon>\n            </marker>\n\n            <pattern id=\"smallGrid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n                <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#ccc\" stroke-width=\"0.05\"></path>\n            </pattern>\n\n            <pattern id=\"grid_norm\" width=\"1\" height=\"1\" patternUnits=\"userSpaceOnUse\">\n                <rect width=\"1\" height=\"1\" fill=\"url(#smallGrid_norm)\"></rect>\n                <path d=\"M 1 0 L 0 0 0 1\" fill=\"none\" stroke=\"#D5E9FF\" stroke-width=\"0.1\"></path>\n            </pattern>\n        </defs>\n\n        <rect x=\"-10\" y=\"-10\" width=\"20\" height=\"20\" fill=\"url(#grid_norm)\"></rect>\n\n        <line x1=\"-10\" y1=\"0\" x2=\"8\" y2=\"0\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadX_norm)\"></line>\n        <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"-7\" stroke=\"black\" stroke-width=\"0.07\" marker-end=\"url(#arrowheadY_norm)\"></line>\n\n        <text x=\"8.5\" y=\"0.8\" text-anchor=\"end\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">x</text>\n        <text x=\"0.3\" y=\"-7\" text-anchor=\"start\" fill=\"black\" font-size=\"0.8\" font-family=\"Times New Roman\">y</text>\n\n\n        <circle cx=\"2\" cy=\"-5\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n        <circle cx=\"0\" cy=\"-3\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n        <circle cx=\"1\" cy=\"-4\" r=\"0.2\" fill=\"#C00000\"></circle>\n\n    </svg>"
+      },
+      "question": {
+        "text": "אם נחבר את הנקודות שסימנו בסעיף הקודם נקבל קו ישר?",
+        "table": null,
+        "svg": null
+      },
+      "hint": {
+        "text": "נסו לשרטט את הנקודות במערכת צירים ולחבר אותן. או חשבו על סוג הייצוג האלגברי (פונקציה קווית).",
+        "table": null,
+        "svg": null
+      },
+      "solution": {
+        "text": "קו ישר.",
+        "table": null,
+        "svg": null
+      },
+      "full_solution": {
+        "text": "כן, אם נחבר את הנקודות שסימנו (0,2), (1,3), (2,4), (3,5) נקבל קו ישר",
+        "table": null,
+        "svg": null
+      }
+    },
+    "searchable_text": "Exercise Context: Text: נתון הייצוג האלגברי הבא:  $y = x + 3$\n\nSection Data: Text: נסמן את הנקודות במערכת הצירים.\n\nQuestion: Text: אם נחבר את הנקודות שסימנו בסעיף הקודם נקבל קו ישר?\n\nHint: Text: נסו לשרטט את הנקודות במערכת צירים ולחבר אותן. או חשבו על סוג הייצוג האלגברי (פונקציה קווית).\n\nSolution: Text: קו ישר.\n\nFull Solution: Text: כן, אם נחבר את הנקודות שסימנו (0,2), (1,3), (2,4), (3,5) נקבל קו ישר",
+    "token_count": 307,
+    "content_flags": {
+      "has_svg": true,
+      "has_table": false,
+      "has_multiple_choice": false,
+      "has_hint": true,
+      "has_solution": true,
+      "has_full_solution": true
+    }
+  }
+]

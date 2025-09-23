@@ -446,6 +446,43 @@ def save_svg_to_file(svg_content: str, filename: str) -> Optional[str]:
         print(f"Error saving SVG: {e}")
         return None
 
+import re
+
+def to_markdown_steps(text: str) -> str:
+    """
+    Convert text containing 'Step N:' into a markdown numbered list.
+    Tolerates leading '**', '>', '-' etc (e.g., '**Step 1:** ...').
+    """
+    if not text:
+        return ""
+
+    # Normalize common bold markers around 'Step N:'
+    # e.g., '**Step 1:**' -> 'Step 1:'
+    normalized = re.sub(r'\*\*\s*Step\s+(\d+)\s*:\s*\*\*', r'Step \1:', text, flags=re.IGNORECASE)
+    normalized = re.sub(r'>\s*Step\s+(\d+)\s*:', r'Step \1:', normalized, flags=re.IGNORECASE)
+    normalized = re.sub(r'^\s*-\s*(Step\s+\d+\s*:)', r'\1', normalized, flags=re.IGNORECASE | re.MULTILINE)
+
+    # Robust pattern: allow spaces and ignore case
+    pattern = re.compile(
+        r'(?:^|\n)\s*Step\s*(\d+)\s*:\s*(.*?)(?=(?:\n\s*Step\s*\d+\s*:)|\Z)',
+        re.IGNORECASE | re.DOTALL
+    )
+    items = pattern.findall(normalized)
+
+    if not items:
+        # No explicit steps—just return the cleaned text (still markdown-friendly)
+        return re.sub(r'[ \t]+\n', '\n', normalized).strip()
+
+    lines = []
+    for n, content in sorted(((int(n), c) for n, c in items), key=lambda x: x[0]):
+        cleaned = re.sub(r"\s+", " ", content).strip()
+        lines.append(f"{n}. {cleaned}")
+
+    # Add a blank line before the list so markdown renderers recognize it
+    return "\n\n" + "\n".join(lines)
+
+
+
 # -----------------------------
 # Enhanced Inactivity Timer with Typing Detection
 # -----------------------------
@@ -748,9 +785,9 @@ class DialogueFSM:
             
             # Format the question output
             formatted_question = (
-                f"\n📘 Exercise {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
-                f"Main text: {main_text}\n\n"
-                f"❓ Section {section.get('section_number', 'N/A')} - {q_text}"
+                 f"\n📘 Next Question {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
+                 f"\nMain Text: {main_text}\n"
+                 f"\n❓ Section {section.get('section_number', 'N/A')} - {q_text}"
             )
             
             # Handle question table if available
@@ -778,6 +815,17 @@ class DialogueFSM:
                     table_str += row_str + "\n"
                 
                 formatted_question += table_str
+
+            # --- Section-level SVG (prefer showing alongside main) ---
+                section_svg = section.get("question", {}).get("svg")
+                if section_svg:
+                    sec_filename = f"exercise_{meta.get('exercise_number','N')}_sec{section.get('section_number','N')}_q{self.current_question_index}_section.svg"
+                    sec_svg_path = save_svg_to_file(section_svg, sec_filename)
+                    if sec_svg_path:
+                        formatted_question += f"\n\n[Section SVG: {sec_svg_path}]"
+                        sec_desc = describe_svg_content(section_svg)
+                        formatted_question += f"\n\nImage Description (Section): {sec_desc}"
+
             
             # Add SVG reference if available
             main_svg = main_data.get("svg")
@@ -1116,7 +1164,11 @@ class DialogueFSM:
                     "solution": solution
                 })
                 
-                explanation = clean_math_text(response.content.strip())  # Clean explanation
+                explanation = clean_math_text(response.content.strip())
+                
+                # ✅ Turn the explanation into markdown steps
+                steps_md = to_markdown_steps(explanation)
+                result = f"{solution_prefix}\n{steps_md}"
                 
                 # Generate NEW SVG for solution explanation
                 svg_reference = ""
@@ -1124,8 +1176,10 @@ class DialogueFSM:
                     svg_reference = self._generate_and_save_svg(for_solution_explanation=True)
                 
                 result = f"{solution_prefix}{solution}\n\n{explanation}"
+    
                 if svg_reference:
                     result += f"\n{svg_reference}"
+                result +="\n\n"
                 result += self._move_to_next_exercise_or_question()
                 return result
                 
