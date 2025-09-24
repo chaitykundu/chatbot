@@ -260,71 +260,65 @@ class State(Enum):
 # Helper Functions
 # -----------------------------
 def detect_language(text: str) -> str:
-    """Detect if text is Hebrew or English."""
     if any('\u0590' <= char <= '\u05FF' for char in text):
         return "he"
     return "en"
 
-# -----------------------------
-# Helper Functions-Cleantext
-# -----------------------------
 def clean_math_text(text: str) -> str:
-    """Remove LaTeX-style $ signs and other delimiters from math expressions."""
     if not text:
         return text
-    # Remove single and double dollar signs
     text = re.sub(r'\$(.*?)\$', r'\1', text, flags=re.DOTALL)
     text = re.sub(r'\$\$(.*?)\$\$', r'\1', text, flags=re.DOTALL)
-    
-    # Handle fractions with or without curly braces
     def replace_fraction(match):
         numerator = match.group(1)
         denominator = match.group(2)
         return f'({numerator}/{denominator})'
-    # Match \frac{num}{den} or \frac num den
     text = re.sub(r'\\frac\s*\{?([^} ]+)\}?\s*\{?([^} ]+)\}?', replace_fraction, text)
-    
-    # Remove other LaTeX commands with arguments
     text = re.sub(r'\\([a-zA-Z]+)\{([^}]*)\}', r'\2', text)
-    # Remove standalone LaTeX commands
     text = re.sub(r'\\([a-zA-Z]+)', r'', text)
-    # Normalize whitespace and remove stray $
     text = re.sub(r'\s+', ' ', text)
     text = text.replace('$', '')
     return text.strip()
 
-
 def translate_text_to_english(text: str) -> str:
-    """Translate text (likely Hebrew) to English using GenAI."""
     if not text or not text.strip():
         return text
     try:
         translation_prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are a precise translator. Translate the following text to English.
-            If it's already in English, return it unchanged with title case (e.g., 'linear functions' -> 'Linear Functions').
-            Preserve markdown formatting (e.g., **bold**, *italic*).
-            For math expressions, keep them intact (e.g., y = mx + b).
-            Provide ONLY the translated text, no extra explanations."""),
+            ("system", """Translate to English. If already English, return unchanged in title case.
+            Preserve math expressions intact."""),
             ("user", "{input}")
         ])
         translation_chain = translation_prompt | llm
         response = translation_chain.invoke({"input": text.strip()})
         translated = clean_math_text(response.content.strip())
-        logger.debug(f"Translation input: '{text}' -> Output: '{translated}'")
-        return translated.title()  # Normalize to title case (e.g., "Linear Functions")
+        return translated.title()
     except Exception as e:
-        logger.error(f"Error translating text: {str(e)}")
-        return text.title()  # Return original text in title case as fallback
+        logger.error(f"Translation error: {e}")
+        return text.title()
+
+def stringify_table(table: dict) -> str:
+    if not table or not isinstance(table, dict) or not table.get("headers"):
+        return ""
+    headers = ", ".join(table["headers"])
+    rows = "\n".join([", ".join(row) for row in table.get("rows_data", [])])
+    return f"Table:\nHeaders: {headers}\nRows:\n{rows}"
+
+def stringify_options(options: List[dict]) -> str:
+    if not options:
+        return ""
+    return "\nOptions:\n" + "\n".join([opt.get("text", "") for opt in options if isinstance(opt, dict)])
 
 def is_likely_hebrew(text: str) -> bool:
     """Simple heuristic to check if text contains Hebrew characters."""
     return any('\u0590' <= char <= '\u05FF' for char in text)
 
+
 def load_exercises():
+    if not INPUT_FILE.exists():
+        raise FileNotFoundError(f"Input file not found: {INPUT_FILE}")
     with open(INPUT_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
-
-        # Ensure we always get a flat list of dict exercises
     exercises = []
     if isinstance(data, dict):
         exercises = [data]
@@ -332,91 +326,60 @@ def load_exercises():
         for ex in data:
             if isinstance(ex, dict):
                 exercises.append(ex)
-            elif isinstance(ex, list):  # flatten nested lists
+            elif isinstance(ex, list):  # Flatten nested lists
                 exercises.extend([e for e in ex if isinstance(e, dict)])
-    return exercises
+    return [ex for ex in exercises if not ex.get("exercise_metadata", {}).get("deleted", False)]  # Skip deleted
 
 all_exercises = load_exercises()
 
+grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}  # For normalization
+
 def get_classes():
-     # Normalize classes to numbers (e.g., "ז" to "7")
-    grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
-    classes = sorted(set(
-        grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"])
-        for ex in load_exercises()
-    ))
-    return classes
+    return sorted(set(grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"]) for ex in all_exercises))
 
 def get_topics(chosen_class):
-    # Normalize chosen_class to number
-    grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
-    chosen_class = grade_map.get(chosen_class, chosen_class)
-    return sorted(set(
-        ex["exercise_metadata"]["topic"].title()
-        for ex in load_exercises()
-        if grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"]) == chosen_class
-    ))
+    normalized_class = grade_map.get(chosen_class, chosen_class)
+    return sorted(set(ex["exercise_metadata"]["topic"] for ex in all_exercises if grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"]) == normalized_class))
 
 def get_exercises(chosen_class, chosen_topic):
-    # Normalize chosen_class to number
-    grade_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
-    chosen_class = grade_map.get(chosen_class, chosen_class)
-    return [
-        ex for ex in load_exercises()
-        if grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"]) == chosen_class
-        and ex["exercise_metadata"]["topic"].strip().lower() == chosen_topic.strip().lower()
-    ]
+    normalized_class = grade_map.get(chosen_class, chosen_class)
+    return [ex for ex in all_exercises if grade_map.get(ex["exercise_metadata"]["class"], ex["exercise_metadata"]["class"]) == normalized_class and ex["exercise_metadata"]["topic"] == chosen_topic]
 
-try:
-    embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
-    logger.info(f"Loaded embedding model: {EMBEDDING_MODEL_NAME}")
-except Exception as e:
-    logger.error(f"Error loading SentenceTransformer model: {str(e)}")
-    embedding_model = None
+embedding_model = SentenceTransformer(EMBEDDING_MODEL_NAME)
 
 def get_pinecone_index():
     pinecone_api_key = os.getenv("PINECONE_API_KEY")
     if not pinecone_api_key:
-        raise EnvironmentError("PINECONE_API_KEY not found in .env")
+        raise EnvironmentError("PINECONE_API_KEY not found")
     pc = Pinecone(api_key=pinecone_api_key)
     return pc.Index(INDEX_NAME)
 
 def generate_embedding(text: str) -> List[float]:
-    """Generate embedding for a given text using SentenceTransformer."""
-    if embedding_model is None:
-        logger.error("Embedding model not loaded.")
-        return []
-    try:
-        return embedding_model.encode([text], show_progress_bar=False)[0].tolist()
-    except Exception as e:
-        logger.error(f"Error generating embedding: {str(e)}")
-        return []
+    if not embedding_model:
+        raise ValueError("Embedding model not loaded")
+    return embedding_model.encode([text], show_progress_bar=False)[0].tolist()
 
-def retrieve_relevant_chunks(query: str, pc_index: Any, grade: Optional[str] = None, topic: Optional[str] = None) -> List[Dict[str, Any]]:
-    """Retrieve relevant chunks from Pinecone based on a query."""
+def retrieve_relevant_chunks(query: str, pc_index: Any, grade: Optional[str] = None, topic: Optional[str] = None, chunk_type: Optional[str] = None) -> List[Dict[str, Any]]:
     query = clean_math_text(query)
     query_embedding = generate_embedding(query)
     if not query_embedding:
         return []
-
     filter_dict = {}
     if grade:
         filter_dict["grade"] = {"$eq": grade}
     if topic:
         filter_dict["topic"] = {"$eq": topic}
-
+    if chunk_type:
+        filter_dict["chunk_type"] = {"$eq": chunk_type}  # e.g., "hint" or "solution"
     try:
-        response = pc_index.query(
-            vector=query_embedding,
-            top_k=TOP_K_RETRIEVAL,
-            include_metadata=True,
-            filter=filter_dict if filter_dict else None
-        )
-        return [match.metadata for match in response.matches]
+        results = pc_index.query(vector=query_embedding, top_k=TOP_K_RETRIEVAL, include_metadata=True, filter=filter_dict)
+        chunks = [match["metadata"] for match in results["matches"] if match["score"] > 0.7]  # Threshold for relevance
+        logger.debug(f"Retrieved {len(chunks)} chunks for query: {query}")
+        return chunks
     except Exception as e:
-        logger.error(f"Error retrieving from Pinecone: {str(e)}", exc_info=True)
+        logger.error(f"Pinecone query error: {e}")
         return []
-
+    
 def describe_svg_content(svg_content: str) -> str:
     """Describe SVG content using GenAI."""
     try:
@@ -430,7 +393,6 @@ def describe_svg_content(svg_content: str) -> str:
     except Exception as e:
         logger.error(f"Error describing SVG content: {str(e)}")
         return "An error occurred while describing the image."
-    
 
 def save_svg_to_file(svg_content: str, filename: str) -> Optional[str]:
     """Save SVG content to a file in the svg_outputs folder and return its path."""
@@ -445,41 +407,6 @@ def save_svg_to_file(svg_content: str, filename: str) -> Optional[str]:
     except Exception as e:
         print(f"Error saving SVG: {e}")
         return None
-
-import re
-
-def to_markdown_steps(text: str) -> str:
-    """
-    Convert text containing 'Step N:' into a markdown numbered list.
-    Tolerates leading '**', '>', '-' etc (e.g., '**Step 1:** ...').
-    """
-    if not text:
-        return ""
-
-    # Normalize common bold markers around 'Step N:'
-    # e.g., '**Step 1:**' -> 'Step 1:'
-    normalized = re.sub(r'\*\*\s*Step\s+(\d+)\s*:\s*\*\*', r'Step \1:', text, flags=re.IGNORECASE)
-    normalized = re.sub(r'>\s*Step\s+(\d+)\s*:', r'Step \1:', normalized, flags=re.IGNORECASE)
-    normalized = re.sub(r'^\s*-\s*(Step\s+\d+\s*:)', r'\1', normalized, flags=re.IGNORECASE | re.MULTILINE)
-
-    # Robust pattern: allow spaces and ignore case
-    pattern = re.compile(
-        r'(?:^|\n)\s*Step\s*(\d+)\s*:\s*(.*?)(?=(?:\n\s*Step\s*\d+\s*:)|\Z)',
-        re.IGNORECASE | re.DOTALL
-    )
-    items = pattern.findall(normalized)
-
-    if not items:
-        # No explicit steps—just return the cleaned text (still markdown-friendly)
-        return re.sub(r'[ \t]+\n', '\n', normalized).strip()
-
-    lines = []
-    for n, content in sorted(((int(n), c) for n, c in items), key=lambda x: x[0]):
-        cleaned = re.sub(r"\s+", " ", content).strip()
-        lines.append(f"{n}. {cleaned}")
-
-    # Add a blank line before the list so markdown renderers recognize it
-    return "\n\n" + "\n".join(lines)
 
 
 
@@ -654,7 +581,7 @@ class DialogueFSM:
         self.chat_history = []
         self.current_svg_description = None
         self.recently_asked_exercise_ids = []
-        self.RECENTLY_ASKED_LIMIT = 20
+        self.RECENTLY_ASKED_LIMIT = None # No limit for now
         self.small_talk_turns = 0
         self.user_language = "en"
         self.topic_exercises_count = 0   # Track number of completed exercises per topic
@@ -755,159 +682,150 @@ class DialogueFSM:
         # For completeness, let's assume it's to extract metadata
         return exercise.get("exercise_metadata", None)
     
+    def _generate_svg_description(self, svg_content: str) -> str:
+        if not svg_content:
+            return ""
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", "Describe this SVG graph concisely for a math context. Focus on points, lines, axes."),
+            ("user", "{svg}")
+        ])
+        chain = prompt | self.llm
+        response = chain.invoke({"svg": svg_content[:500]})
+        return response.content.strip()
+
     def _save_svg(self, svg_content: str) -> Optional[str]:
-        """Save SVG content to a file and return its path."""
         if not svg_content:
             return None
-        filename = f"exercise_{self.current_exercise['exercise_metadata']['exercise_number']}_q{self.current_question_index}.svg"
-        return save_svg_to_file(svg_content, filename)
-
+        file_path = SVG_OUTPUT_DIR / f"svg_{uuid.uuid4().hex}.svg"
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(svg_content)
+        return str(file_path)
+    
     def _get_current_question(self) -> str:
         if not self.current_exercise or "exercise_content" not in self.current_exercise:
             return self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
-        
+
         try:
             meta = self.current_exercise.get("exercise_metadata", {})
             content = self.current_exercise.get("exercise_content", {})
             sections = content.get("sections", [])
-            
+
             if self.current_question_index >= len(sections):
+                logger.warning(f"Question index {self.current_question_index} exceeds sections length {len(sections)}")
                 return ""
-            
-            main_data = content.get("main_data", {})
-            main_text = main_data.get("text", "")
+
             section = sections[self.current_question_index]
-            q_text = section.get("question", {}).get("text", "")
-            
-            # Clean math text
-            main_text = clean_math_text(main_text)
-            q_text = clean_math_text(q_text)
-            
-            # Format the question output
+            main_data = content.get("main_data", {})
+            main_text = clean_math_text(main_data.get("text", ""))
+            q_text = clean_math_text(section.get("question", {}).get("text", ""))
+
+            # Format question output
             formatted_question = (
-                 f"\n📘 Next Question {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
-                 f"\nMain Text: {main_text}\n"
-                 f"\n❓ Section {section.get('section_number', 'N/A')} - {q_text}"
+                f"📘 Exercise {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
             )
-            
-            # Handle question table if available
-            question_table = section.get("question", {}).get("table")
-            if question_table and isinstance(question_table, dict) and question_table.get("headers") and question_table.get("rows_data"):
-                # Format table as a markdown-like string for readability
-                headers = question_table["headers"]
-                rows = question_table["rows_data"]
-                
-                # Calculate column widths for alignment
-                col_widths = [max(len(str(cell)) for row in [headers] + rows for cell in row)]
-                for row in rows:
-                    for i, cell in enumerate(row):
-                        col_widths[i] = max(col_widths[i], len(str(cell)))
-                
-                # Build table string
-                table_str = "\n\nTable:\n"
-                # Header row
-                header_row = " | ".join(f"{h:<{w}}" for h, w in zip(headers, col_widths))
-                table_str += header_row + "\n"
-                table_str += "-|-".join("-" * w for w in col_widths) + "\n"
-                # Data rows
-                for row in rows:
-                    row_str = " | ".join(f"{cell:<{w}}" for cell, w in zip(row, col_widths))
-                    table_str += row_str + "\n"
-                
-                formatted_question += table_str
+            if main_text:
+                formatted_question += f"Main Text: {main_text}\n"
+            formatted_question += f"❓ Section {section.get('section_number', 'N/A')} - {q_text}"
 
-            # --- Section-level SVG (prefer showing alongside main) ---
-                section_svg = section.get("question", {}).get("svg")
-                if section_svg:
-                    sec_filename = f"exercise_{meta.get('exercise_number','N')}_sec{section.get('section_number','N')}_q{self.current_question_index}_section.svg"
-                    sec_svg_path = save_svg_to_file(section_svg, sec_filename)
-                    if sec_svg_path:
-                        formatted_question += f"\n\n[Section SVG: {sec_svg_path}]"
-                        sec_desc = describe_svg_content(section_svg)
-                        formatted_question += f"\n\nImage Description (Section): {sec_desc}"
+            # Handle question table (aligned with embedding.py's stringify_table)
+            question_table = section.get("question", {}).get("table", {})
+            if question_table and isinstance(question_table, dict) and question_table.get("headers"):
+                formatted_question += "\n" + self._stringify_table(question_table)
 
-            
-            # Add SVG reference if available
-            main_svg = main_data.get("svg")
-            if main_svg and not self.svg_generated_for_question:
-                self.current_svg_file_path = self._save_svg(main_svg)
+            # Handle question options (aligned with embedding.py)
+            question_options = section.get("question_options", [])
+            if question_options:
+                formatted_question += "\n" + self._stringify_options(question_options)
+
+            # Handle main table
+            main_table = main_data.get("table", {})
+            if main_table and isinstance(main_table, dict) and main_table.get("headers"):
+                formatted_question += "\nMain Table:\n" + self._stringify_table(main_table)
+
+            # Handle SVGs (prioritize section SVG, then main SVG)
+            svg_content = section.get("question", {}).get("svg") or main_data.get("svg")
+            if svg_content and not self.svg_generated_for_question:
+                self.current_svg_file_path = self._save_svg(svg_content)
                 if self.current_svg_file_path:
-                    formatted_question += f"\n\n[See visualization in SVG file: {self.current_svg_file_path}]"
-                    self.current_svg_description = describe_svg_content(main_svg)
-                    formatted_question += f"\n\nImage Description: {self.current_svg_description}"
+                    formatted_question += f"\n[SVG: {self.current_svg_file_path}]"
+                    self.current_svg_description = self._generate_svg_description(svg_content)
+                    if self.current_svg_description:
+                        formatted_question += f"\nImage Description: {self.current_svg_description}"
                 self.svg_generated_for_question = True
-            
-            # Add main table if available
-            main_table = main_data.get("table")
-            if main_table and isinstance(main_table, dict) and main_table.get("headers") and main_table.get("rows_data"):
-                # Format main table similarly
-                headers = main_table["headers"]
-                rows = main_table["rows_data"]
-                col_widths = [max(len(str(cell)) for row in [headers] + rows for cell in row)]
-                for row in rows:
-                    for i, cell in enumerate(row):
-                        col_widths[i] = max(col_widths[i], len(str(cell)))
-                
-                table_str = "\n\nMain Table:\n"
-                header_row = " | ".join(f"{h:<{w}}" for h, w in zip(headers, col_widths))
-                table_str += header_row + "\n"
-                table_str += "-|-".join("-" * w for w in col_widths) + "\n"
-                for row in rows:
-                    row_str = " | ".join(f"{cell:<{w}}" for cell, w in zip(row, col_widths))
-                    table_str += row_str + "\n"
-                
-                formatted_question += table_str
-            
-            # Handle bilingual output
-            if self.user_language == "en" and (is_likely_hebrew(main_text) or is_likely_hebrew(q_text) or is_likely_hebrew(formatted_question)):
-                logger.debug(f"Translating question to English: {formatted_question}")
-                translated = translate_text_to_english(formatted_question)
-                logger.debug(f"Translated question: {translated}")
-                return translated
-            return formatted_question
-                    
+
+            # Translate to English if needed
+            if self.user_language == "en" and is_likely_hebrew(formatted_question):
+                formatted_question = translate_text_to_english(formatted_question)
+                logger.debug(f"Translated question: {formatted_question}")
+
+            return formatted_question.strip()
+
         except Exception as e:
             logger.error(f"Error formatting question: {str(e)}")
             return self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
 
     def _get_current_solution(self) -> str:
-        content = self.current_exercise["exercise_content"]
-        sec = content["sections"][self.current_question_index]
-        sol_text = ""
-        
-        # Handle solution text
-        solution = sec.get("solution")
-        if solution and isinstance(solution, dict):
-            sol = solution.get("text")
-            if sol:
-                sol_text += clean_math_text(sol) + "\n\n"
-        
-        # Handle full solution text
-        full_solution = sec.get("full_solution")
-        if full_solution and isinstance(full_solution, dict):
-            full_sol = full_solution.get("text")
-            if full_sol:
-                sol_text += clean_math_text(full_sol) + "\n\n"
-
-        # Handle solution table
-        if solution and isinstance(solution, dict):
-            sol_table = solution.get("table")
-            if sol_table and isinstance(sol_table, dict) and sol_table.get("headers") and sol_table.get("rows_data"):
-                sol_text += "Solution Table:\n" + json.dumps(sol_table, ensure_ascii=False) + "\n\n"
-        
-        # Handle full solution table
-        if full_solution and isinstance(full_solution, dict):
-            full_sol_table = full_solution.get("table")
-            if full_sol_table and isinstance(full_sol_table, dict) and full_sol_table.get("headers") and full_sol_table.get("rows_data"):
-                sol_text += "Full Solution Table:\n" + json.dumps(full_sol_table, ensure_ascii=False) + "\n\n"
-
-        if not sol_text:
+        if not self.current_exercise or "exercise_content" not in self.current_exercise:
             return "No solution available."
 
-        # Return in user's preferred language
-        if self.user_language == "en":
-            return translate_text_to_english(sol_text)
-        return sol_text
+        try:
+            content = self.current_exercise.get("exercise_content", {})
+            sections = content.get("sections", [])
+            if self.current_question_index >= len(sections):
+                return "No solution available."
+
+            section = sections[self.current_question_index]
+            sol_text = ""
+
+            # Handle solution text
+            solution = section.get("solution", {})
+            if solution and isinstance(solution, dict):
+                sol = clean_math_text(solution.get("text", ""))
+                if sol:
+                    sol_text += f"Solution: {sol}\n"
+
+            # Handle full solution text
+            full_solution = section.get("full_solution", {})
+            if full_solution and isinstance(full_solution, dict):
+                full_sol = clean_math_text(full_solution.get("text", ""))
+                if full_sol:
+                    sol_text += f"Full Solution: {full_sol}\n"
+
+            # Handle solution table
+            sol_table = solution.get("table", {})
+            if sol_table and isinstance(sol_table, dict) and sol_table.get("headers"):
+                sol_text += "Solution Table:\n" + self._stringify_table(sol_table)
+
+            # Handle full solution table
+            full_sol_table = full_solution.get("table", {})
+            if full_sol_table and isinstance(full_sol_table, dict) and full_sol_table.get("headers"):
+                sol_text += "Full Solution Table:\n" + self._stringify_table(full_sol_table)
+
+            if not sol_text:
+                return "No solution available."
+
+            # Translate to English if needed
+            if self.user_language == "en" and is_likely_hebrew(sol_text):
+                sol_text = translate_text_to_english(sol_text)
+
+            return sol_text.strip()
+
+        except Exception as e:
+            logger.error(f"Error formatting solution: {str(e)}")
+            return "No solution available."
+
+    # Helper methods (to align with embedding.py and reduce code duplication)
+    def _stringify_table(self, table: dict) -> str:
+        if not table or not isinstance(table, dict) or not table.get("headers"):
+            return ""
+        headers = ", ".join(str(h) for h in table["headers"])
+        rows = "\n".join(", ".join(str(cell) for cell in row) for row in table.get("rows_data", []))
+        return f"Table:\nHeaders: {headers}\nRows:\n{rows}"
+
+    def _stringify_options(self, options: List[dict]) -> str:
+        if not options:
+            return ""
+        return "Options:\n" + "\n".join(clean_math_text(opt.get("text", "")) for opt in options if isinstance(opt, dict))
     
     def _generate_lesson_summary(self) -> str:
         closing_prompt = ChatPromptTemplate.from_messages([
@@ -925,7 +843,7 @@ class DialogueFSM:
             logger.error(f"Error generating lesson summary: {e}")
             return "Great job today! You tackled some tough problems with confidence."
 
-    def _pick_new_exercise(self, grade: str, topic: Optional[str] = None):
+    def _pick_new_exercise(self, grade: str, topic: str):
         exercises = get_exercises(grade, topic) if topic else [
             ex for ex in all_exercises if ex["exercise_metadata"]["class"] == grade
         ]
@@ -978,7 +896,6 @@ class DialogueFSM:
         return self.current_exercise
 
     
-
     def _move_to_next_exercise_or_question(self) -> str:
         """Moves to the next question in the current exercise or to a new exercise."""
         if not self.current_exercise or "exercise_content" not in self.current_exercise:
@@ -1167,8 +1084,8 @@ class DialogueFSM:
                 explanation = clean_math_text(response.content.strip())
                 
                 # ✅ Turn the explanation into markdown steps
-                steps_md = to_markdown_steps(explanation)
-                result = f"{solution_prefix}\n{steps_md}"
+                #steps_md = to_markdown_steps(explanation)
+                result = f"{solution_prefix}\n"
                 
                 # Generate NEW SVG for solution explanation
                 svg_reference = ""
