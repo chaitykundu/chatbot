@@ -10,10 +10,10 @@ import re
 
 # ---------------- CONFIG ----------------
 INPUT_FILE = Path("Files/exercises_schema_v2_2025-09-22.json")  # JSON file with exercises
-OUTPUT_FILE = Path("exercise_embedding.json")
+OUTPUT_FILE = Path("exercise_embedding1.json")
 MODEL_NAME = "intfloat/multilingual-e5-large"
 BATCH_SIZE = 32  # For embedding generation
-PINECONE_INDEX_NAME = "exercise-embedding"  # Replace with your Pinecone index name
+PINECONE_INDEX_NAME = "exercise-embedding1"  # Replace with your Pinecone index name
 PINECONE_DIMENSION = 1024  # Dimension for intfloat/multilingual-e5-large
 MAX_PAYLOAD_SIZE = 4 * 1024 * 1024  # 4 MB limit in bytes
 
@@ -79,13 +79,13 @@ def chunk_nested_exercise(exercise: dict) -> List[dict]:
         for sec in sections
     )
     svg_exists = (
-        (isinstance(main_data, dict) and main_data.get("svg")) or
+        (isinstance(main_data, dict) and main_data.get("svg") is not None) or
         any(
-            (isinstance(sec.get("section_data"), dict) and sec.get("section_data").get("svg")) or
-            (isinstance(sec.get("question"), dict) and sec.get("question").get("svg")) or
-            (isinstance(sec.get("hint"), dict) and sec.get("hint").get("svg")) or
-            (isinstance(sec.get("solution"), dict) and sec.get("solution").get("svg")) or
-            (isinstance(sec.get("full_solution"), dict) and sec.get("full_solution").get("svg"))
+            (isinstance(sec.get("section_data"), dict) and sec.get("section_data").get("svg") is not None) or
+            (isinstance(sec.get("question"), dict) and sec.get("question").get("svg") is not None) or
+            (isinstance(sec.get("hint"), dict) and sec.get("hint").get("svg") is not None) or
+            (isinstance(sec.get("solution"), dict) and sec.get("solution").get("svg") is not None) or
+            (isinstance(sec.get("full_solution"), dict) and sec.get("full_solution").get("svg") is not None)
             for sec in sections
         )
     )
