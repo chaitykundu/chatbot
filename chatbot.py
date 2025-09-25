@@ -285,7 +285,8 @@ def translate_text_to_english(text: str) -> str:
         return text
     try:
         translation_prompt = ChatPromptTemplate.from_messages([
-            ("system", """Translate to English. If already English, return unchanged in title case.
+            ("system", """Translate the Hebrew text to English. Make sure the meaning and sentence structure stay exactly the same.
+            If the text is already in English, leave it unchanged (in title case).
             Preserve math expressions intact."""),
             ("user", "{input}")
         ])
@@ -581,7 +582,7 @@ class DialogueFSM:
         self.chat_history = []
         self.current_svg_description = None
         self.recently_asked_exercise_ids = []
-        self.RECENTLY_ASKED_LIMIT = None # No limit for now
+        self.RECENTLY_ASKED_LIMIT = 120 # No limit for now
         self.small_talk_turns = 0
         self.user_language = "en"
         self.topic_exercises_count = 0   # Track number of completed exercises per topic
@@ -1445,26 +1446,38 @@ class DialogueFSM:
             topics_hebrew = get_topics(self.hebrew_grade)
             if user_input and detect_language(user_input) == "en":
                 self.user_language = "en"
+
             topics_display = [translate_text_to_english(t) for t in topics_hebrew] if self.user_language == "en" else topics_hebrew
-            topics_display_lower = [t.lower() for t in topics_display]
-            if chosen_topic.lower() not in topics_display_lower:
+
+            # Case-insensitive lookup
+            match = None
+            for i, t in enumerate(topics_display):
+                if t.lower() == chosen_topic.lower():
+                    match = (i, t)
+                    break
+
+            if not match:
                 response_dict["text"] = f"{self._get_localized_text('invalid_topic')} {topics_display[:]}"
             else:
+                idx, matched_topic = match
                 if self.user_language == "en":
-                    idx = topics_display.index(chosen_topic)
+                    # Always take the exact JSON topic (Hebrew or English from the file)
                     self.topic = topics_hebrew[idx]
                 else:
-                    self.topic = chosen_topic
+                    self.topic = matched_topic
+
                 self.topic_exercises_count = 0
                 self.doubt_questions_count = 0
                 self._pick_new_exercise(self.hebrew_grade, self.topic)
+
                 if not self.current_exercise:
                     response_dict["text"] = self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
                 else:
                     self.state = State.QUESTION_ANSWER
                     ready_text = self._get_localized_text("ready_for_question")
                     response_dict["text"] = f"{ready_text}\n{self._get_current_question()}"
-                    response_dict["svg_file_path"] = self.current_svg_file_path  # Pass SVG file path
+                    response_dict["svg_file_path"] = self.current_svg_file_path
+
             self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state in [State.QUESTION_ANSWER, State.GUIDING_QUESTION, State.PROVIDING_HINT]:
