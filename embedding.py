@@ -9,7 +9,7 @@ import os
 import re
 
 # ---------------- CONFIG ----------------
-INPUT_FILE = Path("Files/exercises_schema_v2_2025-09-22.json")  # JSON file with exercises
+INPUT_FILE = Path("Files/exercises_schema_v2_2025-09-22 copy.json")  # JSON file with exercises
 OUTPUT_FILE = Path("exercise_embedding1.json")
 MODEL_NAME = "intfloat/multilingual-e5-large"
 BATCH_SIZE = 32  # For embedding generation
@@ -31,13 +31,26 @@ def sanitize_ascii(text: str) -> str:
 def estimate_payload_size(vectors: List[dict]) -> int:
     return sum(len(json.dumps(v).encode('utf-8')) for v in vectors)
 
-# Helper function to stringify table
+# Helper function to stringify table with proper table format
 def stringify_table(table: dict) -> str:
     if not isinstance(table, dict) or not table.get("headers") or not table.get("rows_data"):
         return ""
-    headers = ", ".join(table["headers"])
-    rows = "\n".join([", ".join(row) for row in table["rows_data"]])
-    return f"\nTable:\nHeaders: {headers}\nRows:\n{rows}"
+    
+    # Create table header as a row
+    headers = " | ".join(table["headers"])
+    separator = "-+-".join(["-" * len(header) for header in table["headers"]])
+    
+    # Create rows
+    rows = "\n".join([" | ".join(row) for row in table["rows_data"]])
+    
+    # Format the table
+    return f"\nTable:\n{headers}\n{separator}\n{rows}"
+
+# Helper function to stringify SVG content
+def stringify_svg(svg: str) -> str:
+    if svg:
+        return f"\nSVG:\n{svg}"
+    return ""
 
 # Helper function to stringify options
 def stringify_options(options: List[dict]) -> str:
@@ -47,6 +60,53 @@ def stringify_options(options: List[dict]) -> str:
         [opt.get("text", "") + stringify_table(opt.get("table", {})) for opt in options if isinstance(opt, dict)]
     )
     return opts_str
+
+# Updated function to stringify section content, including SVGs
+def stringify_section_with_svg(section: dict) -> str:
+    section_text = ""
+    
+    # Section data (if available)
+    section_data = section.get("section_data", {})
+    if isinstance(section_data, dict):
+        sec_data_text = section_data.get("text", "") or ""
+        sec_data_text += stringify_table(section_data.get("table", {}))
+        sec_data_text += stringify_svg(section_data.get("svg", ""))
+        section_text += sec_data_text
+    
+    # Question (if available)
+    question = section.get("question", {})
+    if isinstance(question, dict):
+        q_text = question.get("text", "") or ""
+        q_text += stringify_table(question.get("table", {}))
+        q_text += stringify_options(section.get("question_options", []))
+        q_text += stringify_svg(question.get("svg", ""))
+        section_text += q_text
+    
+    # Hint (if available)
+    hint = section.get("hint", {})
+    if isinstance(hint, dict):
+        hint_text = hint.get("text", "") or ""
+        hint_text += stringify_table(hint.get("table", {}))
+        hint_text += stringify_svg(hint.get("svg", ""))
+        section_text += hint_text
+    
+    # Solution (if available)
+    solution = section.get("solution", {})
+    if isinstance(solution, dict):
+        sol_text = solution.get("text", "") or ""
+        sol_text += stringify_table(solution.get("table", {}))
+        sol_text += stringify_svg(solution.get("svg", ""))
+        section_text += sol_text
+    
+    # Full solution (if available)
+    full_solution = section.get("full_solution", {})
+    if isinstance(full_solution, dict):
+        full_sol_text = full_solution.get("text", "") or ""
+        full_sol_text += stringify_table(full_solution.get("table", {}))
+        full_sol_text += stringify_svg(full_solution.get("svg", ""))
+        section_text += full_sol_text
+
+    return section_text
 
 # ---------------- FUNCTIONS ----------------
 def chunk_nested_exercise(exercise: dict) -> List[dict]:
@@ -59,6 +119,11 @@ def chunk_nested_exercise(exercise: dict) -> List[dict]:
     if not isinstance(exercise, dict):
         print(f"Skipping invalid exercise format: {type(exercise)}")
         return chunks
+    
+    # Mark the first exercise explicitly as "base exercise" for guiding questions
+    if "exercise_metadata" in exercise and exercise["exercise_metadata"].get("exercise_number") == "1":
+        # Add base-specific logic here if needed
+        print(f"Base exercise detected: {exercise['exercise_metadata']['exercise_number']}")
 
     meta = exercise.get("exercise_metadata", {})
     content = exercise.get("exercise_content", {})

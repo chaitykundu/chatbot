@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 # -----------------------------
 # CONFIG
 # -----------------------------
-INPUT_FILE = Path("Files/exercises_schema_v2_2025-09-22.json")  # Updated to match bot.py
+INPUT_FILE = Path("Files/exercises_schema_v2_2025-09-22 copy.json")  # Updated to match bot.py
 SVG_OUTPUT_DIR = Path("svg_outputs")
 SVG_OUTPUT_DIR.mkdir(exist_ok=True)
 
@@ -90,6 +90,8 @@ small_talk_prompt = ChatPromptTemplate.from_messages([
     
     Language Rules:
     - Detect the user's language and respond in the same language
+    - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+    - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
     - If Hebrew is detected, respond in Hebrew
     - If English is detected, respond in English
     - Default to English if language is unclear
@@ -114,6 +116,8 @@ personal_followup_prompt = ChatPromptTemplate.from_messages([
     Language Rules:
     - Match the user's language (Hebrew or English)
     - Keep the same language throughout the conversation
+    - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+    - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
     
     Guidelines:
     - Acknowledge their response warmly
@@ -132,6 +136,8 @@ diagnostic_prompt = ChatPromptTemplate.from_messages([
     
     Language Rules:
     - Match the user's language (Hebrew or English)
+    - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+    - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences. 
     - For Hebrew: Use proper RTL formatting for general text, keep math expressions LTR
     
     Diagnostic Guidelines:
@@ -152,6 +158,8 @@ academic_transition_prompt = ChatPromptTemplate.from_messages([
         
     Language Rules:
     - Match the user's language (Hebrew or English)
+    - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+    - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences. 
     - For Hebrew: Use proper RTL formatting for general text, keep math expressions LTR
 
     Academic Transition Guidelines:
@@ -201,7 +209,14 @@ I18N = {
         "doubt_answer_complete": "I hope that helps clarify things about {topic} for you!",
         "lesson_closing": "Great, that was an awesome lesson! I’ll send you similar exercises for practice and see you in the next session. If you have questions, feel free to message me. And if you get stuck – just remember, you’re a genius. Bye!",
         "invalid_topic": "Invalid topic. Please choose one of these:",
-        "invalid_class": "Invalid class. Please choose one of these:"  # Add this line
+        "invalid_class": "Invalid class. Please choose one of these:",  # Add this line
+        # New keys added for multilingual support
+        "pick_class": "Pick a class:",
+        "available_classes": "Available classes:",
+        "pick_topic": "Pick a topic:",
+        "available_topics": "Available topics:",
+        "switch_to_english": "Switched to English. Let's continue!",
+        "switch_to_hebrew": "Switched to Hebrew. Let's continue!"
 
     },
     "he": {
@@ -234,7 +249,14 @@ I18N = {
         "doubt_answer_complete": "אני מקווה שזה עוזר להבהיר דברים על {topic} עבורך!",
         "lesson_closing": "נהדר, זה היה שיעור מדהים! אשלח לך תרגילים דומים לתרגול וניפגש בשיעור הבא. אם יש לך שאלות, אל תהסס לפנות אליי. ואם תיתקע – זכור, אתה גאון. להתראות!",
         "invalid_topic": "נושא לא חוקי. אנא בחר אחד מהבאים:",
-        "invalid_class": "כיתה לא חוקית. אנא בחר אחת מהבאות:"  # Add this line
+        "invalid_class": "כיתה לא חוקית. אנא בחר אחת מהבאות:" , # Add this line
+        # New keys added for multilingual support
+        "pick_class": "בחר כיתה:",
+        "available_classes": "כיתות זמינות:",
+        "pick_topic": "בחר נושא:",
+        "available_topics": "נושאים זמינים:",
+        "switch_to_english": "עברתי לאנגלית. בואו נמשיך!",
+        "switch_to_hebrew": "עברתי לעברית. בואו נמשיך!"
 
     }
 }
@@ -293,7 +315,9 @@ def translate_text_to_english(text: str) -> str:
         translation_prompt = ChatPromptTemplate.from_messages([
             ("system", """Translate the Hebrew text to English. Make sure the meaning and sentence structure stay exactly the same.
             If the text is already in English, leave it unchanged (in title case).
-            Preserve math expressions intact."""),
+            Preserve math expressions intact. 
+            For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+            Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences."""),
             ("user", "{input}")
         ])
         translation_chain = translation_prompt | llm
@@ -1052,6 +1076,8 @@ class DialogueFSM:
                 Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
                 
                 Guidelines:
+                - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+                - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
                 - Provide clear, detailed explanations
                 - Use the context to give accurate information
                 - Be patient and encouraging
@@ -1152,6 +1178,8 @@ class DialogueFSM:
                     Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
                     
                     Guidelines:
+                    - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+                    - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
                     - Always explain in steps: Step 1, Step 2, Step 3...
                     - First: state the key formula or rule used.
                     - Second: substitute values from the problem.
@@ -1227,6 +1255,8 @@ class DialogueFSM:
                 Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
                 
                 Guidelines:
+                - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+                - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
                 - Provide a single, concise hint (1-2 sentences) to guide the student toward the solution
                 - Do NOT reveal the full solution
                 - Focus on a key concept, formula, or step needed to solve the problem
@@ -1257,11 +1287,13 @@ class DialogueFSM:
             Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
             
             Evaluation Guidelines:
-            1. Determine if the answer is CORRECT or INCORRECT
-            2. If INCORRECT, identify the specific mistake or misconception
-            3. Provide encouragement regardless of correctness
-            4. DO NOT reveal the correct answer
-            5. Be supportive and educational
+            - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+            - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
+            - Determine if the answer is CORRECT or INCORRECT
+            - If INCORRECT, identify the specific mistake or misconception
+            - Provide encouragement regardless of correctness
+            - DO NOT reveal the correct answer
+            - Be supportive and educational
             
             Response Format:
             CORRECT: [brief encouraging comment]
@@ -1377,6 +1409,8 @@ class DialogueFSM:
                 Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
                 
                 Guidelines:
+                - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+                - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
                 - Ask a question that guides them toward the solution
                 - Don't give away the answer directly
                 - Focus on the mathematical concept or method
@@ -1414,19 +1448,40 @@ class DialogueFSM:
             
         text_lower = (user_input or "").strip().lower()
 
-        # Detect user language from input
-        if user_input and user_input.strip():
+        # FIXED: Language persistence - only set initially or on explicit switch
+        if not hasattr(self, '_initial_language_set'):
+            self._initial_language_set = False
+        
+        if not self._initial_language_set and user_input.strip():
             detected_lang = detect_language(user_input)
             if detected_lang in ["he", "en"]:
                 self.user_language = detected_lang
             else:
                 self.user_language = "en"
-                
+            self._initial_language_set = True
+            logger.debug(f"Initial language set to: {self.user_language}")
+        
+        # Explicit language switch
+        if text_lower in ["switch to english", "english", "עבור לאנגלית"]:
+            self.user_language = "en"
+            response_add = self._get_localized_text("switch_to_english")
+            logger.debug("Language switched to English")
+        elif text_lower in ["switch to hebrew", "hebrew", "עבור לעברית"]:
+            self.user_language = "he"
+            response_add = self._get_localized_text("switch_to_hebrew")
+            logger.debug("Language switched to Hebrew")
+        else:
+            response_add = ""
+            
         # Add user input to chat history
         if user_input:
             self.chat_history.append(HumanMessage(content=clean_math_text(user_input)))
 
         response_dict = {"text": "", "svg_file_path": None}  # Initialize response dictionary
+
+        # If language switched, prepend to response (for any state)
+        if 'response_add' in locals() and response_add:
+            response_dict["text"] += f"{response_add}\n\n"
 
         # --- State Transitions ---
         if self.state == State.START:
@@ -1481,6 +1536,8 @@ class DialogueFSM:
                         ("system", f"""You are a friendly math tutor.
                         Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
                         Guidelines:
+                        - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+                        - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
                         - Acknowledge the user's previous response in ONE short sentence (5-10 words).
                         - Be warm, conversational, and encouraging.
                         - Examples: 'Wow, great to hear!', 'That's awesome!', 'Cool, love that!'
@@ -1512,52 +1569,60 @@ class DialogueFSM:
 
         elif self.state == State.PICK_CLASS:
             chosen_class = user_input.strip()
-            classes_hebrew = get_classes()
+            classes_hebrew = get_classes()  # e.g., ['ח']
+            
+            # Display classes in user's language
             if self.user_language == "en":
-                classes_display = [translate_text_to_english(c) for c in classes_hebrew]
+                classes_display = [grade_map.get(c, c) for c in classes_hebrew]  # e.g., ['8']
             else:
-                classes_display = classes_hebrew
-            if chosen_class not in classes_display:
-                response_dict["text"] = f"{self._get_localized_text('invalid_class')} {classes_display}"
+                classes_display = classes_hebrew  # Hebrew, e.g., ['ח']
+            
+            if chosen_class not in [str(c).lower() for c in classes_display]:  # Case-insensitive match
+                response_dict["text"] = f"{self._get_localized_text('available_classes')} {classes_display}\n{self._get_localized_text('pick_class')}"
             else:
-                if self.user_language == "en":
-                    idx = classes_display.index(chosen_class)
-                    self.grade = classes_display[idx]
-                    self.hebrew_grade = classes_hebrew[idx]
-                else:
-                    self.grade = chosen_class if not is_likely_hebrew(chosen_class) else self._translate_grade_to_hebrew(chosen_class)
-                    self.hebrew_grade = self._translate_grade_to_hebrew(self.grade) if not is_likely_hebrew(chosen_class) else chosen_class
+                # Find matching index
+                idx = next(i for i, c in enumerate(classes_display) if str(c).lower() == chosen_class.lower())
+                self.hebrew_grade = classes_hebrew[idx]
+                self.grade = grade_map.get(self.hebrew_grade, self.hebrew_grade) if self.user_language == "en" else self.hebrew_grade
+                
                 self.state = State.PICK_TOPIC
                 topics_hebrew = get_topics(self.hebrew_grade)
-                topics_display = [translate_text_to_english(t) for t in topics_hebrew] if self.user_language == "en" else topics_hebrew[:]
-                response_dict["text"] = f"{'Available topics' if self.user_language=='en' else 'נושאים זמינים'}: {topics_display}\n{'Pick a topic:' if self.user_language=='en' else 'בחר נושא:'}"
+                
+                # Display topics in user's language
+                if self.user_language == "en":
+                    topics_display = [translate_text_to_english(t) for t in topics_hebrew]
+                else:
+                    topics_display = topics_hebrew
+                
+                avail_text = self._get_localized_text("available_topics")
+                pick_text = self._get_localized_text("pick_topic")
+                response_dict["text"] = f"{avail_text}: {topics_display}\n{pick_text}"
+            
             self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state == State.PICK_TOPIC:
             chosen_topic = user_input.strip()
-            topics_hebrew = get_topics(self.hebrew_grade)
-            if user_input and detect_language(user_input) == "en":
-                self.user_language = "en"
-
-            topics_display = [translate_text_to_english(t) for t in topics_hebrew] if self.user_language == "en" else topics_hebrew
-
-            # Case-insensitive lookup
+            topics_hebrew = get_topics(self.hebrew_grade)  # Always Hebrew originals
+            
+            # Display topics in user's language (for validation/error)
+            if self.user_language == "en":
+                topics_display = [translate_text_to_english(t) for t in topics_hebrew]
+            else:
+                topics_display = topics_hebrew
+            
+            # Case-insensitive lookup on display versions
             match = None
             for i, t in enumerate(topics_display):
                 if t.lower() == chosen_topic.lower():
-                    match = (i, t)
+                    match = (i, topics_hebrew[i])  # Store original Hebrew topic
                     break
 
             if not match:
-                response_dict["text"] = f"{self._get_localized_text('invalid_topic')} {topics_display[:]}"
+                avail_text = self._get_localized_text("available_topics")
+                pick_text = self._get_localized_text("pick_topic")
+                response_dict["text"] = f"{self._get_localized_text('invalid_topic')} {topics_display}\n{avail_text}: {topics_display}\n{pick_text}"
             else:
-                idx, matched_topic = match
-                if self.user_language == "en":
-                    # Always take the exact JSON topic (Hebrew or English from the file)
-                    self.topic = topics_hebrew[idx]
-                else:
-                    self.topic = matched_topic
-
+                idx, self.topic = match  # self.topic = original Hebrew
                 self.topic_exercises_count = 0
                 self.doubt_questions_count = 0
                 self._pick_new_exercise(self.hebrew_grade, self.topic)

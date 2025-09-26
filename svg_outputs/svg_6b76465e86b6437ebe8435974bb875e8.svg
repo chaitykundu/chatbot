@@ -1,0 +1,13 @@
+<svg viewBox="-2 -8 11 10" preserveAspectRatio="xMidYMid meet">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href="#arrowheadX"></use>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <use href="#arrowheadY"></use>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <rect x="-10" y="-10" width="20" height="20" fill="url(#grid)"></rect>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1="-10" y1="0" x2="8" y2="0" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadX)"></line>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1="0" y1="10" x2="0" y2="-7" stroke="black" stroke-width="0.07" marker-end="url(#arrowheadY)"></line>
+
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <line x1="-1" y1="2" x2="3" y2="-6" stroke="black" stroke-width="0.1"></line>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d="M1 0 L1 -2 L2 -2" stroke="red" stroke-width="0.1" fill="none" stroke-dasharray="0.2,0.2"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d="M2 -2 L2 -4 L3 -4" stroke="red" stroke-width="0.1" fill="none" stroke-dasharray="0.2,0.2"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <path d="M3 -4 L3 -6 L3 -6" stroke="red" stroke-width="0.1" fill="none" stroke-dasharray="0.2,0.2"></path>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </svg>

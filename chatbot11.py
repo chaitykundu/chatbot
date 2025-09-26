@@ -67,8 +67,9 @@ rag_prompt = ChatPromptTemplate.from_messages([
     - If the question is in Hebrew → respond in Hebrew
     - If the question is in English → respond in English
     - Always match the user's language preference
-    - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
-    - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
+    - For Hebrew responses, wrap conversational text in Unicode RTL markers (\u202B for start, \u202C for end)
+    - Ensure all mathematical expressions and scientific notation are wrapped in LTR markers (\u202A for start, \u202C for end)
+    - Example Hebrew response: \u202Bשלום, בוא נתחיל עם התרגיל:\u202C \u202Ay = mx + b\u202C
     
     Teaching Guidelines:
     - Never give direct answers immediately
@@ -272,20 +273,19 @@ def clean_math_text(text: str) -> str:
     """Remove LaTeX-style $ signs and other delimiters from math expressions."""
     if not text:
         return text
-    # Remove single and double dollar signs
-    text = re.sub(r'\$(.*?)\$', r'\1', text, flags=re.DOTALL)
-    text = re.sub(r'\$\$(.*?)\$\$', r'\1', text, flags=re.DOTALL)
+    # Remove single and double dollar signs, wrapping math in LTR Unicode characters
+    text = re.sub(r'\$(.*?)\$', '\u202A\\1\u202C', text, flags=re.DOTALL)  # Wrap math in LTR
+    text = re.sub(r'\$\$(.*?)\$\$', '\u202A\\1\u202C', text, flags=re.DOTALL)
     
     # Handle fractions with or without curly braces
     def replace_fraction(match):
         numerator = match.group(1)
         denominator = match.group(2)
-        return f'({numerator}/{denominator})'
-    # Match \frac{num}{den} or \frac num den
+        return f'\u202A({numerator}/{denominator})\u202C'  # Wrap fractions in LTR
     text = re.sub(r'\\frac\s*\{?([^} ]+)\}?\s*\{?([^} ]+)\}?', replace_fraction, text)
     
     # Remove other LaTeX commands with arguments
-    text = re.sub(r'\\([a-zA-Z]+)\{([^}]*)\}', r'\2', text)
+    text = re.sub(r'\\([a-zA-Z]+)\{([^}]*)\}', '\u202A\\2\u202C', text)  # Wrap content in LTR
     # Remove standalone LaTeX commands
     text = re.sub(r'\\([a-zA-Z]+)', r'', text)
     # Normalize whitespace and remove stray $
@@ -710,7 +710,11 @@ class DialogueFSM:
         """Get localized text based on current user language."""
         lang_dict = I18N[self.user_language]
         text = lang_dict.get(key, I18N["en"][key])
-        return text.format(**kwargs) if kwargs else text
+        formatted_text = text.format(**kwargs) if kwargs else text
+        if self.user_language == "he":
+            # Wrap conversational text in RTL markers, exclude math expressions
+            formatted_text = f"\u202B{formatted_text}\u202C"
+        return formatted_text
     
     def _extract_grade_from_input(self, text: str) -> Optional[str]:
         """Extract grade/class number (7/8 or Hebrew equivalent) from user input using regex."""
@@ -765,107 +769,150 @@ class DialogueFSM:
     def _get_current_question(self) -> str:
         if not self.current_exercise or "exercise_content" not in self.current_exercise:
             return self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
-        
+
         try:
             meta = self.current_exercise.get("exercise_metadata", {})
             content = self.current_exercise.get("exercise_content", {})
             sections = content.get("sections", [])
-            
+
             if self.current_question_index >= len(sections):
+                logger.warning(f"Question index {self.current_question_index} exceeds sections length {len(sections)}")
                 return ""
+
+            section = sections[self.current_question_index]
+            
+            # DEBUG: Print available fields in the section to see what's actually there
+            if self.current_question_index == 0:  # Only debug for first question
+                logger.debug(f"Available section fields: {list(section.keys())}")
+                if "question" in section:
+                    logger.debug(f"Question fields: {list(section['question'].keys())}")
             
             main_data = content.get("main_data", {})
-            main_text = main_data.get("text", "")
-            section = sections[self.current_question_index]
-            q_text = section.get("question", {}).get("text", "")
+            main_text = clean_math_text(main_data.get("text", ""))
             
-            # Clean math text
-            main_text = clean_math_text(main_text)
-            q_text = clean_math_text(q_text)
+            # Check for different possible base/guide question field names
+            base_question = None
+            guide_question = None
             
-            # Format the question output
-            formatted_question = (
-                 f"\n📘 Next Question {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
-                 f"\nMain Text: {main_text}\n"
-                 f"\n❓ Section {section.get('section_number', 'N/A')} - {q_text}"
-            )
+            # Try different possible field names for base/guide questions
+            possible_base_names = ["base_question", "baseQuestion", "base", "guide_question", "guideQuestion", "guide"]
+            possible_guide_names = ["guide_question", "guideQuestion", "guide", "intro_question", "introQuestion"]
             
-            # Handle question table if available
-            question_table = section.get("question", {}).get("table")
-            if question_table and isinstance(question_table, dict) and question_table.get("headers") and question_table.get("rows_data"):
-                # Format table as a markdown-like string for readability
-                headers = question_table["headers"]
-                rows = question_table["rows_data"]
-                
-                # Calculate column widths for alignment
-                col_widths = [max(len(str(cell)) for row in [headers] + rows for cell in row)]
-                for row in rows:
-                    for i, cell in enumerate(row):
-                        col_widths[i] = max(col_widths[i], len(str(cell)))
-                
-                # Build table string
-                table_str = "\n\nTable:\n"
-                # Header row
-                header_row = " | ".join(f"{h:<{w}}" for h, w in zip(headers, col_widths))
-                table_str += header_row + "\n"
-                table_str += "-|-".join("-" * w for w in col_widths) + "\n"
-                # Data rows
-                for row in rows:
-                    row_str = " | ".join(f"{cell:<{w}}" for cell, w in zip(row, col_widths))
-                    table_str += row_str + "\n"
-                
-                formatted_question += table_str
-
-            # --- Section-level SVG (prefer showing alongside main) ---
-                section_svg = section.get("question", {}).get("svg")
-                if section_svg:
-                    sec_filename = f"exercise_{meta.get('exercise_number','N')}_sec{section.get('section_number','N')}_q{self.current_question_index}_section.svg"
-                    sec_svg_path = save_svg_to_file(section_svg, sec_filename)
-                    if sec_svg_path:
-                        formatted_question += f"\n\n[Section SVG: {sec_svg_path}]"
-                        sec_desc = describe_svg_content(section_svg)
-                        formatted_question += f"\n\nImage Description (Section): {sec_desc}"
-
-            
-            # Add SVG reference if available
-            main_svg = main_data.get("svg")
-            if main_svg and not self.svg_generated_for_question:
-                self.current_svg_file_path = self._save_svg(main_svg)
-                if self.current_svg_file_path:
-                    formatted_question += f"\n\n[See visualization in SVG file: {self.current_svg_file_path}]"
-                    self.current_svg_description = describe_svg_content(main_svg)
-                    formatted_question += f"\n\nImage Description: {self.current_svg_description}"
-                self.svg_generated_for_question = True
-            
-            # Add main table if available
-            main_table = main_data.get("table")
-            if main_table and isinstance(main_table, dict) and main_table.get("headers") and main_table.get("rows_data"):
-                # Format main table similarly
-                headers = main_table["headers"]
-                rows = main_table["rows_data"]
-                col_widths = [max(len(str(cell)) for row in [headers] + rows for cell in row)]
-                for row in rows:
-                    for i, cell in enumerate(row):
-                        col_widths[i] = max(col_widths[i], len(str(cell)))
-                
-                table_str = "\n\nMain Table:\n"
-                header_row = " | ".join(f"{h:<{w}}" for h, w in zip(headers, col_widths))
-                table_str += header_row + "\n"
-                table_str += "-|-".join("-" * w for w in col_widths) + "\n"
-                for row in rows:
-                    row_str = " | ".join(f"{cell:<{w}}" for cell, w in zip(row, col_widths))
-                    table_str += row_str + "\n"
-                
-                formatted_question += table_str
-            
-            # Handle bilingual output
-            if self.user_language == "en" and (is_likely_hebrew(main_text) or is_likely_hebrew(q_text) or is_likely_hebrew(formatted_question)):
-                logger.debug(f"Translating question to English: {formatted_question}")
-                translated = translate_text_to_english(formatted_question)
-                logger.debug(f"Translated question: {translated}")
-                return translated
-            return formatted_question
+            for field_name in possible_base_names:
+                if field_name in section:
+                    base_question = section[field_name].get("text") if isinstance(section[field_name], dict) else section[field_name]
+                    logger.debug(f"Found base question in field: {field_name}")
+                    break
                     
+            for field_name in possible_guide_names:
+                if field_name in section and not base_question:  # Only use guide if no base found
+                    guide_question = section[field_name].get("text") if isinstance(section[field_name], dict) else section[field_name]
+                    logger.debug(f"Found guide question in field: {field_name}")
+                    break
+            
+            regular_question = section.get("question", {}).get("text")
+            
+            # FIXED: Always prioritize base_question for the FIRST question (index 0)
+            # regardless of availability, and ensure we start with base questions
+            if self.current_question_index == 0:
+                # For the first question, ALWAYS try base question first
+                if base_question:
+                    q_text = clean_math_text(base_question)
+                    question_type = "Base Question"
+                    logger.debug("Using base question for first exercise")
+                elif guide_question:
+                    q_text = clean_math_text(guide_question)
+                    question_type = "Guide Question"
+                    logger.debug("Using guide question for first exercise (no base found)")
+                else:
+                    q_text = clean_math_text(regular_question or "")
+                    question_type = "Question"
+                    logger.debug("Using regular question for first exercise (no base/guide found)")
+            else:
+                # For subsequent questions, use regular question
+                q_text = clean_math_text(regular_question or "")
+                question_type = "Question"
+
+            # Format question output
+            formatted_question = (
+                f"📘 Exercise {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
+            )
+            if main_text:
+                formatted_question += f"Main Text: {main_text}\n"
+            formatted_question += f"➤ Section {section.get('section_number', 'N/A')} - {question_type}: {q_text}"
+        
+
+            # Handle question table (for base/guide questions, check their specific table field)
+            question_table = None
+            if self.current_question_index == 0 and base_question:
+                question_table = section.get("base_question", {}).get("table", {}) if isinstance(section.get("base_question"), dict) else {}
+            elif self.current_question_index == 0 and guide_question:
+                question_table = section.get("guide_question", {}).get("table", {}) if isinstance(section.get("guide_question"), dict) else {}
+            else:
+                question_table = section.get("question", {}).get("table", {})
+                
+            if question_table and isinstance(question_table, dict) and question_table.get("headers"):
+                formatted_question += "\n" + self._stringify_table(question_table)
+
+            # Handle question options (check base/guide question options)
+            question_options = []
+            if self.current_question_index == 0 and base_question:
+                question_options = section.get("base_question_options", [])
+            elif self.current_question_index == 0 and guide_question:
+                question_options = section.get("guide_question_options", [])
+            else:
+                question_options = section.get("question_options", [])
+                
+            if question_options:
+                formatted_question += "\n" + self._stringify_options(question_options)
+
+            # Handle main table
+            main_table = main_data.get("table", {})
+            if main_table and isinstance(main_table, dict) and main_table.get("headers"):
+                formatted_question += "\nMain Table:\n" + self._stringify_table(main_table)
+
+            # Handle SVGs (prioritize section SVG, then main SVG)
+            svg_content = None
+            # Debug: Check what SVG fields are available
+            logger.debug(f"Checking SVG content for question index: {self.current_question_index}")
+            logger.debug(f"svg_generated_for_question flag: {self.svg_generated_for_question}")
+
+            if self.current_question_index == 0 and base_question:
+                svg_content = section.get("base_question", {}).get("svg") if isinstance(section.get("base_question"), dict) else None
+                logger.debug(f"Base question SVG content found: {bool(svg_content)}")
+            elif self.current_question_index == 0 and guide_question:
+                svg_content = section.get("guide_question", {}).get("svg") if isinstance(section.get("guide_question"), dict) else None
+                logger.debug(f"Guide question SVG content found: {bool(svg_content)}")
+            else:
+                svg_content = section.get("question", {}).get("svg")
+                logger.debug(f"Regular question SVG content found: {bool(svg_content)}")
+                
+            if not svg_content:
+                svg_content = main_data.get("svg")
+                logger.debug(f"Main data SVG content found: {bool(svg_content)}")
+                
+            # Always try to save SVG if content exists, regardless of flag
+            if svg_content:
+                logger.debug(f"SVG content length: {len(svg_content) if svg_content else 0}")
+                self.current_svg_file_path = self._save_svg(svg_content)
+                if self.current_svg_file_path:
+                    formatted_question += f"\n[SVG: {self.current_svg_file_path}]"
+                    logger.debug(f"SVG saved to: {self.current_svg_file_path}")
+                else:
+                    logger.warning("Failed to save SVG content")
+                self.svg_generated_for_question = True
+            else:
+                logger.debug("No SVG content found for this question")
+                
+            # Apply RTL for Hebrew responses
+            if self.user_language == "he":
+                formatted_question = f"\u202B{formatted_question}\u202C"
+            # Only translate to English if user language is English
+            elif self.user_language == "en" and is_likely_hebrew(formatted_question):
+                formatted_question = translate_text_to_english(formatted_question)
+
+            return formatted_question.strip()
+
         except Exception as e:
             logger.error(f"Error formatting question: {str(e)}")
             return self._get_localized_text("no_exercises", grade=self.grade, topic=self.topic)
@@ -1684,8 +1731,8 @@ def main():
     initial_response = fsm.transition("")
 
     print(f"A_GUY: {initial_response['text']}")
-    if initial_response["svg_file_path"]:
-        print(f"[SVG available at: {initial_response['svg_file_path']}]")
+   # if initial_response["svg_file_path"]:
+        #print(f"[SVG available at: {initial_response['svg_file_path']}]")
 
 
     #print(f"A_GUY: {initial_response}")
@@ -1705,6 +1752,9 @@ def main():
             break
 
         response = fsm.transition(user_input)
+        response_text = response.get("text", "")
+        if fsm.user_language == "he":
+            response_text = f"\u202B{response_text}\u202C"
 
         print(f"A_GUY: {response['text']}")
         if response["svg_file_path"]:
