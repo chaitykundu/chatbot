@@ -760,10 +760,18 @@ class DialogueFSM:
         return exercise.get("exercise_metadata", None)
     
     def _save_svg(self, svg_content: str) -> Optional[str]:
-        """Save SVG content to a file and return its path."""
+        """Save SVG content to a file and return its path, skipping if identical content already exists."""
         if not svg_content:
             return None
         filename = f"exercise_{self.current_exercise['exercise_metadata']['exercise_number']}_q{self.current_question_index}.svg"
+        file_path = SVG_OUTPUT_DIR / filename  # Assuming SVG_OUTPUT_DIR is a Path object
+        if file_path.exists():
+            with open(file_path, "r", encoding="utf-8") as f:
+                existing_content = f.read().strip()
+            if existing_content == svg_content.strip():
+                logger.debug(f"SVG already saved and identical, skipping: {file_path}")
+                return str(file_path)  # Return the path without re-saving or printing
+        # If file doesn't exist or content differs, save it
         return save_svg_to_file(svg_content, filename)
 
     def _get_current_question(self) -> str:
@@ -981,6 +989,7 @@ class DialogueFSM:
             self.current_exercise = self.attempt_tracker.generate_exercise_with_llm(topic or "geometry", grade)
             if not self.current_exercise:
                 return None
+            # Save SVG for generated exercise
             self.current_svg_file_path = self._save_svg(self.current_exercise.get("svg"))
             self.svg_generated_for_question = True
         else:
@@ -989,19 +998,22 @@ class DialogueFSM:
                         not in self.recently_asked_exercise_ids]
             
             if not available:
-                # 🚫 Do NOT reset to all exercises → this prevents repetition
-                return None   # signal that all exercises are exhausted
+                # No available exercises → signal exhaustion
+                return None
 
-            self.current_exercise = random.choice(available)
-
-            # Save SVG if it exists
-            main_svg = self.current_exercise.get("exercise_content", {}).get("main_data", {}).get("svg")
-            if main_svg:
-                self.current_svg_file_path = self._save_svg(main_svg)
-                self.svg_generated_for_question = True
+            # Prioritize Basic exercises
+            basic_exercises = [ex for ex in available if ex["exercise_metadata"].get("exercise_type", "").lower() == "basic"]
+            if basic_exercises:
+                self.current_exercise = random.choice(basic_exercises)
+                logger.debug(f"Selected Basic exercise: {self.current_exercise['exercise_metadata']['exercise_number']}")
+            else:
+                # Fall back to any available exercise
+                self.current_exercise = random.choice(available)
+                logger.debug(f"No Basic exercises available, selected: {self.current_exercise['exercise_metadata']['exercise_number']}")
 
             # If geometric exercise requires SVG but missing, generate new one
             question_text = self.current_exercise["exercise_content"]["sections"][0].get("question", {}).get("text", "")
+            main_svg = self.current_exercise.get("exercise_content", {}).get("main_data", {}).get("svg")
             if ("parallel" in question_text.lower() or "axes" in question_text.lower() or "segment" in question_text.lower()) and not main_svg:
                 self.current_exercise = self.attempt_tracker.generate_exercise_with_llm(topic or "geometry", grade)
                 if self.current_exercise:
@@ -1022,9 +1034,7 @@ class DialogueFSM:
             self.attempt_tracker.reset()
             self.student_answers = []
 
-        return self.current_exercise
-
-    
+        return self.current_exercise  
 
     def _move_to_next_exercise_or_question(self) -> str:
         """Moves to the next question in the current exercise or to a new exercise."""

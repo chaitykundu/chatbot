@@ -297,12 +297,15 @@ def clean_math_text(text: str) -> str:
         return f'({numerator}/{denominator})'
     text = re.sub(r'\\frac\s*\{?([^} ]+)\}?\s*\{?([^} ]+)\}?', replace_fraction, text)
     # Convert \cdot to *
-    text = text.replace('\\cdot', '*')
+    text = text.replace('\\cdot', '')
     text = re.sub(r'\\([a-zA-Z]+)\{([^}]*)\}', r'\2', text)
     text = re.sub(r'\\([a-zA-Z]+)', r'', text)
-
     # Remove HTML tags (including P, DIV, SPAN, etc.)
     text = re.sub(r'<[^>]+>', '', text)
+    # Add comma between Y= expressions  
+    pattern = r'(Y\s*=[^Y]+?)(\s+Y\s*=)'
+    while re.search(pattern, text):
+        text = re.sub(pattern, r'\1, \2', text)
 
     text = re.sub(r'\s+', ' ', text)
     text = text.replace('$', '')
@@ -329,16 +332,43 @@ def translate_text_to_english(text: str) -> str:
         return text.title()
 
 def stringify_table(table: dict) -> str:
-    if not table or not isinstance(table, dict) or not table.get("headers"):
+    if not isinstance(table, dict):
         return ""
-    headers = ", ".join(table["headers"])
-    rows = "\n".join([", ".join(row) for row in table.get("rows_data", [])])
-    return f"Table:\nHeaders: {headers}\nRows:\n{rows}"
+    
+    # Handle both possible field names
+    headers = table.get("headers", [])
+    rows_data = table.get("rows_data", table.get("rows", []))
+    
+    if not headers or not rows_data:
+        return ""
+    
+    # Clean the data
+    clean_headers = [str(h).strip() for h in headers]
+    clean_rows = []
+    
+    for row in rows_data:
+        if isinstance(row, list):
+            clean_row = [str(cell).strip() if cell else "" for cell in row]
+        else:
+            clean_row = [str(row).strip()]
+        clean_rows.append(clean_row)
+    
+    # Create table (your original logic)
+    headers_row = " | ".join(clean_headers)
+    separator = "-+-".join(["-" * len(header) for header in clean_headers])
+    rows = "\n".join([" | ".join(row) for row in clean_rows])
+    
+    return f"\nTable:\n{headers_row}\n{separator}\n{rows}\n"
 
 def stringify_options(options: List[dict]) -> str:
+    """Convert options list to formatted string with commas"""
     if not options:
         return ""
-    return "\nOptions:\n" + "\n".join([opt.get("text", "") for opt in options if isinstance(opt, dict)])
+    
+    # Join options with comma and space
+    options_text = ", ".join(str(option).strip() for option in options if option)
+    
+    return f"Options: {options_text}"
 
 def is_likely_hebrew(text: str) -> bool:
     """Simple heuristic to check if text contains Hebrew characters."""
@@ -933,16 +963,42 @@ class DialogueFSM:
 
     # Helper methods (to align with embedding.py and reduce code duplication)
     def _stringify_table(self, table: dict) -> str:
-        if not table or not isinstance(table, dict) or not table.get("headers"):
+        if not isinstance(table, dict):
             return ""
-        headers = ", ".join(str(h) for h in table["headers"])
-        rows = "\n".join(", ".join(str(cell) for cell in row) for row in table.get("rows_data", []))
-        return f"Table:\nHeaders: {headers}\nRows:\n{rows}"
+        
+        # Handle both possible field names
+        headers = table.get("headers", [])
+        rows_data = table.get("rows_data", table.get("rows", []))
+        
+        if not headers or not rows_data:
+            return ""
+        
+        # Clean the data
+        clean_headers = [str(h).strip() for h in headers]
+        clean_rows = []
+        
+        for row in rows_data:
+            if isinstance(row, list):
+                clean_row = [str(cell).strip() if cell else "" for cell in row]
+            else:
+                clean_row = [str(row).strip()]
+            clean_rows.append(clean_row)
+        
+        # Create table (your original logic)
+        headers_row = " | ".join(clean_headers)
+        separator = "-+-".join(["-" * len(header) for header in clean_headers])
+        rows = "\n".join([" | ".join(row) for row in clean_rows])
+        
+        return f"\nTable:\n{headers_row}\n{separator}\n{rows}\n"
 
-    def _stringify_options(self, options: List[dict]) -> str:
+    def _stringify_options(self, options):
+        """Convert options list to formatted string with commas"""
         if not options:
             return ""
-        return "Options:\n" + "\n".join(clean_math_text(opt.get("text", "")) for opt in options if isinstance(opt, dict))
+        # Join options with comma and space
+        options_text = ", ".join(str(option).strip() for option in options if option)
+    
+        return f"Options: {options_text}"
     
     def _generate_lesson_summary(self) -> str:
         closing_prompt = ChatPromptTemplate.from_messages([
@@ -960,7 +1016,7 @@ class DialogueFSM:
             logger.error(f"Error generating lesson summary: {e}")
             return "Great job today! You tackled some tough problems with confidence."
 
-    def _pick_new_exercise(self, grade: str, topic: str):
+    def _pick_new_exercise(self, grade: str, topic: Optional[str] = None):
         exercises = get_exercises(grade, topic) if topic else [
             ex for ex in all_exercises if ex["exercise_metadata"]["class"] == grade
         ]
@@ -969,6 +1025,7 @@ class DialogueFSM:
             self.current_exercise = self.attempt_tracker.generate_exercise_with_llm(topic or "geometry", grade)
             if not self.current_exercise:
                 return None
+            # Save SVG for generated exercise
             self.current_svg_file_path = self._save_svg(self.current_exercise.get("svg"))
             self.svg_generated_for_question = True
         else:
@@ -977,19 +1034,22 @@ class DialogueFSM:
                         not in self.recently_asked_exercise_ids]
             
             if not available:
-                # 🚫 Do NOT reset to all exercises → this prevents repetition
-                return None   # signal that all exercises are exhausted
+                # No available exercises → signal exhaustion
+                return None
 
-            self.current_exercise = random.choice(available)
-
-            # Save SVG if it exists
-            main_svg = self.current_exercise.get("exercise_content", {}).get("main_data", {}).get("svg")
-            if main_svg:
-                self.current_svg_file_path = self._save_svg(main_svg)
-                self.svg_generated_for_question = True
+            # Prioritize Basic exercises
+            basic_exercises = [ex for ex in available if ex["exercise_metadata"].get("exercise_type", "").lower() == "basic"]
+            if basic_exercises:
+                self.current_exercise = random.choice(basic_exercises)
+                logger.debug(f"Selected Basic exercise: {self.current_exercise['exercise_metadata']['exercise_number']}")
+            else:
+                # Fall back to any available exercise
+                self.current_exercise = random.choice(available)
+                logger.debug(f"No Basic exercises available, selected: {self.current_exercise['exercise_metadata']['exercise_number']}")
 
             # If geometric exercise requires SVG but missing, generate new one
             question_text = self.current_exercise["exercise_content"]["sections"][0].get("question", {}).get("text", "")
+            main_svg = self.current_exercise.get("exercise_content", {}).get("main_data", {}).get("svg")
             if ("parallel" in question_text.lower() or "axes" in question_text.lower() or "segment" in question_text.lower()) and not main_svg:
                 self.current_exercise = self.attempt_tracker.generate_exercise_with_llm(topic or "geometry", grade)
                 if self.current_exercise:
@@ -1753,6 +1813,21 @@ class DialogueFSM:
 # -----------------------------
 # MAIN
 # -----------------------------
+from langdetect import detect
+
+def get_text_direction(user_input: str) -> str:
+    lang = detect(user_input)
+    try:
+        lang = detect(user_input)
+    except:
+        lang = "en"  # fallback
+    
+    if lang == "he":  # Hebrew → RTL
+        # Wrap text with RTL markers
+        return("\u202B" + user_input + "\u202C")
+    else:  # English or others → LTR
+        print("\u202A" + user_input + "\u202C")
+
 def main():
     if not INPUT_FILE.exists():
         logger.error("❌ Missing JSON file.")
@@ -1769,8 +1844,8 @@ def main():
 
     # Initial transition to start the conversation
     initial_response = fsm.transition("")
-
-    print(f"A_GUY: {initial_response['text']}")
+    result = get_text_direction(initial_response['text'])  # Set initial text direction based on response language
+    print(f"A_GUY : {result}")
     if initial_response["svg_file_path"]:
         print(f"[SVG available at: {initial_response['svg_file_path']}]")
 
@@ -1790,6 +1865,9 @@ def main():
             print("👋 Bye!")
             fsm.inactivity_timer.stop()
             break
+        from langdetect import detect
+
+
 
         response = fsm.transition(user_input)
 
