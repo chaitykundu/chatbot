@@ -798,6 +798,20 @@ class DialogueFSM:
             main_data = content.get("main_data", {})
             main_text = clean_math_text(main_data.get("text", ""))
             
+            # ✅ FIXED: Handle exercise metadata with translation
+            exercise_number = meta.get('exercise_number', 'N/A')
+            exercise_type_raw = meta.get('exercise_type', 'Unknown')
+            
+            # Translate exercise type immediately if needed
+            exercise_type = exercise_type_raw
+            if self.user_language == "en" and is_likely_hebrew(exercise_type_raw):
+                exercise_type = translate_text_to_english(exercise_type_raw)
+                logger.debug(f"Translated exercise type: '{exercise_type_raw}' -> '{exercise_type}'")
+            
+            # Translate main text if needed
+            if main_text and self.user_language == "en" and is_likely_hebrew(main_text):
+                main_text = translate_text_to_english(main_text)
+            
             # Check for different possible base/guide question field names
             base_question = None
             guide_question = None
@@ -841,13 +855,21 @@ class DialogueFSM:
                 q_text = clean_math_text(regular_question or "")
                 question_type = "Question"
 
-            # Format question output
-            formatted_question = (
-                f"📘 Exercise {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
-            )
+            # Translate question text if needed
+            if q_text and self.user_language == "en" and is_likely_hebrew(q_text):
+                q_text = translate_text_to_english(q_text)
+
+            # Translate section number if needed
+            section_number = section.get('section_number', 'N/A')
+            if self.user_language == "en" and is_likely_hebrew(str(section_number)):
+                hebrew_to_number = {"א": "1", "ב": "2", "ג": "3", "ד": "4", "ה": "5"}
+                section_number = hebrew_to_number.get(str(section_number), section_number)
+
+            # ✅ FIXED: Format question output with already translated components
+            formatted_question = f"📘 Exercise {exercise_number} ({exercise_type})\n"
             if main_text:
                 formatted_question += f"Main Text: {main_text}\n"
-            formatted_question += f"➤ Section {section.get('section_number', 'N/A')} - {question_type}: {q_text}"
+            formatted_question += f"➤ Section {section_number} - {question_type}: {q_text}"
         
 
             # Handle question table (for base/guide questions, check their specific table field)
@@ -860,7 +882,10 @@ class DialogueFSM:
                 question_table = section.get("question", {}).get("table", {})
                 
             if question_table and isinstance(question_table, dict) and question_table.get("headers"):
-                formatted_question += "\n" + self._stringify_table(question_table)
+                table_text = self._stringify_table(question_table)
+                if self.user_language == "en" and is_likely_hebrew(table_text):
+                    table_text = translate_text_to_english(table_text)
+                formatted_question += "\n" + table_text
 
             # Handle question options (check base/guide question options)
             question_options = []
@@ -872,12 +897,18 @@ class DialogueFSM:
                 question_options = section.get("question_options", [])
                 
             if question_options:
-                formatted_question += "\n" + self._stringify_options(question_options)
+                options_text = self._stringify_options(question_options)
+                if self.user_language == "en" and is_likely_hebrew(options_text):
+                    options_text = translate_text_to_english(options_text)
+                formatted_question += "\n" + options_text
 
             # Handle main table
             main_table = main_data.get("table", {})
             if main_table and isinstance(main_table, dict) and main_table.get("headers"):
-                formatted_question += "\nMain Table:\n" + self._stringify_table(main_table)
+                main_table_text = self._stringify_table(main_table)
+                if self.user_language == "en" and is_likely_hebrew(main_table_text):
+                    main_table_text = translate_text_to_english(main_table_text)
+                formatted_question += "\nMain Table:\n" + main_table_text
 
             # Handle SVGs (prioritize section SVG, then main SVG)
             svg_content = None
@@ -912,12 +943,10 @@ class DialogueFSM:
             else:
                 logger.debug("No SVG content found for this question")
                 
-            # Apply RTL for Hebrew responses
+            # ✅ FIXED: Apply RTL for Hebrew responses (no additional translation needed)
             if self.user_language == "he":
                 formatted_question = f"\u202B{formatted_question}\u202C"
-            # Only translate to English if user language is English
-            elif self.user_language == "en" and is_likely_hebrew(formatted_question):
-                formatted_question = translate_text_to_english(formatted_question)
+            # ✅ REMOVED: No need for final translation since we translate components individually
 
             return formatted_question.strip()
 

@@ -700,29 +700,44 @@ class DialogueFSM:
         """Extract grade/class number (7/8 or Hebrew equivalent) from user input using regex."""
         import re
 
-        # Normalize input to handle "grade" or "class"
-        text = text.lower().replace("class", "grade").strip()
+        if not text:
+            return None
+            
+        text = text.strip()
         
-        # English grades: 7 or 8 (case-insensitive, whole word)
-        english_match = re.search(r'\b(7|8)\b', text, re.IGNORECASE)
+        # ✅ FIXED: Direct Hebrew grade matching (exact match)
+        hebrew_map = {"ז": "7", "ח": "8", "ט": "9", "י": "10", "יא": "11", "יב": "12"}
+        reverse_hebrew_map = {"7": "ז", "8": "ח", "9": "ט", "10": "י", "11": "יא", "12": "יב"}
+        
+        # Check for exact Hebrew character match
+        if text in hebrew_map:
+            return text  # Return Hebrew character directly
+        
+        # Check for exact numeric match  
+        if text in reverse_hebrew_map:
+            return text  # Return numeric grade directly
+            
+        # Normalize input to handle "grade" or "class" keywords
+        text_lower = text.lower().replace("class", "grade").strip()
+        
+        # English grades: 7, 8, 9, 10, 11, 12 (whole word)
+        english_match = re.search(r'\b([7-9]|1[0-2])\b', text_lower)
         if english_match:
             return english_match.group(1)
         
-        # Hebrew grades: ז (7), ח (8) - using the existing map
-        hebrew_map = {"ז": "7", "ח": "8"}  # Matches _translate_grade_to_hebrew
-        hebrew_match = re.search(r'(ז|ח)', text)
-        if hebrew_match:
-            hebrew_char = hebrew_match.group(1)
-            return hebrew_map.get(hebrew_char, None)
+        # Hebrew grades in context (e.g., "כיתה ח")
+        hebrew_context_match = re.search(r'(?:כיתה|grade|class)\s*([זחטייאיב])', text, re.IGNORECASE)
+        if hebrew_context_match:
+            hebrew_char = hebrew_context_match.group(1)
+            return hebrew_char  # Return Hebrew character
         
-        # Handle phrases like "grade 7", "class 7", "כיתה ז"
-        phrase_match = re.search(r'(?:grade|class|כיתה)\s*(\d+|ז|ח)', text, re.IGNORECASE)
-        if phrase_match:
-            value = phrase_match.group(1)
-            return hebrew_map.get(value, value) if value in hebrew_map else value if value in ["7", "8"] else None
+        # Handle numeric grades in context (e.g., "grade 8", "class 8")
+        numeric_context_match = re.search(r'(?:grade|class|כיתה)\s*([7-9]|1[0-2])', text_lower, re.IGNORECASE)
+        if numeric_context_match:
+            return numeric_context_match.group(1)
         
         return None
-    
+        
     # Add the new function here or with other helper methods
     def _get_grade_key(self, metadata: dict) -> Optional[str]:
         """
@@ -782,6 +797,20 @@ class DialogueFSM:
             main_data = content.get("main_data", {})
             main_text = clean_math_text(main_data.get("text", ""))
             
+            # ✅ FIXED: Handle exercise metadata with translation
+            exercise_number = meta.get('exercise_number', 'N/A')
+            exercise_type_raw = meta.get('exercise_type', 'Unknown')
+            
+            # Translate exercise type immediately if needed
+            exercise_type = exercise_type_raw
+            if self.user_language == "en" and is_likely_hebrew(exercise_type_raw):
+                exercise_type = translate_text_to_english(exercise_type_raw)
+                logger.debug(f"Translated exercise type: '{exercise_type_raw}' -> '{exercise_type}'")
+            
+            # Translate main text if needed
+            if main_text and self.user_language == "en" and is_likely_hebrew(main_text):
+                main_text = translate_text_to_english(main_text)
+            
             # Check for different possible base/guide question field names
             base_question = None
             guide_question = None
@@ -825,51 +854,22 @@ class DialogueFSM:
                 q_text = clean_math_text(regular_question or "")
                 question_type = "Question"
 
-            exercise_type = meta.get('exercise_type', 'Unknown')
-            if self.user_language == "en" and is_likely_hebrew(exercise_type):
-                exercise_type = translate_text_to_english(exercise_type)
-                        # Format question output
-            formatted_question = (
-                f"📘 Exercise {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
-            )
+            # Translate question text if needed
+            if q_text and self.user_language == "en" and is_likely_hebrew(q_text):
+                q_text = translate_text_to_english(q_text)
+
+            # Translate section number if needed
+            section_number = section.get('section_number', 'N/A')
+            if self.user_language == "en" and is_likely_hebrew(str(section_number)):
+                hebrew_to_number = {"א": "1", "ב": "2", "ג": "3", "ד": "4", "ה": "5"}
+                section_number = hebrew_to_number.get(str(section_number), section_number)
+
+            # ✅ FIXED: Format question output with already translated components
+            formatted_question = f"📘 Exercise {exercise_number} ({exercise_type})\n"
             if main_text:
                 formatted_question += f"Main Text: {main_text}\n"
-
-            # Handle section_data (text, table, svg)
-            section_data = section.get("section_data", {})
-            section_data_text = clean_math_text(section_data.get("text", ""))
-            if section_data_text:
-                if self.user_language == "en" and is_likely_hebrew(section_data_text):
-                    section_data_text = translate_text_to_english(section_data_text)
-                formatted_question += f"Section Text: {section_data_text}\n"
-
-            section_data_table = section_data.get("table", {})
-            if section_data_table and isinstance(section_data_table, dict) and section_data_table.get("headers"):
-                section_table_text = self._stringify_table(section_data_table)
-                if self.user_language == "en" and is_likely_hebrew(section_table_text):
-                    section_table_text = translate_text_to_english(section_table_text)
-                formatted_question += f"Section Table:\n{section_table_text}\n"
-
-            section_data_svg = section_data.get("svg")
-            if section_data_svg and not self.svg_generated_for_question:
-                logger.debug(f"Processing section_data SVG for section {section.get('section_number', 'N/A')}")
-                self.current_svg_file_path = self._save_svg(section_data_svg)
-                if self.current_svg_file_path:
-                    formatted_question += f"\n[Section SVG: {self.current_svg_file_path}]"
-                    svg_description = self._generate_svg_description(section_data_svg)
-                    if svg_description:
-                        formatted_question += f"\nSection SVG Description: {svg_description}"
-                    self.svg_generated_for_question = True
-                else:
-                    logger.warning("Failed to save section_data SVG")
-
-            # Section number translation
-            section_number = section.get('section_number', 'N/A')
-            if self.user_language == "en" and is_likely_hebrew(section_number):
-                hebrew_to_number = {"א": "1", "ב": "2", "ג": "3", "ד": "4", "ה": "5"}  # Extend as needed
-                section_number = hebrew_to_number.get(section_number, section_number)
-
             formatted_question += f"➤ Section {section_number} - {question_type}: {q_text}"
+        
 
             # Handle question table (for base/guide questions, check their specific table field)
             question_table = None
@@ -881,7 +881,10 @@ class DialogueFSM:
                 question_table = section.get("question", {}).get("table", {})
                 
             if question_table and isinstance(question_table, dict) and question_table.get("headers"):
-                formatted_question += "\n" + self._stringify_table(question_table)
+                table_text = self._stringify_table(question_table)
+                if self.user_language == "en" and is_likely_hebrew(table_text):
+                    table_text = translate_text_to_english(table_text)
+                formatted_question += "\n" + table_text
 
             # Handle question options (check base/guide question options)
             question_options = []
@@ -893,12 +896,18 @@ class DialogueFSM:
                 question_options = section.get("question_options", [])
                 
             if question_options:
-                formatted_question += "\n" + self._stringify_options(question_options)
+                options_text = self._stringify_options(question_options)
+                if self.user_language == "en" and is_likely_hebrew(options_text):
+                    options_text = translate_text_to_english(options_text)
+                formatted_question += "\n" + options_text
 
             # Handle main table
             main_table = main_data.get("table", {})
             if main_table and isinstance(main_table, dict) and main_table.get("headers"):
-                formatted_question += "\nMain Table:\n" + self._stringify_table(main_table)
+                main_table_text = self._stringify_table(main_table)
+                if self.user_language == "en" and is_likely_hebrew(main_table_text):
+                    main_table_text = translate_text_to_english(main_table_text)
+                formatted_question += "\nMain Table:\n" + main_table_text
 
             # Handle SVGs (prioritize section SVG, then main SVG)
             svg_content = None
@@ -933,10 +942,10 @@ class DialogueFSM:
             else:
                 logger.debug("No SVG content found for this question")
                 
-            # Translate to English if needed
-            if self.user_language == "en" and is_likely_hebrew(formatted_question):
-                formatted_question = translate_text_to_english(formatted_question)
-                logger.debug(f"Translated question: {formatted_question}")
+            # ✅ FIXED: Apply RTL for Hebrew responses (no additional translation needed)
+            if self.user_language == "he":
+                formatted_question = f"\u202B{formatted_question}\u202C"
+            # ✅ REMOVED: No need for final translation since we translate components individually
 
             return formatted_question.strip()
 
@@ -1072,8 +1081,10 @@ class DialogueFSM:
         exercises = get_exercises(grade, topic) if topic else [
             ex for ex in all_exercises if ex["exercise_metadata"]["class"] == grade
         ]
+        
         if not exercises:
             # No dataset exercises → generate new one
+            logger.debug(f"No exercises found for grade {grade}, topic {topic}. Generating new exercise.")
             self.current_exercise = self.attempt_tracker.generate_exercise_with_llm(topic or "geometry", grade)
             if not self.current_exercise:
                 return None
@@ -1081,15 +1092,15 @@ class DialogueFSM:
             self.current_svg_file_path = self._save_svg(self.current_exercise.get("svg"))
             self.svg_generated_for_question = True
         else:
-            # Only pick exercises not used before
+            # Filter available exercises (not recently used)
             available = [ex for ex in exercises if ex["exercise_metadata"]["exercise_number"]
                         not in self.recently_asked_exercise_ids]
             
             if not available:
-                # No available exercises → signal exhaustion
+                logger.debug("No available exercises (all recently used)")
                 return None
 
-            # Prioritize exercises by type: base → guide → calculation
+            # ✅ FIXED: Prioritize exercises by type with deterministic selection
             exercise_type_priority = ["base", "guide", "calculation"]
             selected_exercise = None
             
@@ -1099,21 +1110,38 @@ class DialogueFSM:
                     if ex["exercise_metadata"].get("exercise_type", "").lower() == exercise_type
                 ]
                 if matching_exercises:
-                    selected_exercise = random.choice(matching_exercises)
-                    logger.debug(f"Selected {exercise_type} exercise: {selected_exercise['exercise_metadata']['exercise_number']}")
+                    # ✅ FIXED: Sort by exercise number for consistent selection
+                    matching_exercises.sort(key=lambda x: x["exercise_metadata"]["exercise_number"])
+                    selected_exercise = matching_exercises[0]  # Always pick first (most consistent)
+                    logger.debug(f"✅ Selected {exercise_type} exercise: {selected_exercise['exercise_metadata']['exercise_number']}")
                     break
             
             # Fallback to any available exercise if no priority types found
             if not selected_exercise:
-                selected_exercise = random.choice(available)
+                available.sort(key=lambda x: x["exercise_metadata"]["exercise_number"])
+                selected_exercise = available[0]
                 logger.debug(f"No priority exercises available, selected: {selected_exercise['exercise_metadata']['exercise_number']}")
             
             self.current_exercise = selected_exercise
 
-            # If geometric exercise requires SVG but missing, generate new one
+            # ✅ ADDITIONAL FIX: Check if exercise has base_question in sections
+            if self.current_exercise:
+                sections = self.current_exercise.get("exercise_content", {}).get("sections", [])
+                if sections:
+                    first_section = sections[0]
+                    has_base_question = "base_question" in first_section
+                    logger.debug(f"Exercise {self.current_exercise['exercise_metadata']['exercise_number']} has base_question: {has_base_question}")
+                    
+                    if has_base_question:
+                        logger.debug("✅ Starting with BASE QUESTION")
+                    else:
+                        logger.debug("⚠️ No base_question found, will use regular question")
+
+            # Handle geometric exercises requiring SVG
             question_text = self.current_exercise["exercise_content"]["sections"][self.current_question_index].get("question", {}).get("text", "")
             main_svg = self.current_exercise.get("exercise_content", {}).get("main_data", {}).get("svg")
             if ("parallel" in question_text.lower() or "axes" in question_text.lower() or "segment" in question_text.lower()) and not main_svg:
+                logger.debug("Geometric exercise missing SVG, generating new one")
                 self.current_exercise = self.attempt_tracker.generate_exercise_with_llm(topic or "geometry", grade)
                 if self.current_exercise:
                     self.current_svg_file_path = self._save_svg(self.current_exercise.get("svg"))
@@ -1694,22 +1722,38 @@ class DialogueFSM:
 
         elif self.state == State.PICK_CLASS:
             chosen_class = user_input.strip()
-            classes_hebrew = get_classes()  # e.g., ['ח']
+            classes_hebrew = get_classes()  # e.g., ['ח', 'ז']
             
-            # Display classes in user's language
-            if self.user_language == "en":
-                classes_display = [grade_map.get(c, c) for c in classes_hebrew]  # e.g., ['8']
-            else:
-                classes_display = classes_hebrew  # Hebrew, e.g., ['ח']
+            # ✅ FIXED: Use the existing _extract_grade_from_input method
+            extracted_grade = self._extract_grade_from_input(chosen_class)
             
-            if chosen_class not in [str(c).lower() for c in classes_display]:  # Case-insensitive match
-                response_dict["text"] = f"{self._get_localized_text('available_classes')} {classes_display}\n{self._get_localized_text('pick_class')}"
-            else:
-                # Find matching index
-                idx = next(i for i, c in enumerate(classes_display) if str(c).lower() == chosen_class.lower())
-                self.hebrew_grade = classes_hebrew[idx]
-                self.grade = grade_map.get(self.hebrew_grade, self.hebrew_grade) if self.user_language == "en" else self.hebrew_grade
+            if extracted_grade:
+                # Convert extracted grade to Hebrew equivalent for internal storage
+                hebrew_grade_map = {"7": "ז", "8": "ח", "9": "ט", "10": "י", "11": "יא", "12": "יב"}
                 
+                if extracted_grade in classes_hebrew:
+                    # Direct Hebrew input (e.g., "ח")
+                    self.hebrew_grade = extracted_grade
+                    self.grade = grade_map.get(self.hebrew_grade, self.hebrew_grade)
+                elif extracted_grade in ["7", "8", "9", "10", "11", "12"]:
+                    # English numeric input (e.g., "8")
+                    self.hebrew_grade = hebrew_grade_map.get(extracted_grade, extracted_grade)
+                    self.grade = extracted_grade if self.user_language == "en" else self.hebrew_grade
+                else:
+                    extracted_grade = None  # Invalid input
+            
+            if not extracted_grade or self.hebrew_grade not in classes_hebrew:
+                # ✅ FIXED: Show classes in user's preferred language
+                if self.user_language == "en":
+                    classes_display = [grade_map.get(c, c) for c in classes_hebrew]  # ['8', '7']
+                else:
+                    classes_display = classes_hebrew  # ['ח', 'ז']
+                
+                avail_text = self._get_localized_text("available_classes")
+                pick_text = self._get_localized_text("pick_class")
+                response_dict["text"] = f"{self._get_localized_text('invalid_class')} {classes_display}\n{avail_text} {classes_display}\n{pick_text}"
+            else:
+                # ✅ SUCCESS: Valid class selected
                 self.state = State.PICK_TOPIC
                 topics_hebrew = get_topics(self.hebrew_grade)
                 
@@ -1881,7 +1925,10 @@ class DialogueFSM:
 from langdetect import detect
 
 def get_text_direction(user_input: str) -> str:
-    lang = detect(user_input)
+    """Add text direction markers for proper RTL/LTR display."""
+    if not user_input:
+        return user_input
+        
     try:
         lang = detect(user_input)
     except:
@@ -1889,9 +1936,10 @@ def get_text_direction(user_input: str) -> str:
     
     if lang == "he":  # Hebrew → RTL
         # Wrap text with RTL markers
-        return("\u202B" + user_input + "\u202C")
+        return "\u202B" + user_input + "\u202C"
     else:  # English or others → LTR
-        print("\u202A" + user_input + "\u202C")
+        # ✅ FIXED: Return instead of print
+        return "\u202A" + user_input + "\u202C"
 
 def main():
     if not INPUT_FILE.exists():
@@ -1909,36 +1957,25 @@ def main():
 
     # Initial transition to start the conversation
     initial_response = fsm.transition("")
-    result = get_text_direction(initial_response['text'])  # Set initial text direction based on response language
-    print(f"A_GUY : {result}")
+    print(f"A_GUY: {initial_response['text']}")  # Simple and direct
     if initial_response["svg_file_path"]:
         print(f"[SVG available at: {initial_response['svg_file_path']}]")
 
-
-    #print(f"A_GUY: {initial_response}")
-
     while True:
         try:
-            # Enhanced input handling with typing detection
-            fsm.inactivity_timer.mark_typing()
             user_input = input("You: ").strip()
         except (KeyboardInterrupt, EOFError):
             print("\n👋 Bye!")
             fsm.inactivity_timer.stop()
             break
+            
         if user_input.lower() in {"exit", "quit", "done"}:
             print("👋 Bye!")
             fsm.inactivity_timer.stop()
             break
-        from langdetect import detect
-
-
 
         response = fsm.transition(user_input)
-
         print(f"A_GUY: {response['text']}")
-        #if response["svg_file_path"]:
-            #print(f"[SVG available at: {response['svg_file_path']}]")
 
 if __name__ == "__main__":
     main()
