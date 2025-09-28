@@ -302,10 +302,6 @@ def clean_math_text(text: str) -> str:
     text = re.sub(r'\\([a-zA-Z]+)', r'', text)
     # Remove HTML tags (including P, DIV, SPAN, etc.)
     text = re.sub(r'<[^>]+>', '', text)
-    # Add comma between Y= expressions  
-    pattern = r'(Y\s*=[^Y]+?)(\s+Y\s*=)'
-    while re.search(pattern, text):
-        text = re.sub(pattern, r'\1, \2', text)
 
     text = re.sub(r'\s+', ' ', text)
     text = text.replace('$', '')
@@ -829,14 +825,51 @@ class DialogueFSM:
                 q_text = clean_math_text(regular_question or "")
                 question_type = "Question"
 
-            # Format question output
+            exercise_type = meta.get('exercise_type', 'Unknown')
+            if self.user_language == "en" and is_likely_hebrew(exercise_type):
+                exercise_type = translate_text_to_english(exercise_type)
+                        # Format question output
             formatted_question = (
                 f"📘 Exercise {meta.get('exercise_number', 'N/A')} ({meta.get('exercise_type', 'Unknown')})\n"
             )
             if main_text:
                 formatted_question += f"Main Text: {main_text}\n"
-            formatted_question += f"➤ Section {section.get('section_number', 'N/A')} - {question_type}: {q_text}"
-        
+
+            # Handle section_data (text, table, svg)
+            section_data = section.get("section_data", {})
+            section_data_text = clean_math_text(section_data.get("text", ""))
+            if section_data_text:
+                if self.user_language == "en" and is_likely_hebrew(section_data_text):
+                    section_data_text = translate_text_to_english(section_data_text)
+                formatted_question += f"Section Text: {section_data_text}\n"
+
+            section_data_table = section_data.get("table", {})
+            if section_data_table and isinstance(section_data_table, dict) and section_data_table.get("headers"):
+                section_table_text = self._stringify_table(section_data_table)
+                if self.user_language == "en" and is_likely_hebrew(section_table_text):
+                    section_table_text = translate_text_to_english(section_table_text)
+                formatted_question += f"Section Table:\n{section_table_text}\n"
+
+            section_data_svg = section_data.get("svg")
+            if section_data_svg and not self.svg_generated_for_question:
+                logger.debug(f"Processing section_data SVG for section {section.get('section_number', 'N/A')}")
+                self.current_svg_file_path = self._save_svg(section_data_svg)
+                if self.current_svg_file_path:
+                    formatted_question += f"\n[Section SVG: {self.current_svg_file_path}]"
+                    svg_description = self._generate_svg_description(section_data_svg)
+                    if svg_description:
+                        formatted_question += f"\nSection SVG Description: {svg_description}"
+                    self.svg_generated_for_question = True
+                else:
+                    logger.warning("Failed to save section_data SVG")
+
+            # Section number translation
+            section_number = section.get('section_number', 'N/A')
+            if self.user_language == "en" and is_likely_hebrew(section_number):
+                hebrew_to_number = {"א": "1", "ב": "2", "ג": "3", "ד": "4", "ה": "5"}  # Extend as needed
+                section_number = hebrew_to_number.get(section_number, section_number)
+
+            formatted_question += f"➤ Section {section_number} - {question_type}: {q_text}"
 
             # Handle question table (for base/guide questions, check their specific table field)
             question_table = None
@@ -992,14 +1025,33 @@ class DialogueFSM:
         return f"\nTable:\n{headers_row}\n{separator}\n{rows}\n"
 
     def _stringify_options(self, options):
-        """Convert options list to formatted string with commas"""
+        """Convert options list to formatted string with numbered options"""
         if not options:
             return ""
-        # Join options with comma and space
-        options_text = ", ".join(str(option).strip() for option in options if option)
-    
-        return f"Options: {options_text}"
-    
+        
+        formatted_options = []
+        
+        for i, option in enumerate(options, 1):  # Start numbering from 1
+            if isinstance(option, dict):
+                # Extract text from dictionary structure
+                option_text = option.get("Text", option.get("text", ""))
+                if option_text:
+                    # Clean up the text (remove extra spaces, LaTeX issues)
+                    clean_text = clean_math_text(str(option_text))
+                    formatted_options.append(f"{i}) {clean_text}")
+            elif isinstance(option, str):
+                # Handle simple string options
+                clean_text = clean_math_text(option)
+                formatted_options.append(f"{i}) {clean_text}")
+            else:
+                # Fallback for other types
+                formatted_options.append(f"{i}) {str(option).strip()}")
+        
+        if formatted_options:
+            return f"\nOptions:\n" + "\n".join(formatted_options)
+        else:
+            return ""
+        
     def _generate_lesson_summary(self) -> str:
         closing_prompt = ChatPromptTemplate.from_messages([
             ("system", """You are a friendly math tutor closing a short session.
@@ -1037,18 +1089,29 @@ class DialogueFSM:
                 # No available exercises → signal exhaustion
                 return None
 
-            # Prioritize Basic exercises
-            basic_exercises = [ex for ex in available if ex["exercise_metadata"].get("exercise_type", "").lower() == "basic"]
-            if basic_exercises:
-                self.current_exercise = random.choice(basic_exercises)
-                logger.debug(f"Selected Basic exercise: {self.current_exercise['exercise_metadata']['exercise_number']}")
-            else:
-                # Fall back to any available exercise
-                self.current_exercise = random.choice(available)
-                logger.debug(f"No Basic exercises available, selected: {self.current_exercise['exercise_metadata']['exercise_number']}")
+            # Prioritize exercises by type: base → guide → calculation
+            exercise_type_priority = ["base", "guide", "calculation"]
+            selected_exercise = None
+            
+            for exercise_type in exercise_type_priority:
+                matching_exercises = [
+                    ex for ex in available 
+                    if ex["exercise_metadata"].get("exercise_type", "").lower() == exercise_type
+                ]
+                if matching_exercises:
+                    selected_exercise = random.choice(matching_exercises)
+                    logger.debug(f"Selected {exercise_type} exercise: {selected_exercise['exercise_metadata']['exercise_number']}")
+                    break
+            
+            # Fallback to any available exercise if no priority types found
+            if not selected_exercise:
+                selected_exercise = random.choice(available)
+                logger.debug(f"No priority exercises available, selected: {selected_exercise['exercise_metadata']['exercise_number']}")
+            
+            self.current_exercise = selected_exercise
 
             # If geometric exercise requires SVG but missing, generate new one
-            question_text = self.current_exercise["exercise_content"]["sections"][0].get("question", {}).get("text", "")
+            question_text = self.current_exercise["exercise_content"]["sections"][self.current_question_index].get("question", {}).get("text", "")
             main_svg = self.current_exercise.get("exercise_content", {}).get("main_data", {}).get("svg")
             if ("parallel" in question_text.lower() or "axes" in question_text.lower() or "segment" in question_text.lower()) and not main_svg:
                 self.current_exercise = self.attempt_tracker.generate_exercise_with_llm(topic or "geometry", grade)
@@ -1110,6 +1173,8 @@ class DialogueFSM:
                 # At least 2 exercises completed, move to ASK_FOR_DOUBTS
                 self.state = State.ASK_FOR_DOUBTS
                 topic_name = self.topic or "this topic"
+                if self.user_language == "en" and is_likely_hebrew(topic_name):
+                    topic_name = translate_text_to_english(topic_name)
                 return f"\n{self._get_localized_text('ask_for_doubts', topic=topic_name)}"
             
     def _generate_doubt_clearing_response(self, user_question: str) -> str:
