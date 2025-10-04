@@ -1205,49 +1205,54 @@ class DialogueFSM:
                     topic_name = translate_text_to_english(topic_name)
                 return f"\n{self._get_localized_text('ask_for_doubts', topic=topic_name)}"
             
-    def _generate_doubt_clearing_response(self, user_question: str) -> str:
-        """Generate response to clear student's doubts using RAG."""
+    def _generate_doubt_clearing_response(self, user_question: str, is_new_question: bool = False) -> str:
         try:
+            # Check for vague inputs
+            vague_inputs = ["doubt", "confused", "help", "question", "ספק", "מבולבל", "עזרה", "שאלה"]
+            if user_question.strip().lower() in vague_inputs or len(user_question.strip().split()) < 3:
+                topic_name = self.topic or "this topic"
+                return f"Please provide more details about your doubt on {topic_name}. For example, what concept or problem is confusing?"
+
             # Translate the question if needed
             translated_question = translate_text_to_english(user_question) if self.user_language == "en" else user_question
             
-            # Retrieve relevant context for the doubt
-            retrieved_context = retrieve_relevant_chunks(
-                translated_question,
-                self.pinecone_index,
-                grade=self.hebrew_grade,
-                topic=self.topic if self.topic and self.topic.lower() not in ["anyone", "any", "anything", "random", "whatever", "any topic"] else None
-            )
+            # Retrieve relevant context, but limit influence of recent questions if is_new_question
+            context_str = ""
+            if not is_new_question:
+                retrieved_context = retrieve_relevant_chunks(
+                    translated_question,
+                    self.pinecone_index,
+                    grade=self.hebrew_grade,
+                    topic=self.topic if self.topic and self.topic.lower() not in ["anyone", "any", "anything", "random", "whatever", "any topic"] else None
+                )
+                context_str = "\n".join([c.get("text", "") for c in retrieved_context if c.get("text")])
+                context_str = clean_math_text(context_str)
+
+            # Create a doubt-clearing or question-solving prompt
+            prompt_system = f"""You are a helpful Math AI tutor addressing a student's doubt or question.
             
-            context_str = "\n".join([c.get("text", "") for c in retrieved_context if c.get("text")])
-            context_str = clean_math_text(context_str)  # Clean context
+            Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
             
-            # Create a doubt-clearing prompt
+            Guidelines:
+            - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
+            - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
+            - If the input is a new math question (e.g., an equation to solve), provide a step-by-step solution.
+            - If the input is a doubt, clarify the concept using the provided context.
+            - Be patient, encouraging, and break down complex concepts into simple steps.
+            - If context is missing or irrelevant, acknowledge this and provide a general explanation.
+            - Start with encouragement.
+            - End with a confirmation question (e.g., "Does this help clarify things?").
+            - Avoid referencing the last exercise unless the student's question explicitly relates to it.
+            """
             doubt_clearing_prompt = ChatPromptTemplate.from_messages([
-                ("system", f"""You are a helpful Math AI tutor addressing a student's doubt or question.
-                
-                Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
-                
-                Guidelines:
-                - For Hebrew responses, use Right-to-Left (RTL) formatting for conversational text.
-                - Ensure all mathematical expressions and scientific notation remain Left-to-Right (LTR), even within Hebrew sentences.
-                - Provide clear, detailed explanations
-                - Use the context to give accurate information
-                - Be patient and encouraging
-                - Break down complex concepts into simple steps
-                - If context doesn't contain relevant information, acknowledge this
-                - Start with encouragement
-                - Give step-by-step explanation
-                - Use examples from context when available
-                - End with confirmation question
-                """),
+                ("system", prompt_system),
                 MessagesPlaceholder(variable_name="chat_history"),
-                ("user", "Student's Question: {question}\n\nRelevant Context: {context}")
+                ("user", "Student's Input: {question}\n\nRelevant Context: {context}")
             ])
             
-            doubt_clearing_chain = doubt_clearing_prompt | llm
+            doubt_clearing_chain = doubt_clearing_prompt | self.llm
             response = doubt_clearing_chain.invoke({
-                "chat_history": self.chat_history[-5:],
+                "chat_history": self.chat_history[-3:],  # Reduced to minimize last question influence
                 "question": translated_question,
                 "context": context_str
             })
@@ -1255,7 +1260,6 @@ class DialogueFSM:
             topic_name = self.topic or "this topic"
             intro = self._get_localized_text("doubt_clearing_intro", topic=topic_name)
             return f"{intro}\n\n{clean_math_text(response.content.strip())}"
-            
         except Exception as e:
             logger.error(f"Error generating doubt clearing response: {e}")
             return "I'd be happy to help with your question, but I'm having trouble processing it right now. Could you try asking it in a different way?"
@@ -1676,7 +1680,31 @@ class DialogueFSM:
             self.state = State.DIAGNOSTIC
             self.diagnostic_question_index = 0
             self.diagnostic_responses = []
-            response_dict["text"] = self._get_diagnostic_question()
+            
+            # Generate dynamic first diagnostic question
+            try:
+                first_diag_prompt = ChatPromptTemplate.from_messages([
+                    ("system", f"""You are a friendly math tutor.
+                    Language: Respond in {self.user_language} ({'Hebrew' if self.user_language == 'he' else 'English'})
+                    Guidelines:
+                    - Acknowledge their hobby/personal response briefly (3-5 words)
+                    - Then ask if they have any tests or exams coming up
+                    - Keep it natural and conversational (1 sentence total)
+                    - Example: "Cool! Do you have any tests coming up?"
+                    """),
+                    MessagesPlaceholder(variable_name="chat_history"),
+                    ("user", "{input}")
+                ])
+                first_diag_chain = first_diag_prompt | self.llm
+                response_obj = first_diag_chain.invoke({
+                    "chat_history": self.chat_history[-3:],
+                    "input": user_input
+                })
+                response_dict["text"] = clean_math_text(response_obj.content.strip())
+            except Exception as e:
+                logger.error(f"Error generating first diagnostic: {e}")
+                response_dict["text"] = self._get_diagnostic_question()  # Fallback to static
+            
             self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state == State.DIAGNOSTIC:
@@ -1869,23 +1897,23 @@ class DialogueFSM:
                 self.state = State.PICK_TOPIC
                 self.topic_exercises_count = 0
                 self.doubt_questions_count = 0
-                self.completed_exercises = 0  # Reset counter for new topic
+                self.completed_exercises = 0
                 self.current_exercise = None
                 response_dict["text"] = f"{summary}\n\n{closing_message}\n\nWould you like to continue with more exercises on this topic or choose a new topic?"
                 self.chat_history.append(AIMessage(content=response_dict["text"]))
-            elif any(indicator in text_lower for indicator in doubt_indicators) or "?" in user_input:
+            elif any(indicator in text_lower for indicator in doubt_indicators):
                 self.state = State.DOUBT_CLEARING
                 self.doubt_questions_count = 1
-                if "?" in user_input:
-                    doubt_response = self._generate_doubt_clearing_response(user_input)
-                else:
-                    doubt_response = f"I'm ready to help! What would you like me to explain or clarify about {topic_name}?"
+                response_dict["text"] = f"Great! What specifically would you like to explore or clarify about {topic_name}?"
+                self.chat_history.append(AIMessage(content=response_dict["text"]))
+            elif "?" in user_input or "=" in user_input or any(op in user_input for op in ["+", "-", "*", "/", "^"]):
+                self.state = State.DOUBT_CLEARING
+                self.doubt_questions_count = 1
+                doubt_response = self._generate_doubt_clearing_response(user_input, is_new_question=True)
                 response_dict["text"] = doubt_response + f"\n\n{self._get_localized_text('ask_more_doubts', topic=topic_name)}"
                 self.chat_history.append(AIMessage(content=response_dict["text"]))
             else:
-                self.state = State.DOUBT_CLEARING
-                self.doubt_questions_count = 1
-                response_dict["text"] = self._generate_doubt_clearing_response(user_input) + f"\n\n{self._get_localized_text('ask_more_doubts', topic=topic_name)}"
+                response_dict["text"] = f"Could you clarify what you mean about {topic_name}? For example, do you have a specific question or concept you're confused about? Or say 'no' to move on."
                 self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state == State.DOUBT_CLEARING:
