@@ -1102,7 +1102,7 @@ class DialogueFSM:
                 # At least 2 exercises completed, move to ASK_FOR_DOUBTS
                 self.state = State.ASK_FOR_DOUBTS
                 topic_name = self.topic or "this topic"
-                return f"\n{self._get_localized_text('ask_for_doubts', topic=topic_name)}"
+                return f"\n\n{self._get_localized_text('ask_for_doubts', topic=topic_name)}"
             
     def _generate_doubt_clearing_response(self, user_question: str) -> str:
         """Generate response to clear student's doubts using RAG."""
