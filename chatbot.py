@@ -203,6 +203,8 @@ I18N = {
         "doubt_clearing_intro": "Good question! Let me address your question about {topic}:",
         "ask_more_doubts": "Do you have any other questions about {topic}?",
         "small_talk_hobbies": "What hobbies do you have?",
+        "transition_word": "So,",
+        "lesson_followup": "So, what did you cover in your last class?",
         "diagnostic_test": "Okay! Do you have a test coming up?",
         "diagnostic_last_class": "What did you cover in your last class?",
         "diagnostic_focus": "What would you like to work on today?",
@@ -243,6 +245,8 @@ I18N = {
         "doubt_clearing_intro": "אני כאן לעזור! תן לי לענות על השאלה שלך על {topic}:",
         "ask_more_doubts": "יש לך שאלות נוספות על {topic}?",
         "small_talk_hobbies": "אילו תחביבים יש לך?",
+        "transition_word": "אז,",
+        "lesson_followup": "אז, מה סקרתם בשיעור האחרון שלך?",
         "diagnostic_test": "יש לך מבחן בקרוב?",
         "diagnostic_last_class": "מה סקרתם בשיעור האחרון שלך?",
         "diagnostic_focus": "על מה תרצה לעבוד היום?",
@@ -1754,7 +1758,9 @@ class DialogueFSM:
                 except Exception as e:
                     logger.error(f"Error generating contextual acknowledgment: {e}")
                     acknowledgment = "That's awesome!"
-                response_dict["text"] = f"{acknowledgment} So, {next_question}"
+                # ✅ FIX — localized transition
+                transition_word = self._get_localized_text("transition_word")
+                response_dict["text"] = f"{acknowledgment} {transition_word} {next_question}"
                 self.chat_history.append(AIMessage(content=response_dict["text"]))
             else:
                 self.state = State.ACADEMIC_TRANSITION
