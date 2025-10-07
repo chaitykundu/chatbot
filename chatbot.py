@@ -303,7 +303,8 @@ def clean_math_text(text: str) -> str:
     # Remove HTML tags (including P, DIV, SPAN, etc.)
     text = re.sub(r'<[^>]+>', '', text)
 
-    text = re.sub(r'\s+', ' ', text)
+    #text = re.sub(r'\s+', ' ', text)
+    text = re.sub(r'[ \t]+', ' ', text)  # keep newlines intact
     text = text.replace('$', '')
     return text.strip()
 
@@ -1646,7 +1647,25 @@ class DialogueFSM:
             self.small_talk_question_index = 0
             self.small_talk_responses = []
             self.small_talk_turns = 1
-            simple_greetings = ["Hey! How are you?", "Hi there!", "What's up?", "How's it going?"]
+            # ✅ Detect the user's language from their very first input
+            detected_lang = detect_language(user_input or "")
+            self.user_language = detected_lang if detected_lang in ["he", "en"] else "en"
+
+            # ✅ Choose greeting based on detected language
+            if self.user_language == "he":
+                simple_greetings = [
+                    "שלום! מה שלומך?",
+                    "היי! איך אתה מרגיש היום?",
+                    "שלום! איך עובר עליך היום?",
+                    "נעים לראות אותך! מה שלומך?"
+                ]
+            else:
+                simple_greetings = [
+                    "Hey! How are you?",
+                    "Hi there!",
+                    "What's up?",
+                    "How's it going?"
+                ]
             response_dict["text"] = random.choice(simple_greetings)
             self.chat_history.append(AIMessage(content=response_dict["text"]))
 
@@ -1934,6 +1953,7 @@ class DialogueFSM:
             # ✅ Auto-translate Hebrew topic names when responding in English
             if self.user_language == "en" and is_likely_hebrew(topic_name):
                 topic_name = translate_text_to_english(topic_name)
+
             if any(indicator in text_lower for indicator in no_doubt_indicators) or self.doubt_questions_count >= self.MAX_DOUBT_QUESTIONS:
                 summary = self._generate_lesson_summary()
                 closing_message = self._get_localized_text("lesson_closing")
