@@ -1250,6 +1250,8 @@ class DialogueFSM:
             })
             
             topic_name = self.topic or "this topic"
+            if self.user_language == "en" and is_likely_hebrew(topic_name):
+                topic_name = translate_text_to_english(topic_name)
             intro = self._get_localized_text("doubt_clearing_intro", topic=topic_name)
             #complete = self._get_localized_text("doubt_answer_complete", topic=topic_name)
             return f"{intro}\n\n{clean_math_text(response.content.strip())}"
@@ -1929,6 +1931,9 @@ class DialogueFSM:
             no_doubt_indicators = ["no", "nope", "nothing", "i'm good", "all clear", "no more", "that's all", "thanks", "לא", "אין", "תודה", "זה הכל"]
             doubt_indicators = ["yes", "yeah", "yep", "i have", "question", "doubt", "confused", "don't understand", "כן", "יש לי", "שאלה"]
             topic_name = self.topic or "this topic"
+            # ✅ Auto-translate Hebrew topic names when responding in English
+            if self.user_language == "en" and is_likely_hebrew(topic_name):
+                topic_name = translate_text_to_english(topic_name)
             if any(indicator in text_lower for indicator in no_doubt_indicators) or self.doubt_questions_count >= self.MAX_DOUBT_QUESTIONS:
                 summary = self._generate_lesson_summary()
                 closing_message = self._get_localized_text("lesson_closing")
