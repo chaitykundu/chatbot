@@ -375,6 +375,19 @@ def is_likely_hebrew(text: str) -> bool:
     """Simple heuristic to check if text contains Hebrew characters."""
     return any('\u0590' <= char <= '\u05FF' for char in text)
 
+def normalize_topic_name(name: str) -> str:
+    """Normalize topic names for case-insensitive and language-safe comparison."""
+    if not name:
+        return ""
+    name = name.strip().lower()
+
+    # Remove diacritics (Hebrew vowels) if present
+    hebrew_diacritics = dict.fromkeys(range(0x0591, 0x05C8))
+    name = name.translate(hebrew_diacritics)
+
+    # Normalize English casing and whitespace
+    name = re.sub(r'\s+', ' ', name)
+    return name
 
 def load_exercises():
     if not INPUT_FILE.exists():
@@ -868,12 +881,23 @@ class DialogueFSM:
                 hebrew_to_number = {"א": "1", "ב": "2", "ג": "3", "ד": "4", "ה": "5"}
                 section_number = hebrew_to_number.get(str(section_number), section_number)
 
+            if self.user_language == "he":
+                exercise_label = "תרגיל"
+                main_text_label = "טקסט ראשי"
+                section_label = "קטע"
+                question_label = "שאלה"
+            else:
+                exercise_label = "Exercise"
+                main_text_label = "Main Text"
+                section_label = "Section"
+                question_label = "Question"
+
             # ✅ FIXED: Format question output with already translated components
-            formatted_question = f"📘 Exercise {exercise_number} ({exercise_type})\n"
+            formatted_question = f"📘 {exercise_label} {exercise_number} ({exercise_type})\n"
             if main_text:
-                formatted_question += f"Main Text: {main_text}\n"
-            formatted_question += f"➤ Section {section_number} - {question_type}: {q_text}"
-        
+                formatted_question += f"{main_text_label}: {main_text}\n"
+            formatted_question += f"➤ {section_label} {section_number} - {question_label}: {q_text}"
+
 
             # Handle question table (for base/guide questions, check their specific table field)
             question_table = None
@@ -904,6 +928,7 @@ class DialogueFSM:
                 if self.user_language == "en" and is_likely_hebrew(options_text):
                     options_text = translate_text_to_english(options_text)
                 formatted_question += "\n" + options_text
+
 
             # Handle main table
             main_table = main_data.get("table", {})
@@ -974,14 +999,19 @@ class DialogueFSM:
             solution = section.get("solution", {})
             if solution and isinstance(solution, dict):
                 sol = clean_math_text(solution.get("text", ""))
-                if sol:
+                if self.user_language == "he":
+                    sol_text += f"פתרון: {sol}\n"
+                else:
                     sol_text += f"Solution: {sol}\n"
+
 
             # Handle full solution text
             full_solution = section.get("full_solution", {})
             if full_solution and isinstance(full_solution, dict):
                 full_sol = clean_math_text(full_solution.get("text", ""))
-                if full_sol:
+                if self.user_language == "he":
+                    sol_text += f"פתרון מלא: {full_sol}\n"
+                else:
                     sol_text += f"Full Solution: {full_sol}\n"
 
             # Handle solution table
@@ -1035,7 +1065,11 @@ class DialogueFSM:
         separator = "-+-".join(["-" * len(header) for header in clean_headers])
         rows = "\n".join([" | ".join(row) for row in clean_rows])
         
-        return f"\nTable:\n{headers_row}\n{separator}\n{rows}\n"
+        if self.user_language == "he":
+            table_label = "טבלה"
+        else:
+            table_label = "Table"
+        return f"\n{table_label}:\n{headers_row}\n{separator}\n{rows}\n"
 
     def _stringify_options(self, options):
         """Convert options list to formatted string with numbered options"""
@@ -1061,7 +1095,9 @@ class DialogueFSM:
                 formatted_options.append(f"{i}) {str(option).strip()}")
         
         if formatted_options:
-            return f"\nOptions:\n" + "\n".join(formatted_options)
+            # ✅ Localize the label
+            label = "אפשרויות" if self.user_language == "he" else "Options"
+            return f"\n{label}:\n" + "\n".join(formatted_options)
         else:
             return ""
         
@@ -1199,7 +1235,10 @@ class DialogueFSM:
                     self.state = State.PICK_TOPIC
                     return "✅ You’ve finished all available exercises for this topic! Want to try another topic?"
                 self.state = State.QUESTION_ANSWER
-                return f"\nGreat job! Let's try another exercise:\n{self._get_current_question()}"
+                if self.user_language == "he":
+                    return f"\nעבודה נהדרת! ננסה תרגיל נוסף:\n{self._get_current_question()}"
+                else:
+                    return f"\nGreat job! Let's try another exercise:\n{self._get_current_question()}"
 
             else:
                 # At least 2 exercises completed, move to ASK_FOR_DOUBTS
@@ -1454,12 +1493,12 @@ class DialogueFSM:
             - If INCORRECT, identify the specific mistake or misconception
             - Provide encouragement regardless of correctness
             - DO NOT reveal the correct answer
-            - Do NOT use prefixe like "SORRY:" - just give natural feedback
+            - Do NOT use prefix like "SORRY:" "INCORRECT:" - just give natural feedback
             - Be supportive and educational
             
             Response Format:
-            CORRECT: [brief encouraging comment]
-            For incorrect answers: [brief explanation of what went wrong without giving the answer]
+            {"תשובה נכונה:" if self.user_language == "he" else "CORRECT:"} [brief encouraging comment]
+            {"תשובה שגויה:" if self.user_language == "he" else "INCORRECT:"} [brief explanation of what went wrong without giving the answer]
             """),
 
             MessagesPlaceholder(variable_name="chat_history"),
@@ -1770,7 +1809,12 @@ class DialogueFSM:
         elif self.state == State.ACADEMIC_TRANSITION:
             self.state = State.PICK_CLASS
             classes = get_classes()
-            response_dict["text"] = self._generate_academic_transition(user_input) + f"\n\nAvailable classes: {classes}\nPick a class: "
+            available_label = self._get_localized_text("available_classes")
+            pick_label = self._get_localized_text("pick_class")
+            response_dict["text"] = (
+                f"{self._generate_academic_transition(user_input)}\n\n"
+                f"{available_label} {classes}\n{pick_label} "
+            )
             self.chat_history.append(AIMessage(content=response_dict["text"]))
 
         elif self.state == State.PICK_CLASS:
@@ -1835,7 +1879,7 @@ class DialogueFSM:
             # Case-insensitive lookup on display versions
             match = None
             for i, t in enumerate(topics_display):
-                if t.lower() == chosen_topic.lower():
+                 if normalize_topic_name(t) == normalize_topic_name(chosen_topic):
                     match = (i, topics_hebrew[i])  # Store original Hebrew topic
                     break
 
@@ -1907,7 +1951,13 @@ class DialogueFSM:
                         "question": current_question,
                         "answer": user_input
                     })
-                    response_dict["text"] = "✅ Correct!" + self._move_to_next_exercise_or_question()
+                    # ✅ Localized correct message
+                    if self.user_language == "he":
+                        correct_text = "✅ תשובה נכונה! כל הכבוד!"
+                    else:
+                        correct_text = "✅ CORRECT: Well done!"
+
+                    response_dict["text"] = f"{correct_text}\n\n{self._move_to_next_exercise_or_question()}"
                     response_dict["svg_file_path"] = self.current_svg_file_path  # Pass SVG file path for next question
                     self.state = State.QUESTION_ANSWER
                     self.chat_history.append(AIMessage(content=response_dict["text"]))
@@ -1935,7 +1985,12 @@ class DialogueFSM:
                 self.doubt_questions_count = 0
                 self.completed_exercises = 0  # Reset counter for new topic
                 self.current_exercise = None
-                response_dict["text"] = f"{summary}\n\n{closing_message}\n\nWould you like to continue with more exercises on this topic or choose a new topic?"
+                if self.user_language == "he":
+                    continue_text = "האם תרצה להמשיך עם עוד תרגילים בנושא הזה או לבחור נושא חדש?"
+                else:
+                    continue_text = "Would you like to continue with more exercises on this topic or choose a new topic?"
+
+                response_dict["text"] = f"{summary}\n\n{closing_message}\n\n{continue_text}"
                 self.chat_history.append(AIMessage(content=response_dict["text"]))
             elif any(indicator in text_lower for indicator in doubt_indicators) or "?" in user_input:
                 self.state = State.DOUBT_CLEARING

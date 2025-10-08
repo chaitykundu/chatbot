@@ -1,6 +1,7 @@
 import streamlit as st
 from chatbot import DialogueFSM, load_exercises, get_pinecone_index, llm  # Import from your chatbot.py
 import os
+import time
 from dotenv import load_dotenv
 
 # Load environment
@@ -15,6 +16,10 @@ def load_chatbot_resources():
 
 # Streamlit page config
 st.set_page_config(page_title="Math AI Tutor Chatbot", page_icon="🤖", layout="wide")
+# Track user inactivity (in seconds)
+if "last_input_time" not in st.session_state:
+    st.session_state.last_input_time = time.time()
+
 
 # Initialize session state for chat history and FSM
 if "fsm" not in st.session_state:
@@ -57,6 +62,17 @@ for message in st.session_state.messages:
                     with open(svg_path, "r") as f:
                         st.components.v1.html(f.read(), height=300)
 
+# 🕒 Check inactivity timeout (e.g., 60 seconds)
+INACTIVITY_TIMEOUT = 60
+if time.time() - st.session_state.last_input_time > INACTIVITY_TIMEOUT:
+    if st.session_state.language == "he":
+        inactivity_msg = "🕒 אתה עדיין כאן? אני כאן לעזור בכל עת שתהיה מוכן!"
+    else:
+        inactivity_msg = "🕒 Are you still there? I'm here to help whenever you're ready!"
+    
+    st.session_state.messages.append({"role": "assistant", "content": inactivity_msg})
+    st.session_state.last_input_time = time.time()  # reset timer
+    st.rerun()
 # Chat input
 if prompt := st.chat_input("Type your message here..."):
     # Add user message to UI
