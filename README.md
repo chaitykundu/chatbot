@@ -36,8 +36,8 @@ It provides **interactive tutoring** with bilingual (Hebrew + English) support, 
 
 1. **Clone the Repository**  
    ```bash
-   git clone https://github.com/your-username/IvriTutor_Demo.git
-   cd IvriTutor_Demo
+   git clone https://github.com/your-username/chatbot.git
+   cd chatbot
    ```
 
 2. **Create a Virtual Environment (Recommended)**  
@@ -67,17 +67,17 @@ It provides **interactive tutoring** with bilingual (Hebrew + English) support, 
 
 - Place parsed exercise JSON files in:  
   ```
-  IvriTutor_Demo/parsed_outputs/
+  chatbot/parsed_outputs/
   ```
 
 - Generate embeddings (first run or after data changes):  
   ```bash
-  python IvriTutor_Demo/parsed_outputs/embedding.py
+  python chatbot/parsed_outputs/embedding.py
   ```
 
 - Index embeddings into Pinecone:  
   ```bash
-  python IvriTutor_Demo/parsed_outputs/index_embedding.py
+  python chatbot/parsed_outputs/index_embedding.py
   ```
 
 ⚠️ Make sure the index name in `index_embedding.py` matches `INDEX_NAME` in `chatbot.py` (default: `exercise-embedding1`).  
