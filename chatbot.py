@@ -210,16 +210,16 @@ I18N = {
         "diagnostic_focus": "What would you like to work on today?",
         "doubt_answer_complete": "I hope that helps clarify things about {topic} for you!",
         "lesson_closing": "Great, that was an awesome lesson! I’ll send you similar exercises for practice and see you in the next session. If you have questions, feel free to message me. And if you get stuck – just remember, you’re a genius. Bye!",
+        "continue_or_new_topic": "Would you like to continue with more exercises on this topic or choose a new topic?",
         "invalid_topic": "Invalid topic. Please choose one of these:",
         "invalid_class": "Invalid class. Please choose one of these:",  # Add this line
         # New keys added for multilingual support
-        "pick_class": "Pick a class:",
+        #"pick_class": "Pick a class:",
         "available_classes": "Available classes:",
         "pick_topic": "Pick a topic:",
         "available_topics": "Available topics:",
         "switch_to_english": "Switched to English. Let's continue!",
-        "switch_to_hebrew": "Switched to Hebrew. Let's continue!"
-
+        "switch_to_hebrew": "Switched to Hebrew. Let's continue!",
     },
     "he": {
         "choose_language": "בחר שפה:\n1) אנגלית (ברירת מחדל)",
@@ -252,10 +252,11 @@ I18N = {
         "diagnostic_focus": "על מה תרצה לעבוד היום?",
         "doubt_answer_complete": "אני מקווה שזה עוזר להבהיר דברים על {topic} עבורך!",
         "lesson_closing": "נהדר, זה היה שיעור מדהים! אשלח לך תרגילים דומים לתרגול וניפגש בשיעור הבא. אם יש לך שאלות, אל תהסס לפנות אליי. ואם תיתקע – זכור, אתה גאון. להתראות!",
+        "continue_or_new_topic": "האם תרצה להמשיך עם עוד תרגילים בנושא הזה או לבחור נושא חדש?",
         "invalid_topic": "נושא לא חוקי. אנא בחר אחד מהבאים:",
         "invalid_class": "כיתה לא חוקית. אנא בחר אחת מהבאות:" , # Add this line
         # New keys added for multilingual support
-        "pick_class": "בחר כיתה:",
+        #"pick_class": "בחר כיתה:",
         "available_classes": "כיתות זמינות:",
         "pick_topic": "בחר נושא:",
         "available_topics": "נושאים זמינים:",
@@ -1514,8 +1515,20 @@ class DialogueFSM:
                 "context": context
             })
             
-            evaluation_result = clean_math_text(eval_response.content.strip())  # Clean evaluation response
-            is_correct = evaluation_result.lower().startswith("correct:")
+            evaluation_result = clean_math_text(eval_response.content.strip())
+            # ✅ Simplify Hebrew "correct" message to short format
+            if self.user_language == "he":
+                if "תשובה נכונה" in evaluation_result or "נכונה" in evaluation_result:
+                    evaluation_result = "✅ תשובה נכונה: מצוין!"
+                elif "תשובה שגויה" in evaluation_result or "שגויה" in evaluation_result:
+                    evaluation_result = "❌ תשובה שגויה: נסה שוב."
+
+            # English detection remains for logic
+            is_correct = (
+                evaluation_result.lower().startswith("correct:") or
+                evaluation_result.startswith("✅ תשובה נכונה")
+            )
+
             #is_partial = evaluation_result.lower().startswith("partial:") ##updated
             
             return {
@@ -1980,17 +1993,18 @@ class DialogueFSM:
             if any(indicator in text_lower for indicator in no_doubt_indicators):
                 summary = self._generate_lesson_summary()
                 closing_message = self._get_localized_text("lesson_closing")
+                continue_text = self._get_localized_text("continue_or_new_topic")  # ✅ Use dictionary key
                 self.state = State.PICK_TOPIC
                 self.topic_exercises_count = 0
                 self.doubt_questions_count = 0
                 self.completed_exercises = 0  # Reset counter for new topic
                 self.current_exercise = None
-                if self.user_language == "he":
-                    continue_text = "האם תרצה להמשיך עם עוד תרגילים בנושא הזה או לבחור נושא חדש?"
-                else:
-                    continue_text = "Would you like to continue with more exercises on this topic or choose a new topic?"
-
                 response_dict["text"] = f"{summary}\n\n{closing_message}\n\n{continue_text}"
+                # ✅ Add this right here
+                if self.user_language == "he":
+                    # ensure Hebrew displays right-to-left
+                    response_dict["text"] = f"\u202B{response_dict['text']}\u202C"
+                    
                 self.chat_history.append(AIMessage(content=response_dict["text"]))
             elif any(indicator in text_lower for indicator in doubt_indicators) or "?" in user_input:
                 self.state = State.DOUBT_CLEARING
