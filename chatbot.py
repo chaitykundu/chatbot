@@ -214,7 +214,7 @@ I18N = {
         "invalid_topic": "Invalid topic. Please choose one of these:",
         "invalid_class": "Invalid class. Please choose one of these:",  # Add this line
         # New keys added for multilingual support
-        #"pick_class": "Pick a class:",
+        "pick_class": "Pick a class:",
         "available_classes": "Available classes:",
         "pick_topic": "Pick a topic:",
         "available_topics": "Available topics:",
@@ -256,7 +256,7 @@ I18N = {
         "invalid_topic": "נושא לא חוקי. אנא בחר אחד מהבאים:",
         "invalid_class": "כיתה לא חוקית. אנא בחר אחת מהבאות:" , # Add this line
         # New keys added for multilingual support
-        #"pick_class": "בחר כיתה:",
+        "pick_class": "בחר כיתה:",
         "available_classes": "כיתות זמינות:",
         "pick_topic": "בחר נושא:",
         "available_topics": "נושאים זמינים:",
