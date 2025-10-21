@@ -1,0 +1,19 @@
+# Core Libraries
+python >= 3.10
+python-dotenv>=1.0.0          # For loading environment variables from .env
+numpy>=1.24.0                 # Numerical computing, often required by other libraries
+
+# Web Search & API Interaction
+pinecone>=5.0.0               # Pinecone client library for vector database interaction
+# Note: The pinecone library might pull in grpcio and other dependencies automatically
+
+# Embedding Models
+sentence-transformers>=3.0.0  # For generating embeddings using pre-trained models like multilingual-e5-large
+
+# LLM Interaction & Prompt Management
+langchain>=0.3.0              # Core LangChain library for building LLM applications
+langchain-google-genai>=2.0.0 # LangChain integration for Google Gemini models
+google-generativeai>=0.5.0    # Official Google Generative AI SDK (used by langchain-google-genai)
+
+# Logging (usually part of standard library, but specifying for clarity if needed)
+# logging  # Part of Python standard library, no need to install separately
